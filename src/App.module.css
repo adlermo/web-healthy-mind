@@ -1,0 +1,10 @@
+.background-image {
+  width: 100%;
+  z-index: 0;
+  /* background-image: url("./assets/bgwp.jpeg"); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  padding-bottom: 1px;
+}
