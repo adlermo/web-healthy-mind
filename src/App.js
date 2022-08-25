@@ -1,16 +1,20 @@
-// import { useState } from 'react';
-import classes from './App.module.css'
-import Header from './components/Header';
+import './App.css';
+import { BrowserRouter, Route, Routes} from "react-router-dom";
+import Main from './pages/Main';
+import About from './pages/About';
+
 
 function App() {
   return (
-    <>
-      <Header />
-      <main className={classes['background-image']}>
-        Initial Page
-      </main>
-    </>
-  );
-};
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  )
+
+  
+}
 
 export default App;
