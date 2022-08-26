@@ -1,0 +1,9 @@
+.login-box {
+  padding: 25px;
+  margin: 20px 100px 0 0;
+}
+
+.login-item {
+  max-width: 350px;
+  min-width: 180px;
+}
