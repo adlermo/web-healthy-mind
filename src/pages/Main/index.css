@@ -5,9 +5,27 @@
 }
 
 .site-layout-sub-header-background {
-  background: rgba(255, 255, 255, 0.2);;
+  background: rgba(255, 255, 255, 0.104);
 }
 
 .site-layout-background {
-  background: rgba(255, 255, 255, 0.2);;
+  background: rgba(255, 255, 255, 0.104);
+}
+
+.grid-item {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 14px 18px 23px -11px rgba(0,0,0,0.35);
+}
+
+.item-title {
+  margin-bottom: 10px;
+}
+
+.item-number {
+  font-size: 35px;
 }

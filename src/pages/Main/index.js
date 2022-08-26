@@ -1,16 +1,16 @@
 import React from 'react';
 import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Row, Col } from 'antd';
 import './index.css';
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 const Main = () => (
   <Layout>
     <Sider>
-      <h1 className="company">Mente Sã</h1>
+      <h1 className='company'>Mente Sã</h1>
       <Menu
-        theme="dark"
-        mode="inline"
+        theme='dark'
+        mode='inline'
         defaultSelectedKeys={['4']}
         items={[HomeOutlined, UserOutlined, CalendarOutlined].map(
           (icon, index) => ({
@@ -20,30 +20,64 @@ const Main = () => (
           }),
         )}
       />
-      {/* <Menu>
-        <Menu.Item>item 1</Menu.Item>
-      </Menu> */}
     </Sider>
     <Layout>
-      <Header
-        className="site-layout-sub-header-background"
-        style={{
-          padding: 0,
-        }}
-      />
       <Content
         style={{
-          margin: '24px 16px 0',
+          margin: '25px 20px',
         }}
       >
         <div
-          className="site-layout-background"
+          className='site-layout-background'
           style={{
             padding: 24,
             minHeight: 360,
           }}
         >
-          content
+            <Row gutter={[20, 20]}>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Sessões agendadas (dia)</span>
+                        <span className='item-number'>5</span>
+                    </div>
+                </Col>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Sessões agendadas (mês)</span>
+                        <span className='item-number'>15</span>
+                    </div>
+                </Col>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Sessões canceladas (mês)</span>
+                        <span className='item-number'>1</span>
+                    </div>
+                </Col>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Total de pacientes cadastrados</span>
+                        <span className='item-number'>61152</span>
+                    </div>
+                </Col>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Total de sessões (individuais)</span>
+                        <span className='item-number'>5</span>
+                    </div>
+                </Col>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Total de sessões (dupla)</span>
+                        <span className='item-number'>5</span>
+                    </div>
+                </Col>
+                <Col className='gutter-row' span={6}>
+                    <div className='grid-item'>
+                        <span className='item-title'>Total de sessões (grupo)</span>
+                        <span className='item-number'>5</span>
+                    </div>
+                </Col>
+            </Row>
         </div>
       </Content>
       <Footer
