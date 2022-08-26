@@ -1,33 +1,28 @@
 import React from 'react';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import './index.css';
 const { Header, Content, Footer, Sider } = Layout;
 
 const Main = () => (
   <Layout>
-    <Sider
-      breakpoint="lg"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
-      <div className="logo" />
+    <Sider>
+      <h1 className="company">Mente Sã</h1>
       <Menu
         theme="dark"
         mode="inline"
         defaultSelectedKeys={['4']}
-        items={[UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
+        items={[HomeOutlined, UserOutlined, CalendarOutlined].map(
           (icon, index) => ({
             key: String(index + 1),
             icon: React.createElement(icon),
-            label: `nav ${index + 1}`,
+            label: index === 0 ? 'Dashboard' : index === 1 ? 'Pacientes' : 'Sessões',
           }),
         )}
       />
+      {/* <Menu>
+        <Menu.Item>item 1</Menu.Item>
+      </Menu> */}
     </Sider>
     <Layout>
       <Header
@@ -56,7 +51,7 @@ const Main = () => (
           textAlign: 'center',
         }}
       >
-        Ant Design ©2018 Created by Ant UED
+        Mente Sã ©2020 Created by Dev4Tech
       </Footer>
     </Layout>
   </Layout>

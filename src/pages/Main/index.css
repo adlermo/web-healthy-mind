@@ -1,13 +1,13 @@
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.2);
+.company {
+  font-size: 28px;
+  color: white;
+  margin: 15px;
 }
 
 .site-layout-sub-header-background {
-  background: green;
+  background: rgba(255, 255, 255, 0.2);;
 }
 
 .site-layout-background {
-  background: red;
+  background: rgba(255, 255, 255, 0.2);;
 }
