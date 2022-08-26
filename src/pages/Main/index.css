@@ -20,6 +20,7 @@
   background: white;
   border-radius: 10px;
   box-shadow: 14px 18px 23px -11px rgba(0,0,0,0.35);
+  width: 160px;
 }
 
 .item-title {

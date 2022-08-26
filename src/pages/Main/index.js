@@ -11,7 +11,7 @@ const Main = () => (
       <Menu
         theme='dark'
         mode='inline'
-        defaultSelectedKeys={['4']}
+        defaultSelectedKeys={['1']}
         items={[HomeOutlined, UserOutlined, CalendarOutlined].map(
           (icon, index) => ({
             key: String(index + 1),
@@ -34,44 +34,44 @@ const Main = () => (
             minHeight: 360,
           }}
         >
-            <Row gutter={[20, 20]}>
-                <Col className='gutter-row' span={6}>
+            <Row gutter={[20, 20]} wrap={true} >
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Sessões agendadas (dia)</span>
                         <span className='item-number'>5</span>
                     </div>
                 </Col>
-                <Col className='gutter-row' span={6}>
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Sessões agendadas (mês)</span>
                         <span className='item-number'>15</span>
                     </div>
                 </Col>
-                <Col className='gutter-row' span={6}>
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Sessões canceladas (mês)</span>
                         <span className='item-number'>1</span>
                     </div>
                 </Col>
-                <Col className='gutter-row' span={6}>
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Total de pacientes cadastrados</span>
                         <span className='item-number'>61152</span>
                     </div>
                 </Col>
-                <Col className='gutter-row' span={6}>
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Total de sessões (individuais)</span>
                         <span className='item-number'>5</span>
                     </div>
                 </Col>
-                <Col className='gutter-row' span={6}>
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Total de sessões (dupla)</span>
                         <span className='item-number'>5</span>
                     </div>
                 </Col>
-                <Col className='gutter-row' span={6}>
+                <Col className='gutter-row'>
                     <div className='grid-item'>
                         <span className='item-title'>Total de sessões (grupo)</span>
                         <span className='item-number'>5</span>
