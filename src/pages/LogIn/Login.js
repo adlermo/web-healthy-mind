@@ -70,8 +70,8 @@ const LogIn = () => {
             </Form.Item>
 
             <Form.Item
-              label="Password"
-              name="password"
+              label="Senha"
+              name="senha"
               rules={[
                 {
                   required: true,
@@ -84,7 +84,6 @@ const LogIn = () => {
 
             <Form.Item
               name="remember"
-              valuePropName="checked"
               wrapperCol={{
                 offset: 6,
                 span: 12,

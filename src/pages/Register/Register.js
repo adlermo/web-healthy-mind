@@ -53,9 +53,22 @@ const Register = () => {
                 span: 12,
               }}
             >
-              <h1 className='register-title'>Bem vindo ao sistema</h1>
-              <div className='register-subtitle'>Por favor entre com a sua conta</div>
+              <h1 className='register-title'>Cadastro do profissional</h1>
+              <div className='register-subtitle'>Crie sua conta e comece a desfrutar de nosso sistema</div>
             </Form.Item>
+            <Form.Item
+              label="Nome"
+              name="nome"
+              rules={[
+                {
+                  required: true,
+                  message: 'Insira seu nome!',
+                },
+              ]}
+            >
+              <Input className='input' />
+            </Form.Item>
+
             <Form.Item
               label="Email"
               name="email"
@@ -70,8 +83,8 @@ const Register = () => {
             </Form.Item>
 
             <Form.Item
-              label="Password"
-              name="password"
+              label="Senha"
+              name="senha"
               rules={[
                 {
                   required: true,
@@ -83,23 +96,26 @@ const Register = () => {
             </Form.Item>
 
             <Form.Item
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{
-                offset: 6,
-                span: 12,
-              }}
+              label="Confirme sua senha"
+              name="confsenha"
+              rules={[
+                {
+                  required: true,
+                  message: 'Confirme sua senha!',
+                },
+              ]}
             >
-              <Checkbox>Lembrar usuário</Checkbox>
+              <Input.Password className='input' />
             </Form.Item>
 
             <Form.Item
+              name="remember"
               wrapperCol={{
                 offset: 6,
                 span: 12,
               }}
             >
-              <div className='register-subtitle'>Criar conta</div>
+              <Checkbox>Aceito os <a href='/'>termos</a> e <a href='/'>políticas de privacidade</a></Checkbox>
             </Form.Item>
 
             <Form.Item
@@ -109,7 +125,7 @@ const Register = () => {
               }}
             >
               <Button type="primary" htmlType="submit">
-                Create
+                Cadastrar
               </Button>
             </Form.Item>
           </Form>
