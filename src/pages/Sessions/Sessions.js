@@ -1,10 +1,10 @@
 import React from 'react';
 import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import './Patients.css';
+import './Sessions.css';
 const { Footer, Sider } = Layout;
 
-const Patients = () => (
+const Sessions = () => (
   <Layout>
     <Sider>
       <h1 className='company'>Mente Sã</h1>
@@ -33,4 +33,4 @@ const Patients = () => (
   </Layout>
 );
 
-export default Patients;
+export default Sessions;
