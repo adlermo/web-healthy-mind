@@ -11,7 +11,7 @@ const Sessions = () => (
       <Menu
         theme='dark'
         mode='inline'
-        defaultSelectedKeys={['2']}
+        defaultSelectedKeys={['3']}
         items={[HomeOutlined, UserOutlined, CalendarOutlined].map(
           (icon, index) => ({
             key: String(index + 1),
