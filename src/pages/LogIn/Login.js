@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input, Menu, Layout } from 'antd';
+import { Button, Checkbox, Form, Input, Menu, Layout, Typography } from 'antd';
 import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
 import './Login.css'
 const { Sider, Footer } = Layout;
+const { Title } = Typography;
 
 const LogIn = () => {
   const onFinish = (values) => {
@@ -17,7 +18,15 @@ const LogIn = () => {
     <>
       <Layout>
         <Sider>
-          <h1 className='company'>Mente Sã</h1>
+          <Title
+            style={{
+              color: 'white',
+              fontSize: 28,
+              margin: '15px'
+            }}
+          >
+            Mente Sã
+          </Title>
           <Menu
             theme='dark'
             mode='inline'

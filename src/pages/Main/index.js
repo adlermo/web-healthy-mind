@@ -1,13 +1,22 @@
 import React from 'react';
 import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
-import { Layout, Menu, Row, Col } from 'antd';
+import { Layout, Menu, Row, Col, Typography } from 'antd';
 import './index.css';
 const { Content, Footer, Sider } = Layout;
+const { Title } = Typography;
 
 const Main = () => (
   <Layout>
     <Sider>
-      <h1 className='company'>Mente Sã</h1>
+      <Title
+        style={{
+          color: 'white',
+          fontSize: 28,
+          margin: '15px'
+        }}
+      >
+        Mente Sã
+      </Title>
       <Menu
         theme='dark'
         mode='inline'
