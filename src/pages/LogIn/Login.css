@@ -1,28 +1,8 @@
-.login-box {
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-}
-
-.form-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .login-title {
-  align-self: center;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 25px;
 }
 
-.login-subtitle, .subtitle2 {
-  align-self: center;
-  font-size: 11px;
-  margin-bottom: 15px;
-}
-
-.subtitle2 {
-  position: relative;
-  right: 8px;
+.login-subtitle {
+  font-size: 13px;
 }

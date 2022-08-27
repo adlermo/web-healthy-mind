@@ -32,74 +32,87 @@ const Register = () => {
           />
         </Sider>
         <Layout>
-          <div className='form-box'>
-            <Form
-              className='login-box'
-              name="basic"
-              labelCol={{
-                span: 8,
-              }}
+          <Form
+            name="basic"
+            labelCol={{
+              span: 6,
+            }}
+            wrapperCol={{
+              span: 12,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
               wrapperCol={{
-                span: 16,
+                offset: 6,
+                span: 12,
               }}
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
             >
-              <h1 className='login-title'>Cadastro do profissional</h1>
-              <div className='login-subtitle'>Crie sua conta</div>
-              <Form.Item
-                label="Nome"
-                name="nome"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your best email!',
-                  },
-                ]}
-              >
-                <Input className='login-item' />
-              </Form.Item>
+              <h1 className='register-title'>Bem vindo ao sistema</h1>
+              <div className='register-subtitle'>Por favor entre com a sua conta</div>
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Insira seu melhor email!',
+                },
+              ]}
+            >
+              <Input className='input' />
+            </Form.Item>
 
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                ]}
-              >
-                <Input.Password className='login-item' />
-              </Form.Item>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Insira sua senha!',
+                },
+              ]}
+            >
+              <Input.Password className='input' />
+            </Form.Item>
 
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-              <div className='login-subtitle subtitle2'>Criar conta</div>
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
+            <Form.Item
+              name="remember"
+              valuePropName="checked"
+              wrapperCol={{
+                offset: 6,
+                span: 12,
+              }}
+            >
+              <Checkbox>Lembrar usuário</Checkbox>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 6,
+                span: 12,
+              }}
+            >
+              <div className='register-subtitle'>Criar conta</div>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 6,
+                span: 12,
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                Create
+              </Button>
+            </Form.Item>
+          </Form>
           <Footer
             style={{
               textAlign: 'center',
