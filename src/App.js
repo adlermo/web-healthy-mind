@@ -4,10 +4,10 @@ import Main from './pages/Main';
 import LogIn from './pages/LogIn/Login';
 import Register from './pages/Register/Register';
 import Patients from './pages/Patients/Patients';
-import Sessions from './pages/Sessions/Sessions'
+import Sessions from './pages/Sessions/Sessions';
 
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -19,8 +19,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   )
-
-  
-}
+};
 
 export default App;
