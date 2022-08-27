@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input, Menu, Layout } from 'antd';
 import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
-import './index.css'
+import './Login.css'
 const { Sider, Footer } = Layout;
 
 const LogIn = () => {
@@ -85,9 +85,18 @@ const LogIn = () => {
                   span: 16,
                 }}
               >
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>Lembrar usuário</Checkbox>
               </Form.Item>
-              <div className='login-subtitle subtitle2'>Criar conta</div>
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
+                <div className='login-subtitle subtitle2'>Criar conta</div>
+              </Form.Item>
+
               <Form.Item
                 wrapperCol={{
                   offset: 8,
