@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
-import { fetchUserLogin } from 'src/services/Auth/service';
+import { fetchUserLogin, registerUser } from 'src/services/Auth/service';
 import { Welcome, Subtitle } from './FormLogin.styles';
-import SideMenu from '../SideMenu';
+import SideMenu from '../SideMenu/SideMenu';
 //import { LoginProps } from 'src/services/Auth/service';
 
 const FormLogin: React.FC = () => {
@@ -19,7 +19,7 @@ const FormLogin: React.FC = () => {
     setPassword(values.senha)
 
     if(email !=='' && password !==''){
-      // currentPath === '/register' ? mutateRegister() : mutateLogin();
+      currentPath === '/register' ? mutateRegister() : mutateLogin();
     }
     
   };
@@ -40,21 +40,21 @@ const FormLogin: React.FC = () => {
     },
   );
 
-  // const { mutate: mutateRegister } = useMutation(
-  //   // () => console.log('REGISTER');
-  //   // fetchUserLogin({
-  //   //   email, password
-  //   //   }),
-  //   // {
-  //   //   onSuccess: () => {
-  //   //     message.success('Logado com Sucesso')
-  //   //     navigate('/dashboard')
-  //   //   },
-  //   //   onError:(msg)=>{
-  //   //     message.error(`Error ao logar  ${msg}`)
-  //   //   }
-  //   // },
-  // );
+  const { mutate: mutateRegister } = useMutation(
+    () =>
+    registerUser({
+      email, password
+      }),
+    {
+      onSuccess: () => {
+        message.success('Registrado com Sucesso')
+        navigate('/dashboard')
+      },
+      onError:(msg)=>{
+        message.error(`Error ao registrar  ${msg}`)
+      }
+    },
+  );
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);

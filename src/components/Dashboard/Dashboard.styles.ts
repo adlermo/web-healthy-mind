@@ -1,12 +1,12 @@
-.site-layout-sub-header-background {
-  background: rgba(255, 255, 255, 0.104);
-}
+import styled from "styled-components";
 
-.site-layout-background {
+export const LayoutBackground = styled.div`
   background: rgba(255, 255, 255, 0.104);
-}
+  padding: 24px;
+  min-height: 360px;
+`
 
-.grid-item {
+export const GridItem = styled.div`
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -15,12 +15,12 @@
   border-radius: 10px;
   box-shadow: 14px 18px 23px -11px rgba(0,0,0,0.35);
   width: 160px;
-}
+`
 
-.item-title {
+export const ItemTitle = styled.span`
   margin-bottom: 10px;
-}
+`
 
-.item-number {
+export const ItemNumber = styled.span`
   font-size: 35px;
-}
+`

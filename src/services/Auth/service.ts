@@ -2,7 +2,7 @@ import api from "../api";
 import { RefreshTokenResponse } from "./dtos/refreshTokenResponse.dto";
 import { AuthResponseDto } from "./dtos/authResponse.dto";
 
-export interface LoginProps{
+export interface LoginRegisterProps{
     email:string,
     password:string
 }
@@ -11,7 +11,7 @@ export const TOKEN_KEY = "@menteSa-Token";
 export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
 export const USER_EMAIL = "@menteSa-UserEmail";
 
-export async function fetchUserLogin({ email, password }: LoginProps): Promise<AuthResponseDto>{
+export async function fetchUserLogin({ email, password }: LoginRegisterProps): Promise<AuthResponseDto>{
     const url = 'v1/auth/login'
     const payload = { email, password}
     const { data, status } = await api.post(url, payload);
@@ -25,7 +25,6 @@ export async function fetchUserLogin({ email, password }: LoginProps): Promise<A
 }
 
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
-
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
 export const getUserEmail = () => localStorage.getItem(USER_EMAIL);
@@ -50,4 +49,8 @@ export async function fetchRefreshToken(email: string, refreshToken:string): Pro
         localStorage.setItem(REFRESH_TOKEN, JSON.stringify(data.refreshToken))
     }
     return data
+}
+
+export async function registerUser({ email, password }: LoginRegisterProps) {
+    console.log(`Email: ${email} e Senha: ${password}`)
 }
