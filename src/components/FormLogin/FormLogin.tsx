@@ -1,29 +1,30 @@
-import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
-import {useNavigate} from 'react-router-dom'
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query';
+import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
 import { fetchUserLogin } from 'src/services/Auth/service';
-import SideMenu from '../SideMenu';
 import { Welcome, Subtitle } from './FormLogin.styles';
+import SideMenu from '../SideMenu';
 //import { LoginProps } from 'src/services/Auth/service';
 
 const FormLogin: React.FC = () => {
+  const currentPath = window.location.pathname;
   const navigate = useNavigate();
   const { Footer } = Layout;
-  const [ email, setEmail] = useState('')
-  const [ password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onFinish = (values: any) => {
     setEmail(values.email)
     setPassword(values.senha)
 
     if(email !=='' && password !==''){
-      mutate()
+      // currentPath === '/register' ? mutateRegister() : mutateLogin();
     }
     
   };
 
-  const { mutate } = useMutation(
+  const { mutate: mutateLogin } = useMutation(
     () =>
     fetchUserLogin({
       email, password
@@ -38,6 +39,22 @@ const FormLogin: React.FC = () => {
       }
     },
   );
+
+  // const { mutate: mutateRegister } = useMutation(
+  //   // () => console.log('REGISTER');
+  //   // fetchUserLogin({
+  //   //   email, password
+  //   //   }),
+  //   // {
+  //   //   onSuccess: () => {
+  //   //     message.success('Logado com Sucesso')
+  //   //     navigate('/dashboard')
+  //   //   },
+  //   //   onError:(msg)=>{
+  //   //     message.error(`Error ao logar  ${msg}`)
+  //   //   }
+  //   // },
+  // );
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -69,8 +86,8 @@ const FormLogin: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome className='login-title'>Bem vindo ao sistema</Welcome>
-              <Subtitle className='login-subtitle'>Por favor entre com a sua conta</Subtitle>
+              <Welcome className='login-title'>{currentPath === '/register' ? 'Cadastro do profissional' : 'Bem vindo ao sistema'}</Welcome>
+              <Subtitle className='login-subtitle'>{currentPath === '/register' ? 'Crie a sua conta' : 'Por favor entre com a sua conta'}</Subtitle>
             </Form.Item>
             <Form.Item
               label="Email"
