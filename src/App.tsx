@@ -1,5 +1,6 @@
 import './App.css';
-import Login from 'src/pages/LogIn/Login' 
+import Login from 'src/pages/LogIn/Login';
+import Register from './pages/Register/Register';
 import Patients from 'src/pages/Patients';
 import Dashboard from 'src/pages/Dashboard';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
@@ -7,7 +8,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './services/queryClient';
 import { isAuthenticated } from './services/Auth/service';
 import { ReactNode } from 'react';
-
 interface PrivateRouteProps {
   children?: ReactNode;
   redirectTo:string;
@@ -23,7 +23,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          {/* <Route path="/register" element={<Register />}/> */}
+          <Route path="/register" element={<Register />}/>
           <Route path="/patients" element={<Patients />}/>
           <Route path="/dashboard" element={<PrivateRoute redirectTo='/'>
             <Dashboard />

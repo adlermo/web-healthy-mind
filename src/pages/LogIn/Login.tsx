@@ -7,10 +7,7 @@ const Login:React.FC = () =>{
     const navigate = useNavigate()
 
     useEffect(() =>{
-        if(isAuthenticated()){
-            navigate("/dashboard")
-        }
-        // isAuthenticated() ? navigate("/dashboard") : navigate("/register")
+        isAuthenticated() ? navigate("/dashboard") : navigate("/register")
     }, [navigate])
 
     return(
