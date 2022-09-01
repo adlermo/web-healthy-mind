@@ -23,6 +23,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          {/* <Route path="/register" element={<Register />}/> */}
           <Route path="/patients" element={<Patients />}/>
           <Route path="/dashboard" element={<PrivateRoute redirectTo='/'>
             <Dashboard />
