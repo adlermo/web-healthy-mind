@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { isAuthenticated } from 'src/services/Auth/service';
 import { useNavigate } from 'react-router-dom';
 // import { Container, ContainerLogin } from './styles';
-import FormLogin from 'src/components/Login/FormLogin';
+import FormLogin from 'src/components/FormLogin/FormLogin';
 
 const Login:React.FC = () =>{
     const navigate = useNavigate()

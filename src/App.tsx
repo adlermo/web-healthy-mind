@@ -1,5 +1,5 @@
 import './App.css';
-import Login from 'src/pages/LogIn' 
+import Login from 'src/pages/LogIn/Login' 
 import Patients from 'src/pages/Patients';
 import Dashboard from 'src/pages/Dashboard';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
