@@ -11,9 +11,9 @@ export const TOKEN_KEY = "@menteSa-Token";
 export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
 export const USER_EMAIL = "@menteSa-UserEmail";
 
-export async function fetchUserLogin({ email, password }: LoginRegisterProps): Promise<AuthResponseDto>{
+export async function fetchLoginUser({ email, password }: LoginRegisterProps): Promise<AuthResponseDto>{
     const url = 'v1/auth/login'
-    const payload = { email, password}
+    const payload = { email, password }
     const { data, status } = await api.post(url, payload);
 
     if(status === 200){
@@ -29,10 +29,6 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
 export const getUserEmail = () => localStorage.getItem(USER_EMAIL);
 
-// export const login = (token:any) => {
-//   localStorage.setItem(TOKEN_KEY, token);
-// };
-
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
@@ -40,7 +36,7 @@ export const logout = () => {
 export async function fetchRefreshToken(email: string, refreshToken:string): Promise<RefreshTokenResponse>{
     const url = 'v1/auth/refresh-token'
 
-    const payload = { email, refreshToken}
+    const payload = { email, refreshToken }
 
     const { data, status } = await api.post(url, payload);
 
@@ -51,6 +47,15 @@ export async function fetchRefreshToken(email: string, refreshToken:string): Pro
     return data
 }
 
-export async function registerUser({ email, password }: LoginRegisterProps) {
-    console.log(`Email: ${email} e Senha: ${password}`)
+export async function fetchRegisterUser({ email, password }: LoginRegisterProps) {
+    const url = 'v1/auth/register'
+    const payload = { email, password }
+    const { data, status } = await api.post(url, payload);
+
+    if(status === 201){
+        localStorage.setItem(TOKEN_KEY, JSON.stringify(data.token.accessToken))
+        localStorage.setItem(REFRESH_TOKEN, JSON.stringify(data.token.refreshToken))
+        localStorage.setItem(USER_EMAIL, JSON.stringify(data.user.email))
+    }
+    return data
 }

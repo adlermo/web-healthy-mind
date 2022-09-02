@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
-import { fetchUserLogin, registerUser } from 'src/services/Auth/service';
-import { Welcome, Subtitle } from './FormLogin.styles';
+import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
+import { Welcome, Subtitle } from './FormLoginStyles';
 import SideMenu from '../SideMenu/SideMenu';
-//import { LoginProps } from 'src/services/Auth/service';
 
 const FormLogin: React.FC = () => {
   const currentPath = window.location.pathname;
@@ -26,7 +25,7 @@ const FormLogin: React.FC = () => {
 
   const { mutate: mutateLogin } = useMutation(
     () =>
-    fetchUserLogin({
+    fetchLoginUser({
       email, password
       }),
     {
@@ -42,7 +41,7 @@ const FormLogin: React.FC = () => {
 
   const { mutate: mutateRegister } = useMutation(
     () =>
-    registerUser({
+    fetchRegisterUser({
       email, password
       }),
     {

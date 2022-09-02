@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dashboard from "src/components/Dashboard/Dashboard";
 // import { isAuthenticated } from "src/services/Auth/service";
 // import { UserResponseDto } from "src/services/Patient/dtos/UserResponse.dto";
@@ -14,18 +14,6 @@ const TsPage:React.FC = () => {
 
     return (
         <Dashboard/>
-        // <div>
-        //     {isAuthenticated()?
-        //         <h1>autenticado</h1> :
-        //         <h2>não Autenticado</h2>
-        //     }
-
-        //     {
-        //         users ?
-        //         <h1>lista ok</h1> :
-        //         <h2>lista não carregou</h2>
-        //     } 
-        // </div>
     )
 }
 

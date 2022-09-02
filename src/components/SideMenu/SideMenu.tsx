@@ -28,7 +28,7 @@ const SideMenu: React.FC = () => {
         >
           Mente Sã
         </Title>
-        { isAuthenticated ?? <Menu
+        { isAuthenticated() && <Menu
           theme='dark'
           mode='inline'
           defaultSelectedKeys={location.pathname === '/' ? ['1'] : location.pathname === '/patients' ? ['2'] : location.pathname === '/sessions' ? ['3'] : ['']}

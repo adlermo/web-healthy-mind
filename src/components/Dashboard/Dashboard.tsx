@@ -1,8 +1,8 @@
 import { Layout, Row, Col } from 'antd'
-import { LayoutBackground, GridItem, ItemTitle, ItemNumber } from './Dashboard.styles'
+import { LayoutBackground, GridItem, ItemTitle, ItemNumber } from './DashboardStyles'
 import SideMenu from '../SideMenu/SideMenu'
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const { Content, Footer } = Layout
 
   return (

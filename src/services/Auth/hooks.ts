@@ -1,20 +1,19 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import {  fetchUserLogin } from "./service";
+import {  fetchLoginUser, fetchRegisterUser } from "./service";
 import { AuthResponseDto } from "./dtos/authResponse.dto";
-import { RefreshTokenResponse } from "./dtos/refreshTokenResponse.dto";
 
-export function useUserLogin(email: string, password:string):UseQueryResult<AuthResponseDto>{
-    const queryKey = ['userLogin']
+export function useLoginUser(email: string, password:string):UseQueryResult<AuthResponseDto>{
+    const queryKey = ['loginUser']
 
-    return useQuery(queryKey, () => fetchUserLogin({email, password}),{
+    return useQuery(queryKey, () => fetchLoginUser({email, password}),{
         keepPreviousData: true,
     } );
 }
 
-// export function useUserRefreshToken(email: string, refreshToken:string):UseQueryResult<RefreshTokenResponse>{
-//     const queryKey = ['userRefreshtoken']
+export function useRegisterUser(email: string, password:string):UseQueryResult<AuthResponseDto>{
+    const queryKey = ['registerUser']
 
-//     return useQuery(queryKey, () => fetchRefreshToken(email, refreshToken),{
-//         keepPreviousData: true,
-//     } );
-// }
+    return useQuery(queryKey, () => fetchRegisterUser({email, password}),{
+        keepPreviousData: true,
+    } );
+}

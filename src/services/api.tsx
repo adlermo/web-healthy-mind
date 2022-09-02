@@ -6,12 +6,12 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(async config => {
-    const token = getToken();
-    if (token) {
-      config.headers!.Authorization = `Bearer ${JSON.parse(token)}`;
-    }
-    return config;
-  });
+  const token = getToken();
+  if (token) {
+    config.headers!.Authorization = `Bearer ${JSON.parse(token)}`;
+  }
+  return config;
+});
 
 api.interceptors.response.use(
   (response) => {
@@ -20,11 +20,10 @@ api.interceptors.response.use(
   async function (error) {
     const refresh_token = getRefreshToken();
     const user_email = getUserEmail();
-    
-    // if (error.response.status === 401 && refresh_token && user_email) {
-    //   const response = await fetchRefreshToken(JSON.parse(user_email), JSON.parse(refresh_token));
-    //   return response;
-    // }
+    if (error.response.status === 401 && refresh_token && user_email) {
+      const response = await fetchRefreshToken(JSON.parse(user_email), JSON.parse(refresh_token));
+      return response;
+    }
     return Promise.reject(error);
   }
 );
