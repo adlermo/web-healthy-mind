@@ -4,8 +4,8 @@ import { ModelDto } from "./dtos/Model.dto";
 import { IWorkerListParams, IWorkerAndPatientId } from "../Worker/dtos/IWorker";
 
 export async function fetchPatientList({ id, page, perPage }: IWorkerListParams): Promise<any> {
-  const url = `v1/users/${id}/patients`;
-  const filters: any = {page, perPage}
+  const url = `v1/users/patients`;
+  const filters: any = {id, page, perPage}
   const { data } = await api.get(url, { params: filters });
 
   return data;
