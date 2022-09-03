@@ -1,6 +1,6 @@
 import React from 'react'
-import { Layout } from 'antd';
 import SideMenu from '../../components/SideMenu/SideMenu';
+import { Layout } from 'antd';
 
 const Patients: React.FC = () => {
     const { Footer } = Layout;

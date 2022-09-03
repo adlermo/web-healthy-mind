@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import SideMenu from '../SideMenu/SideMenu';
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
 import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
 import { Welcome, Subtitle } from './FormLoginStyles';
-import SideMenu from '../SideMenu/SideMenu';
 
 const FormLogin: React.FC = () => {
-  const currentPath = window.location.pathname;
   const navigate = useNavigate();
+  const currentPath = window.location.pathname;
   const { Footer } = Layout;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +20,6 @@ const FormLogin: React.FC = () => {
     if(email !=='' && password !==''){
       currentPath === '/register' ? mutateRegister() : mutateLogin();
     }
-    
   };
 
   const { mutate: mutateLogin } = useMutation(
@@ -122,15 +121,6 @@ const FormLogin: React.FC = () => {
               }}
             >
               <Checkbox>Lembrar usuário</Checkbox>
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 6,
-                span: 12,
-              }}
-            >
-              <div className='login-subtitle'>Criar conta</div>
             </Form.Item>
 
             <Form.Item

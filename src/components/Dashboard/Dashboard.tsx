@@ -1,6 +1,6 @@
+import SideMenu from '../SideMenu/SideMenu'
 import { Layout, Row, Col } from 'antd'
 import { LayoutBackground, GridItem, ItemTitle, ItemNumber } from './DashboardStyles'
-import SideMenu from '../SideMenu/SideMenu'
 
 const Dashboard: React.FC = () => {
   const { Content, Footer } = Layout

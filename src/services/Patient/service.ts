@@ -1,5 +1,6 @@
 import api from "../api";
 import { PatientDto } from "./dtos/Patient.dto";
+import { ModelDto } from "./dtos/Model.dto";
 import { IWorkerId, IWorkerAndPatientId } from "../Worker/dtos/IWorker";
 
 export async function fetchPatientList(id: IWorkerId): Promise<PatientDto[]> {
@@ -14,31 +15,32 @@ export async function fetchPatientById({workerId, patientId}: IWorkerAndPatientI
   return data;
 }
 
-export async function fetchAddPatient({id, name, email, cfp, phone, createdAt, workerId, role} :PatientDto): Promise<PatientDto> {
+export async function fetchRegisterPatient({ name, password, birthDate, phone, email, address, workerId }: ModelDto): Promise<any> {
+
   const params ={
-    id,
     name,
-    email,
-    cfp,
+    password,
+    birthDate,
     phone,
-    createdAt, 
+    email,
+    address,
     workerId,
-    role
+    role: 'user'
   }
   
-  const url = `${workerId}/patients`;
+  const url = `v1/users/${workerId}/patients`;
   const { data } = await api.post(url, params);
   return data;
 }
 
 
-export async function fetchEditPatient({id, name, email, cfp, phone, createdAt, workerId, role} :PatientDto): Promise<PatientDto> {
+export async function fetchEditPatient({id, name, phone, email, address, createdAt, workerId, role} :PatientDto): Promise<PatientDto> {
   const params ={
     id,
     name,
-    email,
-    cfp,
     phone,
+    email,
+    address,
     createdAt, 
     workerId,
     role

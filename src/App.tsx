@@ -9,6 +9,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './services/queryClient';
 import { isAuthenticated } from './services/Auth/service';
 import { ReactNode } from 'react';
+import FormPatient from './components/FormPatient/FormPatient';
 interface PrivateRouteProps {
   children?: ReactNode;
   redirectTo:string;
@@ -24,7 +25,10 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />}/>
+          <Route path="/register" element={<Register />} />
+          <Route path="/register-patient" element={<PrivateRoute redirectTo='/'>
+            <FormPatient />
+          </PrivateRoute>} />
           <Route path="/dashboard" element={<PrivateRoute redirectTo='/'>
             <Dashboard />
           </PrivateRoute>} />

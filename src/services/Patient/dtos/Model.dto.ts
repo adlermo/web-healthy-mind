@@ -1,10 +1,9 @@
-export interface PatientDto {
-  id: string;
+export interface ModelDto {
   name: string;
+  password: string;
+  birthDate: string;
   phone: string;
   email: string;
   address: string;
-  createdAt: string;
   workerId: string;
-  role: string;
 }

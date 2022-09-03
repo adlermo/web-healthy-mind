@@ -1,5 +1,5 @@
-import { Layout } from 'antd';
 import SideMenu from '../../components/SideMenu/SideMenu';
+import { Layout } from 'antd';
 
 const Sessions: React.FC = () => {
   const { Footer } = Layout;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
-import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
+import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
 import { isAuthenticated } from 'src/services/Auth/service';
 
 const SideMenu: React.FC = () => {

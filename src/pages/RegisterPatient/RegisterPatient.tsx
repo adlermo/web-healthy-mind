@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import FormLogin from 'src/components/FormLogin/FormLogin';
+import FormPatient from 'src/components/FormPatient/FormPatient';
 import { isAuthenticated } from 'src/services/Auth/service';
 
-const Login:React.FC = () =>{
+const RegisterPatient:React.FC = () =>{
     const navigate = useNavigate()
 
     useEffect(() =>{
@@ -11,8 +11,8 @@ const Login:React.FC = () =>{
     }, [navigate])
 
     return(
-        <FormLogin/>
+        <FormPatient />
     )
 }
 
-export default Login;
+export default RegisterPatient;
