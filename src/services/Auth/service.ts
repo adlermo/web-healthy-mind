@@ -17,7 +17,7 @@ export async function fetchLoginUser({ email, password }: LoginRegisterProps): P
     const url = 'v1/auth/login'
     const payload = { email, password }
     const { data, status } = await api.post(url, payload);
-    console.log(data)
+
     if (status === 200) {
         localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.user.id))
         localStorage.setItem(SWORDFISH, JSON.stringify(password))

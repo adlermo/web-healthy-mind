@@ -1,5 +1,7 @@
-export interface IWorkerId {
+export interface IWorkerListParams {
   id: string
+  page: number,
+  perPage: number
 }
 
 export interface IWorkerAndPatientId {

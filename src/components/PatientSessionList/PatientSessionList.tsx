@@ -1,28 +1,45 @@
-import React from 'react'
+import React, { useEffect, useCallback, useMemo } from 'react'
+import moment from 'moment';
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { MainBox, UpperBox, BottomBox } from './PatientSessionListStyles';
+import { getCurrentWorkerId } from 'src/services/Auth/service';
+import { usePatientList } from 'src/services/Patient/hooks';
 
 const PatientSessionList: React.FC = () => {
+    const currentWorkerId = getCurrentWorkerId();
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
+    const dataSource: any = useMemo(() => { return [] },[]);
 
-    const dataSource = [
-        {
-            key: '1',
-            name: 'Mike',
-            age: 32,
-            address: '10 Downing Street',
-        },
-        {
-            key: '2',
-            name: 'John',
-            age: 42,
-            address: '10 Downing Street',
-        },
-    ];
+    const { data } = usePatientList({
+        id: currentWorkerId && JSON.parse(currentWorkerId),
+        page: 1,
+        perPage: 2
+    })
+
+    const dataSourceBuilder = useCallback(() => {
+            data?.forEach((patient, index) => {
+                    dataSource.push(
+                        {
+                            key: index+=1,
+                            name: patient ? patient.name : '',
+                            address: patient ? patient.address : '',
+                            phone: patient ? patient.phone : '',
+                            email: patient ? patient.email : '',
+                            createdAt: patient ? moment(patient.createdAt).format('DD-MM-YYYY') : ''
+                        }
+                    )
+                }
+            )
+        }, [data, dataSource]
+    )
+
+    useEffect(() => {
+        dataSourceBuilder();
+    }, [dataSourceBuilder])
     
     const columns = [
         {
@@ -53,7 +70,7 @@ const PatientSessionList: React.FC = () => {
     ];
 
     const onSearch = (value: string) => console.log(value);
-
+    console.log(dataSourceBuilder())
     return(
         <Layout>
             <SideMenu />

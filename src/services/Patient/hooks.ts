@@ -1,12 +1,12 @@
 import { useQuery, UseQueryResult } from  '@tanstack/react-query';
 import { PatientDto } from './dtos/Patient.dto';
 import { fetchPatientList, fetchPatientById, fetchRegisterPatient } from './service';
-import { IWorkerId, IWorkerAndPatientId} from '../Worker/dtos/IWorker';
+import { IWorkerListParams, IWorkerAndPatientId} from '../Worker/dtos/IWorker';
 import { ModelDto } from './dtos/Model.dto';
 
-export function usePatientList(id: IWorkerId): UseQueryResult<PatientDto[]> {
+export function usePatientList({ id, page, perPage }: IWorkerListParams): UseQueryResult<PatientDto[]> {
   const queryKey = ['patientList'];
-  return useQuery(queryKey, () => fetchPatientList(id), {
+  return useQuery(queryKey, () => fetchPatientList({ id, page, perPage }), {
     keepPreviousData: true,
   });
 }
@@ -20,7 +20,19 @@ export function usePatientById({workerId, patientId}: IWorkerAndPatientId): UseQ
 
 export function useRegisterPatient({name, password, birthDate, phone, email, address, workerId}: ModelDto): UseQueryResult<PatientDto> {
   const queryKey = ['registerPatient'];
-  return useQuery(queryKey, () => fetchRegisterPatient({name, password, birthDate, phone, email, address, workerId}), {
+  return useQuery(queryKey, () => fetchRegisterPatient(
+      {
+        name,
+        password,
+        birthDate,
+        phone,
+        email,
+        address,
+        workerId
+      }
+    ),
+    {
     keepPreviousData: true,
-  });
+    }
+  );
 }
