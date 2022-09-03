@@ -4,10 +4,10 @@ import FormLogin from 'src/components/FormLogin/FormLogin';
 import { isAuthenticated } from 'src/services/Auth/service';
 
 const Login:React.FC = () =>{
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() =>{
-        isAuthenticated() ? navigate("/dashboard") : navigate("/")
+        isAuthenticated() && navigate("/dashboard");
     }, [navigate])
 
     return(
