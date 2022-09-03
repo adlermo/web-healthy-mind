@@ -160,6 +160,7 @@ const FormPatient: React.FC = () => {
             >
               <Button
                 type="default"
+                href='/dashboard'
                 style={{
                   marginRight: 30,
                 }}

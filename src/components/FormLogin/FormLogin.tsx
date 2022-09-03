@@ -130,6 +130,15 @@ const FormLogin: React.FC = () => {
                 span: 12,
               }}
             >
+              {currentPath === '/'&& <a href='/register'>Criar uma conta</a>}
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                offset: 6,
+                span: 12,
+              }}
+            >
               <Button type="primary" htmlType="submit">
                 Login
               </Button>
