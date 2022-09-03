@@ -1,7 +1,7 @@
 import './App.css';
 import Login from 'src/pages/LogIn/Login';
 import Register from './pages/Register/Register';
-import Dashboard from 'src/pages/Dashboard';
+import Dashboard from 'src/pages/Main/Main';
 import Patients from 'src/pages/Patients/Patients';
 import Sessions from './pages/Sessions/Sessions';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
@@ -29,12 +29,15 @@ const App: React.FC = () => {
           <Route path="/register-patient" element={<PrivateRoute redirectTo='/'>
             <FormPatient />
           </PrivateRoute>} />
+
           <Route path="/dashboard" element={<PrivateRoute redirectTo='/'>
             <Dashboard />
           </PrivateRoute>} />
+
           <Route path="/patients" element={<PrivateRoute redirectTo='/'>
             <Patients />
           </PrivateRoute>} />
+
           <Route path="/sessions" element={<PrivateRoute redirectTo='/'>
             <Sessions />
           </PrivateRoute>} />

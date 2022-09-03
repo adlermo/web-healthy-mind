@@ -46,7 +46,7 @@ const FormPatient: React.FC = () => {
         navigate('/dashboard')
       },
       onError:(msg)=>{
-        message.error(`Error ao registrar paciente ${msg}`)
+        message.error(`Error ao registrar paciente - ${msg}`)
       }
     },
   );

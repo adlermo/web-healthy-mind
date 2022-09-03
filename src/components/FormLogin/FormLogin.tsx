@@ -33,7 +33,8 @@ const FormLogin: React.FC = () => {
         navigate('/dashboard')
       },
       onError:(msg)=>{
-        message.error(`Error ao logar  ${msg}`)
+        message.error(`Erro ao logar, por favor crie sua conta -  ${msg}`)
+        navigate('/register')
       }
     },
   );
@@ -49,7 +50,7 @@ const FormLogin: React.FC = () => {
         navigate('/dashboard')
       },
       onError:(msg)=>{
-        message.error(`Error ao registrar  ${msg}`)
+        message.error(`Error ao registrar - ${msg}`)
       }
     },
   );

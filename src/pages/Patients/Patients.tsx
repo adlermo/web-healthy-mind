@@ -1,24 +1,10 @@
 import React from 'react'
-import SideMenu from '../../components/SideMenu/SideMenu';
-import { Layout } from 'antd';
+import PatientSessionList from '../../components/PatientSessionList/PatientSessionList';
 
 const Patients: React.FC = () => {
-    const { Footer } = Layout;
-
     return(
-        <Layout>
-            <SideMenu />
-            <Layout>
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                    }}
-                >
-                    Mente Sã ©2020 Created by Dev4Tech
-                </Footer>
-            </Layout>
-        </Layout>
+        <PatientSessionList />
     )
 }
 
-export default  Patients;
+export default Patients;
