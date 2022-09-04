@@ -85,8 +85,8 @@ const FormLogin: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome className='login-title'>{currentPath === '/register' ? 'Cadastro do profissional' : 'Bem vindo ao sistema'}</Welcome>
-              <Subtitle className='login-subtitle'>{currentPath === '/register' ? 'Crie a sua conta' : 'Por favor entre com a sua conta'}</Subtitle>
+              <Welcome>{currentPath === '/register' ? 'Cadastro do profissional' : 'Bem vindo ao sistema'}</Welcome>
+              <Subtitle>{currentPath === '/register' ? 'Crie a sua conta' : 'Por favor entre com a sua conta'}</Subtitle>
             </Form.Item>
             <Form.Item
               label="Email"
@@ -98,7 +98,7 @@ const FormLogin: React.FC = () => {
                 },
               ]}
             >
-              <Input className='input' />
+              <Input />
             </Form.Item>
 
             <Form.Item
@@ -111,7 +111,7 @@ const FormLogin: React.FC = () => {
                 },
               ]}
             >
-              <Input.Password className='input' />
+              <Input.Password />
             </Form.Item>
 
             <Form.Item

@@ -16,43 +16,43 @@ const Dashboard: React.FC = () => {
         >
           <LayoutBackground>
             <Row gutter={[20, 20]} wrap={true} >
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Sessões agendadas (dia)</ItemTitle>
                   <ItemNumber>5</ItemNumber>
                 </GridItem>
               </Col>
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Sessões agendadas (mês)</ItemTitle>
                   <ItemNumber>15</ItemNumber>
                 </GridItem>
               </Col>
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Sessões canceladas (mês)</ItemTitle>
                   <ItemNumber>1</ItemNumber>
                 </GridItem>
               </Col>
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Total de pacientes cadastrados</ItemTitle>
                   <ItemNumber>61152</ItemNumber>
                 </GridItem>
               </Col>
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Total de sessões (individuais)</ItemTitle>
                   <ItemNumber>5</ItemNumber>
                 </GridItem>
               </Col>
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Total de sessões (dupla)</ItemTitle>
                   <ItemNumber>5</ItemNumber>
                 </GridItem>
               </Col>
-              <Col className='gutter-row'>
+              <Col>
                 <GridItem>
                   <ItemTitle>Total de sessões (grupo)</ItemTitle>
                   <ItemNumber>5</ItemNumber>

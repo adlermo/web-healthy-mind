@@ -21,10 +21,11 @@ const FormSession: React.FC = () => {
   const [patientAddress, setPatientAddress] = useState('');
 
   const onFinish = (values: any) => {
-    setPatientName(values.name);
-    setPatientPhone(values.phone);
-    setPatientEmail(values.email);
-    setPatientAddress(values.address);
+    console.log(values)
+    // setPatientName(values.name);
+    // setPatientPhone(values.phone);
+    // setPatientEmail(values.email);
+    // setPatientAddress(values.address);
 
     // mutateRegisterPatient();
   };
@@ -85,7 +86,7 @@ const FormSession: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome className='login-title'>Cadastro da sessão</Welcome>
+              <Welcome>Cadastro da sessão</Welcome>
             </Form.Item>
             <Form.Item
               label="Nome do paciente"
@@ -97,7 +98,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Input className='input' />
+              <Input />
             </Form.Item>
 
             <Form.Item

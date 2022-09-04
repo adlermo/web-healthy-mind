@@ -85,7 +85,7 @@ const FormPatient: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome className='login-title'>Cadastro do Paciente</Welcome>
+              <Welcome>Cadastro do Paciente</Welcome>
             </Form.Item>
             <Form.Item
               label="Nome"
@@ -97,7 +97,7 @@ const FormPatient: React.FC = () => {
                 },
               ]}
             >
-              <Input className='input' />
+              <Input />
             </Form.Item>
 
             <Form.Item
@@ -123,7 +123,7 @@ const FormPatient: React.FC = () => {
                 },
               ]}
             >
-              <InputNumber />
+              <InputNumber  />
             </Form.Item>
 
             <Form.Item
@@ -136,7 +136,7 @@ const FormPatient: React.FC = () => {
                 },
               ]}
             >
-              <Input className='input' />
+              <Input />
             </Form.Item>
 
             <Form.Item
