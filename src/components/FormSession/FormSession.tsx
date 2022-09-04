@@ -1,56 +1,53 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
 import type { DatePickerProps } from 'antd';
 import { Button, DatePicker, Form, Input, message, Layout } from 'antd';
-// import { useMutation } from '@tanstack/react-query';
-// import { fetchRegisterPatient } from 'src/services/Patient/service';
-// import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
+import { useMutation } from '@tanstack/react-query';
+import { fetchCreateSession } from 'src/services/Session/service';
+import { getCurrentWorkerId } from 'src/services/Auth/service';
 import { Welcome } from './FormSessionStyles';
 
 const FormSession: React.FC = () => {
-  // const navigate = useNavigate();
-  // const currentWorkerId = getCurrentWorkerId();
-  // const currentSwordfish = getCurrentSwordfish();
+  const navigate = useNavigate();
+  const currentWorkerId = getCurrentWorkerId();
   const { Footer } = Layout;
   const { TextArea } = Input;
-  // const [patientName, setPatientName] = useState('');
-  // const [patientBirthDate, setPatientBirthDate] = useState('');
-  // const [patientPhone, setPatientPhone] = useState('');
-  // const [patientEmail, setPatientEmail] = useState('');
-  // const [patientAddress, setPatientAddress] = useState('');
+  const [patientId, setPatientId] = useState('');
+  const [patientName, setPatientName] = useState('');
+  const [sessionDate, setSessionDate] = useState('');
+  const [sessionDescription, setSessionDescription] = useState('');
 
   const onFinish = (values: any) => {
-    console.log(values)
-    // setPatientName(values.name);
-    // setPatientPhone(values.phone);
-    // setPatientEmail(values.email);
-    // setPatientAddress(values.address);
+    setPatientId('33')
+    setPatientName(values.patientName);
+    setSessionDate(values.sessionDate);
+    setSessionDescription(values.sessionDescription);
 
-    // mutateRegisterPatient();
+    if (patientId && patientName && sessionDate ) {
+      mutateRegisterSession();
+    }
   };
 
-  // const { mutate: mutateRegisterPatient } = useMutation(
-  //   () =>
-  //   fetchRegisterPatient({
-  //     name: patientName,
-  //     password: currentSwordfish && JSON.parse(currentSwordfish),
-  //     birthDate: patientBirthDate,
-  //     phone: patientPhone,
-  //     email: patientEmail,
-  //     address: patientAddress,
-  //     workerId: currentWorkerId && JSON.parse(currentWorkerId)
-  //     }),
-  //   {
-  //     onSuccess: () => {
-  //       message.success('Paciente registrado com Sucesso')
-  //       navigate('/dashboard')
-  //     },
-  //     onError:(msg)=>{
-  //       message.error(`Error ao registrar paciente - ${msg}`)
-  //     }
-  //   },
-  // );
+  const { mutate: mutateRegisterSession } = useMutation(
+    () =>
+      fetchCreateSession({
+        workerId: currentWorkerId && JSON.parse(currentWorkerId),
+        patientId: patientId,
+        patientName: patientName,
+        sessionDate: sessionDate,
+        sessionDescription: sessionDescription ? sessionDescription : ''
+      }),
+    {
+      onSuccess: () => {
+        message.success('Paciente registrado com Sucesso')
+        navigate('/dashboard')
+      },
+      onError:(msg)=>{
+        message.error(`Error ao registrar paciente - ${msg}`)
+      }
+    },
+  );
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
