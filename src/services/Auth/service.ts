@@ -1,11 +1,6 @@
 import api from "../api";
-import { RefreshTokenResponse } from "./dtos/refreshTokenResponse.dto";
-import { AuthResponseDto } from "./dtos/authResponse.dto";
-
-export interface LoginRegisterProps{
-    email:string,
-    password:string
-}
+import { IAuthLoginParser, IRefreshTokenParser } from "./dtos/IAuthParser"
+import { IAuthLoginModel, IRefreshTokenModel } from "./dtos/IAuthModel";
 
 export const TOKEN_KEY = "@menteSa-Token";
 export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
@@ -13,7 +8,7 @@ export const USER_EMAIL = "@menteSa-UserEmail";
 export const CURRENT_WORKER_ID = "@menteSa-CurrentWorkerId";
 export const SWORDFISH = "@menteSa-Swordfish";
 
-export async function fetchLoginUser({ email, password }: LoginRegisterProps): Promise<AuthResponseDto>{
+export async function fetchLoginUser({ email, password }: IAuthLoginModel): Promise<IAuthLoginParser>{
     const url = 'v1/auth/login'
     const payload = { email, password }
     const { data, status } = await api.post(url, payload);
@@ -39,7 +34,7 @@ export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-export async function fetchRefreshToken(email: string, refreshToken:string): Promise<RefreshTokenResponse>{
+export async function fetchRefreshToken({ email, refreshToken }: IRefreshTokenModel): Promise<IRefreshTokenParser>{
     const url = 'v1/auth/refresh-token'
 
     const payload = { email, refreshToken }
@@ -53,7 +48,7 @@ export async function fetchRefreshToken(email: string, refreshToken:string): Pro
     return data
 }
 
-export async function fetchRegisterUser({ email, password }: LoginRegisterProps) {
+export async function fetchRegisterUser({ email, password }: IAuthLoginModel) {
     const url = 'v1/auth/register'
     const payload = { email, password }
     const { data, status } = await api.post(url, payload);

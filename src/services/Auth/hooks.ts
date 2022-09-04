@@ -1,8 +1,9 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import {  fetchLoginUser, fetchRegisterUser } from "./service";
-import { AuthResponseDto } from "./dtos/authResponse.dto";
+import { fetchLoginUser, fetchRegisterUser } from "./service";
+import { IAuthLoginModel } from "./dtos/IAuthModel";
+import { IAuthLoginParser } from "./dtos/IAuthParser";
 
-export function useLoginUser(email: string, password:string):UseQueryResult<AuthResponseDto>{
+export function useLoginUser({ email, password }: IAuthLoginModel): UseQueryResult<IAuthLoginParser>{
     const queryKey = ['loginUser']
 
     return useQuery(queryKey, () => fetchLoginUser({email, password}),{
@@ -10,7 +11,7 @@ export function useLoginUser(email: string, password:string):UseQueryResult<Auth
     } );
 }
 
-export function useRegisterUser(email: string, password:string):UseQueryResult<AuthResponseDto>{
+export function useRegisterUser({ email, password }: IAuthLoginModel): UseQueryResult<IAuthLoginParser>{
     const queryKey = ['registerUser']
 
     return useQuery(queryKey, () => fetchRegisterUser({email, password}),{

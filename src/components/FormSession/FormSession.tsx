@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
 import type { DatePickerProps } from 'antd';
-import { Button, DatePicker, Form, Input, message, Layout, InputNumber } from 'antd';
+import { Button, DatePicker, Form, Input, message, Layout } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchRegisterPatient } from 'src/services/Patient/service';
 import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
-import { Welcome } from './FormPatientStyles';
+import { Welcome } from './FormSessionStyles';
 
-const FormPatient: React.FC = () => {
+const FormSession: React.FC = () => {
   const navigate = useNavigate();
   const currentWorkerId = getCurrentWorkerId();
   const currentSwordfish = getCurrentSwordfish();
@@ -26,30 +26,30 @@ const FormPatient: React.FC = () => {
     setPatientEmail(values.email);
     setPatientAddress(values.address);
 
-    mutateRegisterPatient();
+    // mutateRegisterPatient();
   };
 
-  const { mutate: mutateRegisterPatient } = useMutation(
-    () =>
-    fetchRegisterPatient({
-      name: patientName,
-      password: currentSwordfish && JSON.parse(currentSwordfish),
-      birthDate: patientBirthDate,
-      phone: patientPhone,
-      email: patientEmail,
-      address: patientAddress,
-      workerId: currentWorkerId && JSON.parse(currentWorkerId)
-      }),
-    {
-      onSuccess: () => {
-        message.success('Paciente registrado com Sucesso')
-        navigate('/dashboard')
-      },
-      onError:(msg)=>{
-        message.error(`Error ao registrar paciente - ${msg}`)
-      }
-    },
-  );
+  // const { mutate: mutateRegisterPatient } = useMutation(
+  //   () =>
+  //   fetchRegisterPatient({
+  //     name: patientName,
+  //     password: currentSwordfish && JSON.parse(currentSwordfish),
+  //     birthDate: patientBirthDate,
+  //     phone: patientPhone,
+  //     email: patientEmail,
+  //     address: patientAddress,
+  //     workerId: currentWorkerId && JSON.parse(currentWorkerId)
+  //     }),
+  //   {
+  //     onSuccess: () => {
+  //       message.success('Paciente registrado com Sucesso')
+  //       navigate('/dashboard')
+  //     },
+  //     onError:(msg)=>{
+  //       message.error(`Error ao registrar paciente - ${msg}`)
+  //     }
+  //   },
+  // );
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -85,11 +85,11 @@ const FormPatient: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome className='login-title'>Cadastro do Paciente</Welcome>
+              <Welcome className='login-title'>Cadastro da sessão</Welcome>
             </Form.Item>
             <Form.Item
-              label="Nome"
-              name="name"
+              label="Nome do paciente"
+              name="patientName"
               rules={[
                 {
                   required: true,
@@ -101,8 +101,8 @@ const FormPatient: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              label="Data de Nascimento"
-              name="birthDate"
+              label="Data do agendamento"
+              name="sessionDate"
               rules={[
                 {
                   required: true,
@@ -114,34 +114,8 @@ const FormPatient: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              label="Telefone"
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  message: 'Telefone do paciente',
-                },
-              ]}
-            >
-              <InputNumber />
-            </Form.Item>
-
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Email do paciente',
-                },
-              ]}
-            >
-              <Input className='input' />
-            </Form.Item>
-
-            <Form.Item
-              label="Endereço"
-              name="address"
+              label="Descrição da sessão"
+              name="sessionDescription"
               rules={[
                 {
                   required: true,
@@ -186,4 +160,4 @@ const FormPatient: React.FC = () => {
   );
 };
 
-export default FormPatient;
+export default FormSession;

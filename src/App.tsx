@@ -3,13 +3,14 @@ import Login from 'src/pages/LogIn/Login';
 import Register from './pages/Register/Register';
 import Dashboard from 'src/pages/Main/Main';
 import Patients from 'src/pages/Patients/Patients';
+import FormPatient from './components/FormPatient/FormPatient';
 import Sessions from './pages/Sessions/Sessions';
+import FormSession from './components/FormSession/FormSession';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './services/queryClient';
 import { isAuthenticated } from './services/Auth/service';
 import { ReactNode } from 'react';
-import FormPatient from './components/FormPatient/FormPatient';
 interface PrivateRouteProps {
   children?: ReactNode;
   redirectTo:string;
@@ -26,10 +27,6 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/register-patient" element={<PrivateRoute redirectTo='/'>
-            <FormPatient />
-          </PrivateRoute>} />
-
           <Route path="/dashboard" element={<PrivateRoute redirectTo='/'>
             <Dashboard />
           </PrivateRoute>} />
@@ -38,8 +35,16 @@ const App: React.FC = () => {
             <Patients />
           </PrivateRoute>} />
 
+          <Route path="/register-patient" element={<PrivateRoute redirectTo='/'>
+            <FormPatient />
+          </PrivateRoute>} />
+
           <Route path="/sessions" element={<PrivateRoute redirectTo='/'>
             <Sessions />
+          </PrivateRoute>} />
+
+          <Route path="/register-session" element={<PrivateRoute redirectTo='/'>
+            <FormSession />
           </PrivateRoute>} />
       </Routes>
       </BrowserRouter>

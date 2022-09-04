@@ -9,6 +9,7 @@ import { usePatientList } from 'src/services/Patient/hooks';
 
 const PatientSessionList: React.FC = () => {
     const currentWorkerId = getCurrentWorkerId();
+    const currentPath = window.location.pathname;
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
@@ -41,7 +42,7 @@ const PatientSessionList: React.FC = () => {
         dataSourceBuilder();
     }, [dataSourceBuilder])
     
-    const columns = [
+    const patientsColumns = [
         {
             title: 'Name',
             dataIndex: 'name',
@@ -69,15 +70,33 @@ const PatientSessionList: React.FC = () => {
         },
     ];
 
+    const sessionsColumns = [
+        {
+            title: 'Nome do paciente',
+            dataIndex: 'patientName',
+            key: 'patientName',
+        },
+        {
+            title: 'Descrição da sessão',
+            dataIndex: 'sessionDescription',
+            key: 'sessionDescription',
+        },
+        {
+            title: 'Data do agendamento',
+            dataIndex: 'sessionDate',
+            key: 'sessionDate',
+        },
+    ];
+
     const onSearch = (value: string) => console.log(value);
-    console.log(dataSourceBuilder())
+
     return(
         <Layout>
             <SideMenu />
             <Layout>
                 <MainBox>
                     <UpperBox>
-                        <Title level={3}>Meus Pacientes</Title>
+                        <Title level={3}>{currentPath === '/patients' ? 'Meus pacientes' : 'Minhas sessões'}</Title>
                         <Search
                             placeholder="input search text"
                             onSearch={onSearch} enterButton
@@ -85,14 +104,14 @@ const PatientSessionList: React.FC = () => {
                                 width: `45%`,
                             }}
                         />
-                        <Button type="primary" href='/register-patient' icon={<PlusCircleOutlined />}>
-                            Novo paciente
+                        <Button type="primary" href={currentPath === '/patients' ? '/register-patient' : '/register-session'} icon={<PlusCircleOutlined />}>
+                            {currentPath === '/patients' ? 'Novo paciente' : 'Nova sessão'}
                         </Button>
                     </UpperBox>
                     <BottomBox>
                         <Table
                             dataSource={dataSource}
-                            columns={columns}
+                            columns={currentPath === '/patients' ? patientsColumns : sessionsColumns}
                             style={{
                                 width: `100%`,
                             }}

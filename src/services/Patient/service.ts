@@ -1,9 +1,8 @@
 import api from "../api";
-import { PatientDto } from "./dtos/Patient.dto";
-import { ModelDto } from "./dtos/Model.dto";
-import { IWorkerListParams, IWorkerAndPatientId } from "../Worker/dtos/IWorker";
+import { IPatientListModel, IPatientCreateModel, IPatientEditModel, IPatientShowModel } from "./dtos/IPatientModel";
+import { IPatientParser } from "./dtos/IPatientParser";
 
-export async function fetchPatientList({ id, page, perPage }: IWorkerListParams): Promise<any> {
+export async function fetchPatientList({ id, page, perPage }: IPatientListModel): Promise<IPatientParser> {
   const url = `v1/users/patients`;
   const filters: any = {id, page, perPage}
   const { data } = await api.get(url, { params: filters });
@@ -11,14 +10,14 @@ export async function fetchPatientList({ id, page, perPage }: IWorkerListParams)
   return data;
 }
 
-export async function fetchPatientById({workerId, patientId}: IWorkerAndPatientId): Promise<PatientDto> {
+export async function fetchPatientById({workerId, patientId}: IPatientShowModel): Promise<IPatientParser> {
   const url = `v1/${workerId}/patients/${patientId}`;
   const { data } = await api.get(url);
 
   return data;
 }
 
-export async function fetchRegisterPatient({ name, password, birthDate, phone, email, address, workerId }: ModelDto): Promise<any> {
+export async function fetchRegisterPatient({ name, password, birthDate, phone, email, address, workerId }: IPatientCreateModel): Promise<IPatientParser> {
 
   const params ={
     name,
@@ -38,14 +37,15 @@ export async function fetchRegisterPatient({ name, password, birthDate, phone, e
 }
 
 
-export async function fetchEditPatient({id, name, phone, email, address, createdAt, workerId, role} :PatientDto): Promise<PatientDto> {
+export async function fetchEditPatient({id, name, password, birthDate, phone, email, address, workerId, role} :IPatientEditModel): Promise<IPatientParser> {
   const params ={
     id,
     name,
+    password,
+    birthDate,
     phone,
     email,
     address,
-    createdAt, 
     workerId,
     role
   }
@@ -55,7 +55,7 @@ export async function fetchEditPatient({id, name, phone, email, address, created
   return data;
 }
 
-export async function fetchDeletePatient({workerId, patientId}: IWorkerAndPatientId): Promise<any> {
+export async function fetchDeletePatient({workerId, patientId}: IPatientShowModel): Promise<IPatientParser> {
   const url = `v1/${workerId}/patients/${patientId}`;
   const { data } = await api.delete(url);
 

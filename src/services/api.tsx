@@ -21,7 +21,7 @@ api.interceptors.response.use(
     const refresh_token = getRefreshToken();
     const user_email = getUserEmail();
     if (error.response.status === 401 && refresh_token && user_email) {
-      const response = await fetchRefreshToken(JSON.parse(user_email), JSON.parse(refresh_token));
+      const response = await fetchRefreshToken({email: JSON.parse(user_email), refreshToken: JSON.parse(refresh_token)});
       return response;
     }
     return Promise.reject(error);
