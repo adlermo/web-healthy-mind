@@ -1,8 +1,8 @@
-import PatientSessionList from '../../components/PatientSessionList/PatientSessionList';
+import SessionsList from '../../components/SessionsList/SessionsList';
 
 const Sessions: React.FC = () => {
   return (
-    <PatientSessionList />
+    <SessionsList />
   )
 };
 

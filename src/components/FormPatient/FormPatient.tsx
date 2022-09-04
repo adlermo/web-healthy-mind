@@ -5,8 +5,8 @@ import type { DatePickerProps } from 'antd';
 import { Button, DatePicker, Form, Input, message, Layout, InputNumber } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchRegisterPatient } from 'src/services/Patient/service';
-import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
 import { Welcome } from './FormPatientStyles';
+import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
 
 const FormPatient: React.FC = () => {
   const navigate = useNavigate();
@@ -123,7 +123,7 @@ const FormPatient: React.FC = () => {
                 },
               ]}
             >
-              <InputNumber  />
+              <InputNumber  style={{ width: 170 }}/>
             </Form.Item>
 
             <Form.Item

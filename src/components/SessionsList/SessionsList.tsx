@@ -3,34 +3,31 @@ import moment from 'moment';
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { MainBox, UpperBox, BottomBox } from './PatientSessionListStyles';
+import { MainBox, UpperBox, BottomBox } from './SessionsListStyles';
 import { getCurrentWorkerId } from 'src/services/Auth/service';
-import { usePatientList } from 'src/services/Patient/hooks';
+import { useSessionsList } from 'src/services/Session/hooks';
 
-const PatientSessionList: React.FC = () => {
+const SessionsList: React.FC = () => {
     const currentWorkerId = getCurrentWorkerId();
-    const currentPath = window.location.pathname;
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
     const dataSource: any = useMemo(() => { return [] },[]);
 
-    const { data } = usePatientList({
+    const { data } = useSessionsList({
         id: currentWorkerId && JSON.parse(currentWorkerId),
         page: 1,
         perPage: 2
     })
 
     const dataSourceBuilder = useCallback(() => {
-            data?.forEach((patient, index) => {
+            data?.forEach((session, index) => {
                     dataSource.push(
                         {
                             key: index+=1,
-                            name: patient ? patient.name : '',
-                            address: patient ? patient.address : '',
-                            phone: patient ? patient.phone : '',
-                            email: patient ? patient.email : '',
-                            createdAt: patient ? moment(patient.createdAt).format('DD-MM-YYYY') : ''
+                            patientName: session ? session.patientName : '',
+                            sessionDescription: session ? session.sessionDescription : '',
+                            sessionDate: session ? moment(session.createdAt).format('DD-MM-YYYY') : ''
                         }
                     )
                 }
@@ -41,36 +38,8 @@ const PatientSessionList: React.FC = () => {
     useEffect(() => {
         dataSourceBuilder();
     }, [dataSourceBuilder])
-    
-    const patientsColumns = [
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Endereço',
-            dataIndex: 'address',
-            key: 'Address',
-        },
-        {
-            title: 'Telefone',
-            dataIndex: 'phone',
-            key: 'phone',
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
-            title: 'Criado em:',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-        },
-    ];
 
-    const sessionsColumns = [
+    const columns = [
         {
             title: 'Nome do paciente',
             dataIndex: 'patientName',
@@ -96,7 +65,7 @@ const PatientSessionList: React.FC = () => {
             <Layout>
                 <MainBox>
                     <UpperBox>
-                        <Title level={3}>{currentPath === '/patients' ? 'Meus pacientes' : 'Minhas sessões'}</Title>
+                        <Title level={3}>{'Minhas sessões'}</Title>
                         <Search
                             placeholder="input search text"
                             onSearch={onSearch} enterButton
@@ -104,14 +73,14 @@ const PatientSessionList: React.FC = () => {
                                 width: `45%`,
                             }}
                         />
-                        <Button type="primary" href={currentPath === '/patients' ? '/register-patient' : '/register-session'} icon={<PlusCircleOutlined />}>
-                            {currentPath === '/patients' ? 'Novo paciente' : 'Nova sessão'}
+                        <Button type="primary" href={'/register-session'} icon={<PlusCircleOutlined />}>
+                            {'Nova sessão'}
                         </Button>
                     </UpperBox>
                     <BottomBox>
                         <Table
                             dataSource={dataSource}
-                            columns={currentPath === '/patients' ? patientsColumns : sessionsColumns}
+                            columns={columns}
                             style={{
                                 width: `100%`,
                             }}
@@ -130,4 +99,4 @@ const PatientSessionList: React.FC = () => {
     )
 }
 
-export default PatientSessionList;
+export default SessionsList;

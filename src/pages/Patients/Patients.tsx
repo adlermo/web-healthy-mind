@@ -1,9 +1,9 @@
 import React from 'react'
-import PatientSessionList from '../../components/PatientSessionList/PatientSessionList';
+import PatientsList from '../../components/PatientsList/PatientsList';
 
 const Patients: React.FC = () => {
     return(
-        <PatientSessionList />
+        <PatientsList />
     )
 }
 

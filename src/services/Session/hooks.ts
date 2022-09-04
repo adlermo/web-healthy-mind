@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from  '@tanstack/react-query';
 import {
-  fetchSessionList,
+  fetchSessionsList,
   fetchSessionById,
   fetchCreateSession,
   fetchEditSession,
@@ -9,9 +9,9 @@ import {
 import { ISessionListModel, ISessionShowModel, ISessionCreateModel, ISessionEditModel } from './dtos/ISessionModel';
 import { ISessionParser } from './dtos/ISessionParser';
 
-export function useSessionList({ id, page, perPage }: ISessionListModel): UseQueryResult<ISessionParser[]> {
+export function useSessionsList({ id, page, perPage }: ISessionListModel): UseQueryResult<ISessionParser[]> {
   const queryKey = ['sessionList'];
-  return useQuery(queryKey, () => fetchSessionList({ id, page, perPage }), {
+  return useQuery(queryKey, () => fetchSessionsList({ id, page, perPage }), {
     keepPreviousData: true,
   });
 }

@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
 import type { DatePickerProps } from 'antd';
 import { Button, DatePicker, Form, Input, message, Layout } from 'antd';
-import { useMutation } from '@tanstack/react-query';
-import { fetchRegisterPatient } from 'src/services/Patient/service';
-import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
+// import { useMutation } from '@tanstack/react-query';
+// import { fetchRegisterPatient } from 'src/services/Patient/service';
+// import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
 import { Welcome } from './FormSessionStyles';
 
 const FormSession: React.FC = () => {
-  const navigate = useNavigate();
-  const currentWorkerId = getCurrentWorkerId();
-  const currentSwordfish = getCurrentSwordfish();
+  // const navigate = useNavigate();
+  // const currentWorkerId = getCurrentWorkerId();
+  // const currentSwordfish = getCurrentSwordfish();
   const { Footer } = Layout;
   const { TextArea } = Input;
-  const [patientName, setPatientName] = useState('');
-  const [patientBirthDate, setPatientBirthDate] = useState('');
-  const [patientPhone, setPatientPhone] = useState('');
-  const [patientEmail, setPatientEmail] = useState('');
-  const [patientAddress, setPatientAddress] = useState('');
+  // const [patientName, setPatientName] = useState('');
+  // const [patientBirthDate, setPatientBirthDate] = useState('');
+  // const [patientPhone, setPatientPhone] = useState('');
+  // const [patientEmail, setPatientEmail] = useState('');
+  // const [patientAddress, setPatientAddress] = useState('');
 
   const onFinish = (values: any) => {
     console.log(values)
@@ -57,7 +57,7 @@ const FormSession: React.FC = () => {
   };
 
   const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
-    setPatientBirthDate(dateString);
+    // setPatientBirthDate(dateString);
   };
 
   return (

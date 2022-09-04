@@ -6,7 +6,7 @@ import { isAuthenticated } from 'src/services/Auth/service';
 const Login:React.FC = () =>{
     const navigate = useNavigate();
 
-    useEffect(() =>{
+    useEffect(() => {
         isAuthenticated() && navigate("/dashboard");
     }, [navigate])
 
