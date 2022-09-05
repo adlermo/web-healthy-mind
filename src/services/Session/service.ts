@@ -3,7 +3,7 @@ import { ISessionListModel, ISessionCreateModel, ISessionEditModel, ISessionShow
 import { ISessionParser } from "./dtos/ISessionParser";
 
 export async function fetchSessionsList({ id, page, perPage }: ISessionListModel): Promise<ISessionParser> {
-  const url = `v1/sessions/`;
+  const url = `v1/sessions`;
   const filters: any = {id, page, perPage}
   const { data } = await api.get(url, { params: filters });
 

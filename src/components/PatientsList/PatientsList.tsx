@@ -15,7 +15,7 @@ const PatientsList: React.FC = () => {
     const dataSource: any = useMemo(() => { return [] },[]);
 
     const { data } = usePatientsList({
-        id: currentWorkerId && JSON.parse(currentWorkerId),
+        workerId: currentWorkerId && JSON.parse(currentWorkerId),
         page: 1,
         perPage: 2
     })

@@ -2,9 +2,9 @@ import api from "../api";
 import { IPatientListModel, IPatientCreateModel, IPatientEditModel, IPatientShowModel } from "./dtos/IPatientModel";
 import { IPatientParser } from "./dtos/IPatientParser";
 
-export async function fetchPatientList({ id, page, perPage }: IPatientListModel): Promise<IPatientParser> {
+export async function fetchPatientList({ workerId, page, perPage }: IPatientListModel): Promise<IPatientParser> {
   const url = `v1/users/patients`;
-  const filters: any = {id, page, perPage}
+  const filters: any = {workerId, page, perPage}
   const { data } = await api.get(url, { params: filters });
 
   return data;
@@ -30,7 +30,7 @@ export async function fetchRegisterPatient({ name, password, birthDate, phone, e
     role: 'user'
   }
   
-  const url = `v1/users/${workerId}/patients`;
+  const url = `v1/users/patients`;
   const { data } = await api.post(url, params);
 
   return data;

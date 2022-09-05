@@ -1,5 +1,5 @@
 export interface IPatientListModel {
-  id: string
+  workerId: string
   page: number,
   perPage: number
 }
