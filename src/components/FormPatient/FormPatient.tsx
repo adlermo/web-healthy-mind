@@ -16,7 +16,7 @@ const FormPatient: React.FC = () => {
   const { TextArea } = Input;
   const [patientName, setPatientName] = useState('');
   const [patientBirthDate, setPatientBirthDate] = useState('');
-  const [patientPhone, setPatientPhone] = useState('');
+  const [patientPhone, setPatientPhone] = useState(0);
   const [patientEmail, setPatientEmail] = useState('');
   const [patientAddress, setPatientAddress] = useState('');
 

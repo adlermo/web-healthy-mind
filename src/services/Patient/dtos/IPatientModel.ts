@@ -8,7 +8,7 @@ export interface IPatientCreateModel {
   name: string;
   password: string;
   birthDate: string;
-  phone: string;
+  phone: number;
   email: string;
   address: string;
   workerId: string;

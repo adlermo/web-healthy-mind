@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import moment from 'moment';
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
@@ -12,7 +12,7 @@ const PatientsList: React.FC = () => {
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
-    const dataSource: any = useMemo(() => { return [] },[]);
+    const [dataSource, setDataSource]:any = useState([]);
 
     const { data } = usePatientsList({
         workerId: currentWorkerId && JSON.parse(currentWorkerId),
@@ -21,20 +21,20 @@ const PatientsList: React.FC = () => {
     })
 
     const dataSourceBuilder = useCallback(() => {
-            data?.forEach((patient, index) => {
-                    dataSource.push(
+        data && data.forEach((patient, index) => {
+                    setDataSource([
                         {
                             key: index+=1,
-                            name: patient ? patient.name : '',
-                            address: patient ? patient.address : '',
-                            phone: patient ? patient.phone : '',
-                            email: patient ? patient.email : '',
-                            createdAt: patient ? moment(patient.createdAt).format('DD-MM-YYYY') : ''
+                            name: patient?.name,
+                            address: patient?.address,
+                            phone: patient?.phone,
+                            email: patient?.email,
+                            createdAt: moment(patient?.createdAt).format('DD-MM-YYYY')
                         }
-                    )
+                    ])
                 }
             )
-        }, [data, dataSource]
+        }, [data]
     )
 
     useEffect(() => {
@@ -50,7 +50,7 @@ const PatientsList: React.FC = () => {
         {
             title: 'Endereço',
             dataIndex: 'address',
-            key: 'Address',
+            key: 'address',
         },
         {
             title: 'Telefone',
@@ -70,7 +70,7 @@ const PatientsList: React.FC = () => {
     ];
 
     const onSearch = (value: string) => console.log(value);
-
+    console.log(dataSource)
     return(
         <Layout>
             <SideMenu />

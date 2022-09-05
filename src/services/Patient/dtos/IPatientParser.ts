@@ -1,7 +1,7 @@
 export interface IPatientParser {
   id: string;
   name: string;
-  phone: string;
+  phone: number;
   email: string;
   address: string;
   createdAt: string;
