@@ -70,7 +70,7 @@ const PatientsList: React.FC = () => {
     ];
 
     const onSearch = (value: string) => console.log(value);
-    console.log(dataSource)
+
     return(
         <Layout>
             <SideMenu />
