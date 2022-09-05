@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import moment from 'moment';
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
@@ -12,7 +12,7 @@ const SessionsList: React.FC = () => {
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
-    const dataSource: any = useMemo(() => { return [] },[]);
+    const [dataSource, setDataSource]:any = useState([]);
 
     const { data } = useSessionsList({
         id: currentWorkerId && JSON.parse(currentWorkerId),
@@ -21,18 +21,18 @@ const SessionsList: React.FC = () => {
     })
 
     const dataSourceBuilder = useCallback(() => {
-            data?.forEach((session, index) => {
-                    dataSource.push(
-                        {
-                            key: index+=1,
-                            patientName: session ? session.patientName : '',
-                            sessionDescription: session ? session.sessionDescription : '',
-                            sessionDate: session ? moment(session.createdAt).format('DD-MM-YYYY') : ''
-                        }
-                    )
-                }
-            )
-        }, [data, dataSource]
+        data?.forEach((session, index) => {
+          setDataSource([
+              {
+                key: index+=1,
+                patientName: session.patientName,
+                sessionDescription: session.sessionDescription,
+                sessionDate: moment(session.createdAt).format('DD-MM-YYYY')
+              }
+            ])
+          }
+        )
+      }, [data]
     )
 
     useEffect(() => {

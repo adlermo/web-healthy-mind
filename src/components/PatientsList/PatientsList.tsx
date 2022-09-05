@@ -21,15 +21,15 @@ const PatientsList: React.FC = () => {
     })
 
     const dataSourceBuilder = useCallback(() => {
-        data && data.forEach((patient, index) => {
+        data?.forEach((patient, index) => {
                     setDataSource([
                         {
                             key: index+=1,
-                            name: patient?.name,
-                            address: patient?.address,
-                            phone: patient?.phone,
-                            email: patient?.email,
-                            createdAt: moment(patient?.createdAt).format('DD-MM-YYYY')
+                            name: patient.name,
+                            address: patient.address,
+                            phone: patient.phone,
+                            email: patient.email,
+                            createdAt: moment(patient.createdAt).format('DD-MM-YYYY')
                         }
                     ])
                 }
