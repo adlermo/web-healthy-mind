@@ -4,18 +4,22 @@ import SideMenu from '../SideMenu/SideMenu';
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
 import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
-import { Welcome, Subtitle } from './FormLoginStyles';
+import { Welcome, Subtitle } from './FormLoginRegisterStyles';
 
-const FormLogin: React.FC = () => {
+const FormLoginRegister: React.FC = () => {
   const navigate = useNavigate();
   const currentPath = window.location.pathname;
   const { Footer } = Layout;
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const onFinish = (values: any) => {
+    setName(values?.name)
     setEmail(values.email)
-    setPassword(values.senha)
+    setPassword(values.password)
+    setConfirmPassword(values.confirmPassword)
 
     if(email !=='' && password !==''){
       currentPath === '/register' ? mutateRegister() : mutateLogin();
@@ -42,15 +46,16 @@ const FormLogin: React.FC = () => {
   const { mutate: mutateRegister } = useMutation(
     () =>
     fetchRegisterUser({
-      email, password
+      name, email, password, confirmPassword
       }),
     {
       onSuccess: () => {
         message.success('Registrado com Sucesso')
         navigate('/dashboard')
       },
-      onError:(msg)=>{
-        message.error(`Error ao registrar - ${msg}`)
+      onError: (e: any) => {
+        const errorMessage = e.response.data.message
+        message.error(`Error ao registrar - ${errorMessage}`)
       }
     },
   );
@@ -88,13 +93,27 @@ const FormLogin: React.FC = () => {
               <Welcome>{currentPath === '/register' ? 'Cadastro do profissional' : 'Bem vindo ao sistema'}</Welcome>
               <Subtitle>{currentPath === '/register' ? 'Crie a sua conta' : 'Por favor entre com a sua conta'}</Subtitle>
             </Form.Item>
+            {currentPath === '/register' &&  
+            <Form.Item
+              label="Nome"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Insira seu nome',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>}
+
             <Form.Item
               label="Email"
               name="email"
               rules={[
                 {
                   required: true,
-                  message: 'Insira seu melhor email!',
+                  message: 'Insira seu melhor email',
                 },
               ]}
             >
@@ -103,11 +122,24 @@ const FormLogin: React.FC = () => {
 
             <Form.Item
               label="Senha"
-              name="senha"
+              name="password"
               rules={[
                 {
                   required: true,
-                  message: 'Insira sua senha!',
+                  message: 'Insira sua senha',
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="Confirme sua senha"
+              name="confirmPassword"
+              rules={[
+                {
+                  required: true,
+                  message: 'Confirme a senha',
                 },
               ]}
             >
@@ -157,4 +189,4 @@ const FormLogin: React.FC = () => {
   );
 };
 
-export default FormLogin;
+export default FormLoginRegister;

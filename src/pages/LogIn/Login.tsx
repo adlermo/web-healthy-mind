@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import FormLogin from 'src/components/FormLogin/FormLogin';
+import FormLoginRegister from 'src/components/FormLoginRegister/FormLoginRegister'
 import { isAuthenticated } from 'src/services/Auth/service';
 
 const Login:React.FC = () =>{
@@ -11,7 +11,7 @@ const Login:React.FC = () =>{
     }, [navigate])
 
     return(
-        <FormLogin/>
+        <FormLoginRegister/>
     )
 }
 

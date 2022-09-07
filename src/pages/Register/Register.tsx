@@ -1,9 +1,9 @@
 import React from 'react'
-import FormLogin from 'src/components/FormLogin/FormLogin';
+import FormLoginRegister from 'src/components/FormLoginRegister/FormLoginRegister';
 
 const Register:React.FC = () =>{
   return (
-    <FormLogin/>
+    <FormLoginRegister/>
   );
 }
 
