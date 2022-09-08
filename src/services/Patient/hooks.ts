@@ -6,12 +6,12 @@ import {
   fetchEditPatient,
   fetchDeletePatient
 } from './service';
-import { IPatientListModel, IPatientShowModel, IPatientCreateModel, IPatientEditModel } from './dtos/IPatientModel';
+import { IPatientShowModel, IPatientCreateModel, IPatientEditModel } from './dtos/IPatientModel';
 import { IPatientParser } from './dtos/IPatientParser';
 
-export function usePatientsList({ workerId, page, perPage }: IPatientListModel): UseQueryResult<IPatientParser[]> {
+export function usePatientsList(): UseQueryResult<IPatientParser[]> {
   const queryKey = ['patientList'];
-  return useQuery(queryKey, () => fetchPatientList({ workerId, page, perPage }), {
+  return useQuery(queryKey, () => fetchPatientList(), {
     keepPreviousData: true,
   });
 }

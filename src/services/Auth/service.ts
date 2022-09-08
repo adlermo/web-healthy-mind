@@ -15,13 +15,14 @@ export async function fetchLoginUser({ email, password }: IAuthLoginModel): Prom
 
     if (status === 200) {
         localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id))
+        localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken))
     }
     return data
 }
 
 export const getCurrentWorkerId = () => localStorage.getItem(CURRENT_WORKER_ID);
 export const getCurrentSwordfish = () => localStorage.getItem(SWORDFISH);
-export const isAuthenticated = () => localStorage.getItem(CURRENT_WORKER_ID) !== null;
+export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
 export const getUserEmail = () => localStorage.getItem(USER_EMAIL);

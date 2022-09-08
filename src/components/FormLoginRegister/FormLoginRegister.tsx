@@ -51,7 +51,7 @@ const FormLoginRegister: React.FC = () => {
     {
       onSuccess: () => {
         message.success('Registrado com Sucesso')
-        navigate('/dashboard')
+        navigate('/')
       },
       onError: (e: any) => {
         const errorMessage = e.response.data.message

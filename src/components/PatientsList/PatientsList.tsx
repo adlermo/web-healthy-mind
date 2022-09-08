@@ -4,21 +4,17 @@ import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
-import { getCurrentWorkerId } from 'src/services/Auth/service';
+// import { getCurrentWorkerId } from 'src/services/Auth/service';
 import { usePatientsList } from 'src/services/Patient/hooks';
 
 const PatientsList: React.FC = () => {
-    const currentWorkerId = getCurrentWorkerId();
+    // const currentWorkerId = getCurrentWorkerId();
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
     const [dataSource, setDataSource]:any = useState([]);
 
-    const { data } = usePatientsList({
-        workerId: currentWorkerId && JSON.parse(currentWorkerId),
-        page: 1,
-        perPage: 2
-    })
+    const { data } = usePatientsList()
 
     const dataSourceBuilder = useCallback(() => {
         data?.forEach((patient, index) => {
