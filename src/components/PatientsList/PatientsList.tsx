@@ -4,17 +4,16 @@ import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
-// import { getCurrentWorkerId } from 'src/services/Auth/service';
 import { usePatientsList } from 'src/services/Patient/hooks';
 
 const PatientsList: React.FC = () => {
-    // const currentWorkerId = getCurrentWorkerId();
+    const filterParams = { page: 1 };
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
     const [dataSource, setDataSource]:any = useState([]);
 
-    const { data } = usePatientsList()
+    const { data } = usePatientsList(filterParams)
 
     const dataSourceBuilder = useCallback(() => {
         data?.forEach((patient, index) => {
@@ -22,10 +21,10 @@ const PatientsList: React.FC = () => {
                         {
                             key: index+=1,
                             name: patient.name,
-                            address: patient.address,
-                            phone: patient.phone,
                             email: patient.email,
-                            createdAt: moment(patient.createdAt).format('DD-MM-YYYY')
+                            document: patient.document,
+                            birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
+                            phone: patient.phone
                         }
                     ])
                 }
@@ -39,19 +38,9 @@ const PatientsList: React.FC = () => {
     
     const columns = [
         {
-            title: 'Name',
+            title: 'Nome',
             dataIndex: 'name',
             key: 'name',
-        },
-        {
-            title: 'Endereço',
-            dataIndex: 'address',
-            key: 'address',
-        },
-        {
-            title: 'Telefone',
-            dataIndex: 'phone',
-            key: 'phone',
         },
         {
             title: 'Email',
@@ -59,9 +48,24 @@ const PatientsList: React.FC = () => {
             key: 'email',
         },
         {
-            title: 'Criado em:',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
+            title: 'Documento',
+            dataIndex: 'document',
+            key: 'document',
+        },
+        {
+            title: 'Data de Nascimento',
+            dataIndex: 'birthDate',
+            key: 'email',
+        },
+        {
+            title: 'Telefone',
+            dataIndex: 'phone',
+            key: 'phone',
+        },
+        {
+            title: 'Endereço',
+            // dataIndex: 'address',
+            // key: 'address',
         },
     ];
 

@@ -2,18 +2,17 @@ import api from "../api";
 import { IPatientCreateModel, IPatientEditModel, IPatientShowModel } from "./dtos/IPatientModel";
 import { IPatientParser } from "./dtos/IPatientParser";
 
-export async function fetchPatientList(): Promise<IPatientParser> {
+export async function fetchPatientList(filterParams: {}): Promise<IPatientParser> {
   const url = `/patients/list`;
-  // const filters: any = {workerId, page, perPage}
-  const { data } = await api.get(url);
-
-  return data;
+  const { data } = await api.get(url, { params: { filterParams } });
+  
+  return data.response;
 }
 
 export async function fetchPatientById({workerId, patientId}: IPatientShowModel): Promise<IPatientParser> {
   const url = `v1/${workerId}/patients/${patientId}`;
   const { data } = await api.get(url);
-
+;
   return data;
 }
 
