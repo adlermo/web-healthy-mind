@@ -16,40 +16,37 @@ export async function fetchPatientById({workerId, patientId}: IPatientShowModel)
   return data;
 }
 
-export async function fetchRegisterPatient({ name, password, birthDate, phone, email, address, workerId }: IPatientCreateModel): Promise<IPatientParser> {
-
+export async function fetchRegisterPatient({ addressId, name, email, document, gender, birthDate, phone }: IPatientCreateModel): Promise<IPatientParser> {
   const params ={
+    addressId,
     name,
-    password,
-    birthDate,
-    phone,
     email,
-    address,
-    workerId,
-    role: 'user'
+    document,
+    gender,
+    birthDate,
+    phone
   }
   
-  const url = `v1/users/patients`;
+  const url = `/patients`;
   const { data } = await api.post(url, params);
 
   return data;
 }
 
 
-export async function fetchEditPatient({id, name, password, birthDate, phone, email, address, workerId, role} :IPatientEditModel): Promise<IPatientParser> {
+export async function fetchEditPatient({ patientId, addressId, name, email, document, gender, birthDate, phone } :IPatientEditModel): Promise<IPatientParser> {
   const params ={
-    id,
+    patientId,
+    addressId,
     name,
-    password,
-    birthDate,
-    phone,
     email,
-    address,
-    workerId,
-    role
+    document,
+    gender,
+    birthDate,
+    phone
   }
   
-  const url = `${workerId}/patients`;
+  const url = `/patients/update/${patientId}`;
   const { data } = await api.put(url, params);
   return data;
 }

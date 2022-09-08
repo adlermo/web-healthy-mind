@@ -5,25 +5,24 @@ export interface IPatientListModel {
 }
 
 export interface IPatientCreateModel {
+  addressId: number;
   name: string;
-  password: string;
+  email: string;
+  document: string;
+  gender: string;
   birthDate: string;
   phone: number;
-  email: string;
-  address: string;
-  workerId: string;
 }
 
 export interface IPatientEditModel {
-  id: string;
+  patientId: string;
+  addressId: string;
   name: string;
-  password: string;
+  email: string;
+  document: string;
+  gender: string;
   birthDate: string;
   phone: string;
-  email: string;
-  address: string;
-  workerId: string;
-  role: string;
 }
 
 export interface IPatientShowModel {

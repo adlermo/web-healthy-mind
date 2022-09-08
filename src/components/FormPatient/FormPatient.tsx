@@ -6,44 +6,51 @@ import { Button, DatePicker, Form, Input, message, Layout, InputNumber } from 'a
 import { useMutation } from '@tanstack/react-query';
 import { fetchRegisterPatient } from 'src/services/Patient/service';
 import { Welcome } from './FormPatientStyles';
-import { getCurrentWorkerId, getCurrentSwordfish } from 'src/services/Auth/service';
 
 const FormPatient: React.FC = () => {
   const navigate = useNavigate();
-  const currentWorkerId = getCurrentWorkerId();
-  const currentSwordfish = getCurrentSwordfish();
   const { Footer } = Layout;
-  const { TextArea } = Input;
   const [patientName, setPatientName] = useState('');
+  const [patientEmail, setPatientEmail] = useState('');
+  const [patientDocument, setPatientDocument] = useState('');
+  const [patientGender, setPatientGender] = useState('');
   const [patientBirthDate, setPatientBirthDate] = useState('');
   const [patientPhone, setPatientPhone] = useState(0);
-  const [patientEmail, setPatientEmail] = useState('');
-  const [patientAddress, setPatientAddress] = useState('');
 
   const onFinish = (values: any) => {
     setPatientName(values.name);
-    setPatientPhone(values.phone);
     setPatientEmail(values.email);
-    setPatientAddress(values.address);
+    setPatientDocument(values.document);
+    setPatientGender(values.gender);
+    setPatientPhone(values.phone);
 
-    mutateRegisterPatient();
+    if (
+      patientName &&
+      patientEmail &&
+      patientDocument &&
+      patientGender &&
+      patientBirthDate &&
+      patientPhone
+    ) { 
+      mutateRegisterPatient();
+    }
   };
 
   const { mutate: mutateRegisterPatient } = useMutation(
     () =>
-    fetchRegisterPatient({
-      name: patientName,
-      password: currentSwordfish && JSON.parse(currentSwordfish),
-      birthDate: patientBirthDate,
-      phone: patientPhone,
-      email: patientEmail,
-      address: patientAddress,
-      workerId: currentWorkerId && JSON.parse(currentWorkerId)
+      fetchRegisterPatient({
+        addressId: 1,
+        name: patientName && patientName,
+        email: patientEmail && patientEmail,
+        document: patientDocument && patientDocument,
+        gender: patientGender && patientGender,
+        birthDate: patientBirthDate && patientBirthDate,
+        phone: patientPhone && patientPhone
       }),
     {
       onSuccess: () => {
         message.success('Paciente registrado com Sucesso')
-        navigate('/dashboard')
+        navigate('/patients')
       },
       onError:(msg)=>{
         message.error(`Error ao registrar paciente - ${msg}`)
@@ -87,6 +94,7 @@ const FormPatient: React.FC = () => {
             >
               <Welcome>Cadastro do Paciente</Welcome>
             </Form.Item>
+
             <Form.Item
               label="Nome"
               name="name"
@@ -98,32 +106,6 @@ const FormPatient: React.FC = () => {
               ]}
             >
               <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Data de Nascimento"
-              name="birthDate"
-              rules={[
-                {
-                  required: true,
-                  message: 'Data de nascimento do paciente',
-                },
-              ]}
-            >
-              <DatePicker onChange={onChange}/>
-            </Form.Item>
-
-            <Form.Item
-              label="Telefone"
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  message: 'Telefone do paciente',
-                },
-              ]}
-            >
-              <InputNumber  style={{ width: 170 }}/>
             </Form.Item>
 
             <Form.Item
@@ -140,16 +122,56 @@ const FormPatient: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              label="Endereço"
-              name="address"
+              label="Documento"
+              name="document"
               rules={[
                 {
                   required: true,
-                  message: 'Endereço do paciente',
+                  message: 'Documento do paciente',
                 },
               ]}
             >
-              <TextArea rows={5} />
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Gênero"
+              name="gender"
+              rules={[
+                {
+                  required: true,
+                  message: 'Gênero do paciente',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Data de nascimento"
+              name="birthDate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Data de nascimento do paciente',
+                },
+              ]}
+            >
+              <DatePicker onChange={onChange}/>
+            </Form.Item>
+
+
+            <Form.Item
+              label="Telefone"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: 'Telefone do paciente',
+                },
+              ]}
+            >
+              <InputNumber style={{ width: 170 }} />
             </Form.Item>
             
             <Form.Item

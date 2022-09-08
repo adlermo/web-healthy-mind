@@ -23,17 +23,17 @@ export function usePatientById({workerId, patientId}: IPatientShowModel): UseQue
   });
 }
 
-export function useRegisterPatient({name, password, birthDate, phone, email, address, workerId}: IPatientCreateModel): UseQueryResult<IPatientParser> {
+export function useRegisterPatient({ addressId, name, email, document, gender, birthDate, phone }: IPatientCreateModel): UseQueryResult<IPatientParser> {
   const queryKey = ['registerPatient'];
   return useQuery(queryKey, () => fetchRegisterPatient(
       {
+        addressId,
         name,
-        password,
-        birthDate,
-        phone,
         email,
-        address,
-        workerId
+        document,
+        gender,
+        birthDate,
+        phone
       }
     ),
     {
@@ -42,19 +42,18 @@ export function useRegisterPatient({name, password, birthDate, phone, email, add
   );
 }
 
-export function useEditPatient({id, name, password, birthDate, phone, email, address, workerId, role}: IPatientEditModel): UseQueryResult<IPatientParser> {
+export function useEditPatient({ patientId, addressId, name, email, document, gender, birthDate, phone }: IPatientEditModel): UseQueryResult<IPatientParser> {
   const queryKey = ['editPatient'];
   return useQuery(queryKey, () => fetchEditPatient(
       {
-        id,
+        patientId,
+        addressId,
         name,
-        password,
-        birthDate,
-        phone,
         email,
-        address,
-        workerId,
-        role
+        document,
+        gender,
+        birthDate,
+        phone
       }
     ),
     {

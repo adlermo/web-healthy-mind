@@ -16,21 +16,35 @@ const PatientsList: React.FC = () => {
     const { data } = usePatientsList(filterParams)
 
     const dataSourceBuilder = useCallback(() => {
+        // data?.forEach((patient, index) => {
+        //     setDataSource([
+        //         ...dataSource,
+        //         {
+        //             key: index+=1,
+        //             name: patient.name,
+        //             email: patient.email,
+        //             document: patient.document,
+        //             birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
+        //             phone: patient.phone
+        //         }
+        //     ])
+        // })
         data?.forEach((patient, index) => {
-                    setDataSource([
-                        {
-                            key: index+=1,
-                            name: patient.name,
-                            email: patient.email,
-                            document: patient.document,
-                            birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
-                            phone: patient.phone
-                        }
-                    ])
-                }
-            )
-        }, [data]
-    )
+            setDataSource((prevState: []) => {
+                return [
+                    ...prevState,
+                    {
+                        key: index+=1,
+                        name: patient.name,
+                        email: patient.email,
+                        document: patient.document,
+                        birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
+                        phone: patient.phone
+                    }
+                ]
+            })
+        })
+    }, [data])
 
     useEffect(() => {
         dataSourceBuilder();
@@ -64,8 +78,8 @@ const PatientsList: React.FC = () => {
         },
         {
             title: 'Endereço',
-            // dataIndex: 'address',
-            // key: 'address',
+            dataIndex: 'address',
+            key: 'address',
         },
     ];
 
