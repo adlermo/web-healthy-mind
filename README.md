@@ -20,7 +20,7 @@
     <img src="./public/mente-sa-logo.png" alt="Screenshot" style="width:300px;">
   </a>
 
-  <h1 align="center">Front Dev4Tech</h1>
+  <h1 align="center">Mente Sã</h1>
 
   <p align="center">
     A React front app to be used with a node boilerplate back.
