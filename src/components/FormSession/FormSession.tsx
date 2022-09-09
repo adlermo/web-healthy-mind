@@ -22,14 +22,13 @@ const FormSession: React.FC = () => {
     setSubject(values.subject);
     setDuration(values.duration);
     setType(values.type);
-    setComments(values.comment);
+    setComments(values.comments);
 
     if (
-      patientId &&
-      status &&
-      subject &&
-      duration &&
-      type &&
+      status ||
+      subject ||
+      duration ||
+      type ||
       comments
     ) { 
       mutateRegisterSession();
