@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
-import type { DatePickerProps } from 'antd';
-import { Button, DatePicker, Form, Input, message, Layout } from 'antd';
+import { Button, Form, Input, message, Layout } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchCreateSession } from 'src/services/Session/service';
-import { getCurrentWorkerId } from 'src/services/Auth/service';
 import { Welcome } from './FormSessionStyles';
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
-  const currentWorkerId = getCurrentWorkerId();
   const { Footer } = Layout;
-  const { TextArea } = Input;
   const [patientId, setPatientId] = useState('');
-  const [patientName, setPatientName] = useState('');
-  const [sessionDate, setSessionDate] = useState('');
-  const [sessionDescription, setSessionDescription] = useState('');
+  const [status, setStatus] = useState('');
+  const [subject, setSubject] = useState('');
+  const [duration, setDuration] = useState('');
+  const [type, setType] = useState('');
+  const [comments, setComments] = useState('');
 
   const onFinish = (values: any) => {
-    setPatientId('33')
-    setPatientName(values.patientName);
-    setSessionDate(values.sessionDate);
-    setSessionDescription(values.sessionDescription);
+    setPatientId('143c94da-e3e2-4958-ac5c-a44387da15f9')
+    setStatus(values.status);
+    setSubject(values.subject);
+    setDuration(values.duration);
+    setType(values.type);
+    setComments(values.comment);
 
-    if (patientId && patientName && sessionDate ) {
+    if (
+      patientId &&
+      status &&
+      subject &&
+      duration &&
+      type &&
+      comments
+    ) { 
       mutateRegisterSession();
     }
   };
@@ -32,29 +39,27 @@ const FormSession: React.FC = () => {
   const { mutate: mutateRegisterSession } = useMutation(
     () =>
       fetchCreateSession({
-        workerId: currentWorkerId && JSON.parse(currentWorkerId),
         patientId: patientId,
-        patientName: patientName,
-        sessionDate: sessionDate,
-        sessionDescription: sessionDescription ? sessionDescription : ''
+        status: status,
+        subject: subject,
+        duration: duration,
+        type: type,
+        comments: comments
       }),
     {
       onSuccess: () => {
-        message.success('Paciente registrado com Sucesso')
-        navigate('/dashboard')
+        message.success('Sessão registrada com Sucesso')
+        navigate('/sessions')
       },
-      onError:(msg)=>{
-        message.error(`Error ao registrar paciente - ${msg}`)
+      onError: (e: any) => {
+        const errorMessage = e.response.data.message
+        message.error(`Error ao registrar sessão - ${errorMessage}`)
       }
     },
   );
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
-  };
-
-  const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
-    // setPatientBirthDate(dateString);
   };
 
   return (
@@ -86,12 +91,12 @@ const FormSession: React.FC = () => {
               <Welcome>Cadastro da sessão</Welcome>
             </Form.Item>
             <Form.Item
-              label="Nome do paciente"
-              name="patientName"
+              label="Status"
+              name="status"
               rules={[
                 {
                   required: true,
-                  message: 'Nome do paciente',
+                  message: 'Insira o status da sessão',
                 },
               ]}
             >
@@ -99,29 +104,55 @@ const FormSession: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              label="Data do agendamento"
-              name="sessionDate"
+              label="Título"
+              name="subject"
               rules={[
                 {
                   required: true,
-                  message: 'Data de nascimento do paciente',
+                  message: 'Insira o título da sessão',
                 },
               ]}
             >
-              <DatePicker onChange={onChange}/>
+              <Input />
             </Form.Item>
 
             <Form.Item
-              label="Descrição da sessão"
-              name="sessionDescription"
+              label="Duração"
+              name="duration"
               rules={[
                 {
                   required: true,
-                  message: 'Endereço do paciente',
+                  message: 'Insira a duração da sessão',
                 },
               ]}
             >
-              <TextArea rows={5} />
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Tipo"
+              name="type"
+              rules={[
+                {
+                  required: true,
+                  message: 'Insira o tipo da sessão',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Anotações"
+              name="comments"
+              rules={[
+                {
+                  required: true,
+                  message: 'Anotações extras',
+                },
+              ]}
+            >
+              <Input />
             </Form.Item>
             
             <Form.Item

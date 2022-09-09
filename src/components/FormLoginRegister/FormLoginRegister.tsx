@@ -36,8 +36,9 @@ const FormLoginRegister: React.FC = () => {
         message.success('Logado com Sucesso')
         navigate('/dashboard')
       },
-      onError:(msg)=>{
-        message.error(`Erro ao logar, por favor crie sua conta -  ${msg}`)
+      onError: (e: any) => {
+        const errorMessage = e.response.data.message
+        message.error(`Erro ao logar, por favor crie sua conta -  ${errorMessage}`)
         navigate('/register')
       }
     },

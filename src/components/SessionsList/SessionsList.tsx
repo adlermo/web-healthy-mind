@@ -1,39 +1,49 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import moment from 'moment';
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { MainBox, UpperBox, BottomBox } from './SessionsListStyles';
-import { getCurrentWorkerId } from 'src/services/Auth/service';
 import { useSessionsList } from 'src/services/Session/hooks';
 
 const SessionsList: React.FC = () => {
-    const currentWorkerId = getCurrentWorkerId();
+    const filterParams = { page: 1 };
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
-    const [dataSource, setDataSource]:any = useState([]);
-
-    const { data } = useSessionsList({
-        id: currentWorkerId && JSON.parse(currentWorkerId),
-        page: 1,
-        perPage: 2
-    })
+    const [dataSource, setDataSource]: any[] = useState([]);
+    const { data } = useSessionsList(filterParams)
 
     const dataSourceBuilder = useCallback(() => {
         data?.forEach((session, index) => {
-          setDataSource([
-              {
-                key: index+=1,
-                patientName: session.patientName,
-                sessionDescription: session.sessionDescription,
-                sessionDate: moment(session.createdAt).format('DD-MM-YYYY')
-              }
-            ])
-          }
-        )
-      }, [data]
-    )
+            setDataSource((prevState: []) => {
+                if (prevState.length < data.length) {
+                    return [
+                        ...prevState,
+                        {
+                            key: index,
+                            patientId: session.patientId,
+                            status: session.status,
+                            subject: session.subject,
+                            duration: session.duration,
+                            type: session.type,
+                            comments: session.comments
+                        }
+                    ]
+                }
+                return [
+                    {
+                        key: index,
+                        patientId: session.patientId,
+                        status: session.status,
+                        subject: session.subject,
+                        duration: session.duration,
+                        type: session.type,
+                        comments: session.comments
+                    }
+                ]
+            })
+        })
+    }, [data])
 
     useEffect(() => {
         dataSourceBuilder();
@@ -41,19 +51,34 @@ const SessionsList: React.FC = () => {
 
     const columns = [
         {
-            title: 'Nome do paciente',
-            dataIndex: 'patientName',
-            key: 'patientName',
+            title: 'Id do paciente',
+            dataIndex: 'patientId',
+            key: 'patientId',
         },
         {
-            title: 'Descrição da sessão',
-            dataIndex: 'sessionDescription',
-            key: 'sessionDescription',
+            title: 'Status da sessão',
+            dataIndex: 'status',
+            key: 'status',
         },
         {
-            title: 'Data do agendamento',
-            dataIndex: 'sessionDate',
-            key: 'sessionDate',
+            title: 'Título',
+            dataIndex: 'subject',
+            key: 'subject',
+        },
+        {
+            title: 'Duração da sessão',
+            dataIndex: 'duration',
+            key: 'duration',
+        },
+        {
+            title: 'Tipo da sessão',
+            dataIndex: 'type',
+            key: 'type',
+        },
+        {
+            title: 'Anotações',
+            dataIndex: 'comments',
+            key: 'comments',
         },
     ];
 

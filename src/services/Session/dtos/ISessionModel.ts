@@ -5,20 +5,22 @@ export interface ISessionListModel {
 }
 
 export interface ISessionCreateModel {
-  workerId: string;
   patientId: string;
-  patientName: string;
-  sessionDescription: string;
-  sessionDate: string;
+  status: string;
+  subject: string;
+  duration: string;
+  type: string;
+  comments: string;
 }
 
 export interface ISessionEditModel {
-  id: string;
-  workerId: string;
+  sessionId: string;
   patientId: string;
-  patientName: string;
-  sessionDescription: string;
-  sessionDate: string;
+  status: string;
+  subject: string;
+  duration: string;
+  type: string;
+  comments: string;
 }
 
 export interface ISessionShowModel {

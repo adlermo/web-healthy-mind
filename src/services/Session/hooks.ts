@@ -6,12 +6,12 @@ import {
   fetchEditSession,
   fetchDeleteSession
 } from './service';
-import { ISessionListModel, ISessionShowModel, ISessionCreateModel, ISessionEditModel } from './dtos/ISessionModel';
+import { ISessionShowModel, ISessionCreateModel, ISessionEditModel } from './dtos/ISessionModel';
 import { ISessionParser } from './dtos/ISessionParser';
 
-export function useSessionsList({ id, page, perPage }: ISessionListModel): UseQueryResult<ISessionParser[]> {
+export function useSessionsList(filterParams: {}): UseQueryResult<ISessionParser[]> {
   const queryKey = ['sessionList'];
-  return useQuery(queryKey, () => fetchSessionsList({ id, page, perPage }), {
+  return useQuery(queryKey, () => fetchSessionsList(filterParams), {
     keepPreviousData: true,
   });
 }
@@ -23,15 +23,16 @@ export function useSessionById({id, workerId}: ISessionShowModel): UseQueryResul
   });
 }
 
-export function useCreateSession({ workerId, patientId, patientName, sessionDescription, sessionDate }: ISessionCreateModel): UseQueryResult<ISessionParser> {
+export function useCreateSession({ patientId, status, subject, duration, type, comments }: ISessionCreateModel): UseQueryResult<ISessionParser> {
   const queryKey = ['registerSession'];
   return useQuery(queryKey, () => fetchCreateSession(
       {
-        workerId,
         patientId,
-        patientName,
-        sessionDescription,
-        sessionDate
+        status,
+        subject,
+        duration,
+        type,
+        comments
       }
     ),
     {
@@ -40,16 +41,17 @@ export function useCreateSession({ workerId, patientId, patientName, sessionDesc
   );
 }
 
-export function useEditSession({ id, workerId, patientId, patientName, sessionDescription, sessionDate }: ISessionEditModel): UseQueryResult<ISessionParser> {
+export function useEditSession({ sessionId, patientId, status, subject, duration, type, comments }: ISessionEditModel): UseQueryResult<ISessionParser> {
   const queryKey = ['editSession'];
   return useQuery(queryKey, () => fetchEditSession(
       {
-        id,
-        workerId,
+        sessionId,
         patientId,
-        patientName,
-        sessionDescription,
-        sessionDate
+        status,
+        subject,
+        duration,
+        type,
+        comments
       }
     ),
     {

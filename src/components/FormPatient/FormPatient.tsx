@@ -52,8 +52,9 @@ const FormPatient: React.FC = () => {
         message.success('Paciente registrado com Sucesso')
         navigate('/patients')
       },
-      onError:(msg)=>{
-        message.error(`Error ao registrar paciente - ${msg}`)
+      onError: (e: any) => {
+        const errorMessage = e.response.data.message
+        message.error(`Error ao registrar paciente - ${errorMessage}`)
       }
     },
   );

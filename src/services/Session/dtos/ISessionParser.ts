@@ -1,9 +1,9 @@
 export interface ISessionParser {
   id: string;
-  workerId: string;
   patientId: string;
-  patientName: string;
-  sessionDescription: string;
-  sessionDate: string;
-  createdAt: string;
+  status: string;
+  subject: string;
+  duration: string;
+  type: string;
+  comments: string;
 }
