@@ -183,7 +183,7 @@ const FormPatient: React.FC = () => {
             >
               <Button
                 type="default"
-                href='/dashboard'
+                href='/patients'
                 style={{
                   marginRight: 30,
                 }}

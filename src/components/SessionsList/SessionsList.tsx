@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import SideMenu from '../SideMenu/SideMenu';
-import { Layout, Typography, Input, Button, Table } from 'antd';
+import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { MainBox, UpperBox, BottomBox } from './SessionsListStyles';
+import { MainBox, UpperBox, BottomBox, EditDeletePatientButton } from './SessionsListStyles';
 import { useSessionsList } from 'src/services/Session/hooks';
 
 const SessionsList: React.FC = () => {
@@ -79,6 +79,16 @@ const SessionsList: React.FC = () => {
             title: 'Anotações',
             dataIndex: 'comments',
             key: 'comments',
+        },
+        {
+            title: 'Ações',
+            key: 'action',
+            render: (_: any, record: any) => (
+                <Space size="middle">
+                  <EditDeletePatientButton>Editar</EditDeletePatientButton>
+                  <EditDeletePatientButton>Remover</EditDeletePatientButton>
+                </Space>
+              ),
         },
     ];
 

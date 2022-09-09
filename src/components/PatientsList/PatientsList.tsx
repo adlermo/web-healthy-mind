@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import moment from 'moment';
 import SideMenu from '../SideMenu/SideMenu';
-import { Layout, Typography, Input, Button, Table } from 'antd';
+import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
+import { MainBox, UpperBox, BottomBox, EditDeletePatientButton } from './PatientsListStyles';
 import { usePatientsList } from 'src/services/Patient/hooks';
 
 const PatientsList: React.FC = () => {
@@ -76,8 +76,18 @@ const PatientsList: React.FC = () => {
         },
         {
             title: 'Endereço',
-            dataIndex: 'address',
-            key: 'address',
+            // dataIndex: 'address',
+            // key: 'address',
+        },
+        {
+            title: 'Ações',
+            key: 'action',
+            render: (_: any, record: any) => (
+                <Space size="middle">
+                  <EditDeletePatientButton>Editar</EditDeletePatientButton>
+                  <EditDeletePatientButton>Remover</EditDeletePatientButton>
+                </Space>
+              ),
         },
     ];
 

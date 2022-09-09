@@ -20,3 +20,13 @@ export const BottomBox = styled.div`
   display: flex;
   width: 100%;
 `
+
+export const EditDeletePatientButton = styled.button`
+  border-radius: 5px;
+  background-color: #1890FF;
+  padding: 3px 7px;
+  color: white;
+  :hover {
+    cursor: pointer;
+  }
+`

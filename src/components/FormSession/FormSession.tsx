@@ -162,7 +162,7 @@ const FormSession: React.FC = () => {
             >
               <Button
                 type="default"
-                href='/dashboard'
+                href='/sessions'
                 style={{
                   marginRight: 30,
                 }}

@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Layout, Menu, Typography } from 'antd';
+import { Layout, Menu, Typography, Image } from 'antd';
 import { CalendarOutlined, UserOutlined, HomeOutlined } from '@ant-design/icons';
 import { isAuthenticated } from 'src/services/Auth/service';
+import { LogoTitle } from './SideMenuStyles';
 
 const SideMenu: React.FC = () => {
   const { Sider } = Layout;
@@ -19,15 +20,25 @@ const SideMenu: React.FC = () => {
   return (
     <Sider>
       <>
-        <Title
-          style={{
-            color: 'white',
-            fontSize: 28,
-            margin: '15px'
-          }}
-        >
-          Mente Sã
-        </Title>
+        <LogoTitle>
+          <Image
+            width={100}
+            src="mente-sa-logo.png"
+            style={{
+              marginTop: '20px'
+            }}
+          />
+          {/* <img src="public/mente-sa-logo.png" alt="Mente Sã logo"></img> */}
+          <Title
+            style={{
+              color: 'white',
+              fontSize: 28,
+              margin: '15px'
+            }}
+          >
+            Mente Sã
+          </Title>
+        </LogoTitle>
         { isAuthenticated() && <Menu
           theme='dark'
           mode='inline'
