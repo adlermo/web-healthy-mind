@@ -17,7 +17,7 @@
 <br />
 <p align="center">
   <a href="">
-    <img src="./public/react-logo.png" alt="Screenshot">
+    <img src="./public/mente-sa-logo.png" alt="Screenshot" style="width:300px;">
   </a>
 
   <h1 align="center">Front Dev4Tech</h1>
