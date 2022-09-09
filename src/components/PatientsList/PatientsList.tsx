@@ -11,30 +11,28 @@ const PatientsList: React.FC = () => {
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
-    const [dataSource, setDataSource]:any = useState([]);
-
+    const [dataSource, setDataSource]: any[] = useState([]);
     const { data } = usePatientsList(filterParams)
 
     const dataSourceBuilder = useCallback(() => {
-        // data?.forEach((patient, index) => {
-        //     setDataSource([
-        //         ...dataSource,
-        //         {
-        //             key: index+=1,
-        //             name: patient.name,
-        //             email: patient.email,
-        //             document: patient.document,
-        //             birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
-        //             phone: patient.phone
-        //         }
-        //     ])
-        // })
         data?.forEach((patient, index) => {
             setDataSource((prevState: []) => {
+                if (prevState.length < data.length) {
+                    return [
+                        ...prevState,
+                        {
+                            key: index,
+                            name: patient.name,
+                            email: patient.email,
+                            document: patient.document,
+                            birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
+                            phone: patient.phone
+                        }
+                    ]
+                }
                 return [
-                    ...prevState,
                     {
-                        key: index+=1,
+                        key: index,
                         name: patient.name,
                         email: patient.email,
                         document: patient.document,
