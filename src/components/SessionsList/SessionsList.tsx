@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React from 'react'
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -10,44 +10,7 @@ const SessionsList: React.FC = () => {
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
-    const [dataSource, setDataSource]: any[] = useState([]);
     const { data } = useSessionsList(filterParams)
-
-    const dataSourceBuilder = useCallback(() => {
-        data?.forEach((session, index) => {
-            setDataSource((prevState: []) => {
-                if (prevState.length < data.length) {
-                    return [
-                        ...prevState,
-                        {
-                            key: index,
-                            patientId: session.patientId,
-                            status: session.status,
-                            subject: session.subject,
-                            duration: session.duration,
-                            type: session.type,
-                            comments: session.comments
-                        }
-                    ]
-                }
-                return [
-                    {
-                        key: index,
-                        patientId: session.patientId,
-                        status: session.status,
-                        subject: session.subject,
-                        duration: session.duration,
-                        type: session.type,
-                        comments: session.comments
-                    }
-                ]
-            })
-        })
-    }, [data])
-
-    useEffect(() => {
-        dataSourceBuilder();
-    }, [dataSourceBuilder])
 
     const columns = [
         {
@@ -114,7 +77,7 @@ const SessionsList: React.FC = () => {
                     </UpperBox>
                     <BottomBox>
                         <Table
-                            dataSource={dataSource}
+                            dataSource={data}
                             columns={columns}
                             style={{
                                 width: `100%`,

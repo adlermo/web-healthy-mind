@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
-import moment from 'moment';
+import React from 'react'
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -11,42 +10,7 @@ const PatientsList: React.FC = () => {
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
-    const [dataSource, setDataSource]: any[] = useState([]);
     const { data } = usePatientsList(filterParams)
-
-    const dataSourceBuilder = useCallback(() => {
-        data?.forEach((patient, index) => {
-            setDataSource((prevState: []) => {
-                if (prevState.length < data.length) {
-                    return [
-                        ...prevState,
-                        {
-                            key: index,
-                            name: patient.name,
-                            email: patient.email,
-                            document: patient.document,
-                            birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
-                            phone: patient.phone
-                        }
-                    ]
-                }
-                return [
-                    {
-                        key: index,
-                        name: patient.name,
-                        email: patient.email,
-                        document: patient.document,
-                        birthDate: moment(patient.birthDate).format('DD-MM-YYYY'),
-                        phone: patient.phone
-                    }
-                ]
-            })
-        })
-    }, [data])
-
-    useEffect(() => {
-        dataSourceBuilder();
-    }, [dataSourceBuilder])
     
     const columns = [
         {
@@ -84,7 +48,7 @@ const PatientsList: React.FC = () => {
             key: 'action',
             render: (_: any, record: any) => (
                 <Space size="middle">
-                  <EditDeletePatientButton>Editar</EditDeletePatientButton>
+                  <EditDeletePatientButton onClick={() => console.log(record)}>Editar</EditDeletePatientButton>
                   <EditDeletePatientButton>Remover</EditDeletePatientButton>
                 </Space>
               ),
@@ -113,7 +77,7 @@ const PatientsList: React.FC = () => {
                     </UpperBox>
                     <BottomBox>
                         <Table
-                            dataSource={dataSource}
+                            dataSource={data}
                             columns={columns}
                             style={{
                                 width: `100%`,
