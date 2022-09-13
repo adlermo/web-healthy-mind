@@ -49,7 +49,7 @@ const SessionsList: React.FC = () => {
             render: (_: any, record: any) => (
                 <Space size="middle">
                   <EditDeletePatientButton>Editar</EditDeletePatientButton>
-                  <EditDeletePatientButton>Remover</EditDeletePatientButton>
+                  <EditDeletePatientButton>Arquivar</EditDeletePatientButton>
                 </Space>
               ),
         },
