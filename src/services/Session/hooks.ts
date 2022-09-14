@@ -23,7 +23,7 @@ export function useSessionById({id, workerId}: ISessionShowModel): UseQueryResul
   });
 }
 
-export function useCreateSession({ patientId, status, subject, duration, type, comments }: ISessionCreateModel): UseQueryResult<ISessionParser> {
+export function useCreateSession({ patientId, status, subject, duration, type, comments, appointmentDate }: ISessionCreateModel): UseQueryResult<ISessionParser> {
   const queryKey = ['registerSession'];
   return useQuery(queryKey, () => fetchCreateSession(
       {
@@ -32,7 +32,8 @@ export function useCreateSession({ patientId, status, subject, duration, type, c
         subject,
         duration,
         type,
-        comments
+        comments,
+        appointmentDate
       }
     ),
     {

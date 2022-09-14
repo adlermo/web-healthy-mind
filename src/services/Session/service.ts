@@ -17,14 +17,15 @@ export async function fetchSessionById({id, workerId}: ISessionShowModel): Promi
   return data;
 }
 
-export async function fetchCreateSession({ patientId, status, subject, duration, type, comments }: ISessionCreateModel): Promise<ISessionParser> {
+export async function fetchCreateSession({ patientId, status, subject, duration, type, comments, appointmentDate }: ISessionCreateModel): Promise<ISessionParser> {
   const params ={
     patientId,
     status,
     subject,
     duration,
     type,
-    comments
+    comments,
+    appointmentDate
   }
   
   const url = `/sessions`;

@@ -161,7 +161,6 @@ const FormPatient: React.FC = () => {
               <DatePicker onChange={onChange}/>
             </Form.Item>
 
-
             <Form.Item
               label="Telefone"
               name="phone"
