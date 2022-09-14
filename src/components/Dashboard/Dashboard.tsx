@@ -1,9 +1,9 @@
-import SideMenu from '../SideMenu/SideMenu'
-import { Layout, Row, Col } from 'antd'
-import { LayoutBackground, GridItem, ItemTitle, ItemNumber } from './DashboardStyles'
+import { Col, Layout, Row } from 'antd';
+import SideMenu from '../SideMenu/SideMenu';
+import { GridItem, ItemNumber, ItemTitle, LayoutBackground } from './DashboardStyles';
 
 const Dashboard: React.FC = () => {
-  const { Content, Footer } = Layout
+  const { Content, Footer } = Layout;
 
   return (
     <Layout>
@@ -12,10 +12,9 @@ const Dashboard: React.FC = () => {
         <Content
           style={{
             margin: '25px 20px',
-          }}
-        >
+          }}>
           <LayoutBackground>
-            <Row gutter={[20, 20]} wrap={true} >
+            <Row gutter={[20, 20]} wrap>
               <Col>
                 <GridItem>
                   <ItemTitle>Sessões agendadas (dia)</ItemTitle>
@@ -64,13 +63,12 @@ const Dashboard: React.FC = () => {
         <Footer
           style={{
             textAlign: 'center',
-          }}
-        >
+          }}>
           Mente Sã ©2020 Created by Dev4Tech
         </Footer>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

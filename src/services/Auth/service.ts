@@ -1,23 +1,26 @@
-import api from "../api";
-import { IAuthLoginParser, IRefreshTokenParser } from "./dtos/IAuthParser"
-import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from "./dtos/IAuthModel";
+import api from '../api';
+import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from './dtos/IAuthModel';
+import { IAuthLoginParser, IRefreshTokenParser } from './dtos/IAuthParser';
 
-export const TOKEN_KEY = "@menteSa-Token";
-export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
-export const USER_EMAIL = "@menteSa-UserEmail";
-export const CURRENT_WORKER_ID = "@menteSa-CurrentWorkerId";
-export const SWORDFISH = "@menteSa-Swordfish";
+export const TOKEN_KEY = '@menteSa-Token';
+export const REFRESH_TOKEN = '@menteSa-RefreshTokem';
+export const USER_EMAIL = '@menteSa-UserEmail';
+export const CURRENT_WORKER_ID = '@menteSa-CurrentWorkerId';
+export const SWORDFISH = '@menteSa-Swordfish';
 
-export async function fetchLoginUser({ email, password }: IAuthLoginModel): Promise<IAuthLoginParser>{
-    const url = '/signin'
-    const payload = { email, password }
-    const { data, status } = await api.post(url, payload);
+export async function fetchLoginUser({
+  email,
+  password,
+}: IAuthLoginModel): Promise<IAuthLoginParser> {
+  const url = '/signin';
+  const payload = { email, password };
+  const { data, status } = await api.post(url, payload);
 
-    if (status === 200) {
-        localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id))
-        localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken))
-    }
-    return data
+  if (status === 200) {
+    localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id));
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken));
+  }
+  return data;
 }
 
 export const getCurrentWorkerId = () => localStorage.getItem(CURRENT_WORKER_ID);
@@ -31,26 +34,34 @@ export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-export async function fetchRefreshToken({ email, refreshToken }: IRefreshTokenModel): Promise<IRefreshTokenParser>{
-    const url = 'v1/auth/refresh-token'
+export async function fetchRefreshToken({
+  email,
+  refreshToken,
+}: IRefreshTokenModel): Promise<IRefreshTokenParser> {
+  const url = 'v1/auth/refresh-token';
 
-    const payload = { email, refreshToken }
+  const payload = { email, refreshToken };
 
-    const { data, status } = await api.post(url, payload);
+  const { data, status } = await api.post(url, payload);
 
-    if (status === 200) {
-        localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id))
-    }
-    return data
+  if (status === 200) {
+    localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id));
+  }
+  return data;
 }
 
-export async function fetchRegisterUser({ name, email, password, confirmPassword }: IAuthRegisterModel) {
-    const url = '/signup'
-    const payload = { name, email, password, confirmPassword }
-    const { data, status } = await api.post(url, payload);
+export async function fetchRegisterUser({
+  name,
+  email,
+  password,
+  confirmPassword,
+}: IAuthRegisterModel) {
+  const url = '/signup';
+  const payload = { name, email, password, confirmPassword };
+  const { data, status } = await api.post(url, payload);
 
-    if (status === 201) {
-        localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id))
-    }
-    return data
+  if (status === 201) {
+    localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id));
+  }
+  return data;
 }

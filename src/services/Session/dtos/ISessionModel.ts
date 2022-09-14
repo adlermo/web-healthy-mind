@@ -1,7 +1,7 @@
 export interface ISessionListModel {
-  id: string
-  page: number,
-  perPage: number
+  id: string;
+  page: number;
+  perPage: number;
 }
 
 export interface ISessionCreateModel {
@@ -24,6 +24,6 @@ export interface ISessionEditModel {
 }
 
 export interface ISessionShowModel {
-  id: string
-  workerId: string
+  id: string;
+  workerId: string;
 }

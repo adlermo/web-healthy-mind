@@ -1,7 +1,7 @@
 export interface IPatientListModel {
-  workerId: string
-  page: number,
-  perPage: number
+  workerId: string;
+  page: number;
+  perPage: number;
 }
 
 export interface IPatientCreateModel {
@@ -26,6 +26,6 @@ export interface IPatientEditModel {
 }
 
 export interface IPatientShowModel {
-  workerId: string
-  patientId: string
+  workerId: string;
+  patientId: string;
 }
