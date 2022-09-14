@@ -29,17 +29,12 @@ const FormSession: React.FC = () => {
   const onFinish = (values: any) => {
     setSubject(values.subject);
     setDuration(values.duration);
-    setType(values.type);
     setComments(values.comments);
-    setAppointmentDate(values.appointmentDate);
 
     if (
-      status ||
       subject ||
       duration ||
-      type ||
-      comments ||
-      appointmentDate
+      comments
     ) { 
       mutateRegisterSession();
     }
@@ -82,6 +77,10 @@ const FormSession: React.FC = () => {
 
   const handlePatientChange = (value: string) => {
     setPatientId(value);
+  };
+
+  const handleTypeChange = (value: string) => {
+    setType(value);;
   };
 
   return (
@@ -137,8 +136,9 @@ const FormSession: React.FC = () => {
               ]}
             >
               <Select defaultValue="" style={{ width: 300 }} onChange={handlePatientChange}>
-                  <Option value="agendada">Agendada</Option>
-                  <Option value="finalizada">Finalizada</Option>
+                  {data?.map(patient => (
+                    <Option key={patient.id}>{patient.name}</Option>
+                  ))}
               </Select>
             </Form.Item>
 
@@ -194,7 +194,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select defaultValue="Individual" style={{ width: 200 }} onChange={handleStatusChange}>
+              <Select defaultValue="Individual" style={{ width: 200 }} onChange={handleTypeChange}>
                   <Option value="individual">Individual</Option>
                   <Option value="casal">Casal</Option>
                   <Option value="grupo">Grupo</Option>
