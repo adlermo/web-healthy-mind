@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
 import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
 import { Welcome, Subtitle } from './FormLoginRegisterStyles';
+import { Content } from 'antd/lib/layout/layout';
 
 const FormLoginRegister: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const FormLoginRegister: React.FC = () => {
     setName(values?.name)
     setEmail(values.email)
     setPassword(values.password)
-    setConfirmPassword(values.confirmPassword)
+    setConfirmPassword(values?.confirmPassword)
 
     if(email !=='' && password !==''){
       currentPath === '/register' ? mutateRegister() : mutateLogin();
@@ -38,7 +39,7 @@ const FormLoginRegister: React.FC = () => {
       },
       onError: (e: any) => {
         const errorMessage = e.response.data.message
-        message.error(`Erro ao logar, por favor crie sua conta -  ${errorMessage}`)
+        message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`)
         navigate('/register')
       }
     },
@@ -67,9 +68,11 @@ const FormLoginRegister: React.FC = () => {
 
   return (
     <>
-      <Layout>
+      <Layout style={{ height: "100vh" }}>
         <SideMenu />
         <Layout>
+          <Content>
+
           <Form
             name="basic"
             labelCol={{
@@ -94,6 +97,7 @@ const FormLoginRegister: React.FC = () => {
               <Welcome>{currentPath === '/register' ? 'Cadastro do profissional' : 'Bem vindo ao sistema'}</Welcome>
               <Subtitle>{currentPath === '/register' ? 'Crie a sua conta' : 'Por favor entre com a sua conta'}</Subtitle>
             </Form.Item>
+
             {currentPath === '/register' &&  
             <Form.Item
               label="Nome"
@@ -134,6 +138,7 @@ const FormLoginRegister: React.FC = () => {
               <Input.Password />
             </Form.Item>
 
+            {currentPath === '/register' &&
             <Form.Item
               label="Confirme sua senha"
               name="confirmPassword"
@@ -145,7 +150,7 @@ const FormLoginRegister: React.FC = () => {
               ]}
             >
               <Input.Password />
-            </Form.Item>
+            </Form.Item>}
 
             <Form.Item
               name="remember"
@@ -163,7 +168,8 @@ const FormLoginRegister: React.FC = () => {
                 span: 12,
               }}
             >
-              {currentPath === '/'&& <a href='/register'>Criar uma conta</a>}
+              {currentPath === '/' && <Link to='/register'>Criar uma conta</Link>}
+              {currentPath === '/register' && <Link to='../'>Já sou cadastrado</Link>}
             </Form.Item>
 
             <Form.Item
@@ -173,10 +179,11 @@ const FormLoginRegister: React.FC = () => {
               }}
             >
               <Button type="primary" htmlType="submit">
-                Login
+              {currentPath === '/register' ? 'Cadastrar' : 'Login'}
               </Button>
             </Form.Item>
           </Form>
+          </Content>
           <Footer
             style={{
               textAlign: 'center',
