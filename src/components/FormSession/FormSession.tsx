@@ -1,35 +1,45 @@
 import React, { useState } from 'react';
+import moment from 'moment';
+import type { DatePickerProps } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
-import { Button, Form, Input, message, Layout } from 'antd';
+import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchCreateSession } from 'src/services/Session/service';
 import { Welcome } from './FormSessionStyles';
+import { usePatientsList } from 'src/services/Patient/hooks';
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
   const { Footer } = Layout;
+  const { Option } = Select;
+  const { TextArea } = Input;
   const [patientId, setPatientId] = useState('');
   const [status, setStatus] = useState('');
   const [subject, setSubject] = useState('');
   const [duration, setDuration] = useState('');
   const [type, setType] = useState('');
   const [comments, setComments] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState('');
+  const formatDuration = 'HH:mm';
+  const filterParams = { page: 1 };
+
+  const { data } = usePatientsList(filterParams)
 
   const onFinish = (values: any) => {
-    setPatientId('143c94da-e3e2-4958-ac5c-a44387da15f9')
-    setStatus(values.status);
     setSubject(values.subject);
     setDuration(values.duration);
     setType(values.type);
     setComments(values.comments);
+    setAppointmentDate(values.appointmentDate);
 
     if (
       status ||
       subject ||
       duration ||
       type ||
-      comments
+      comments ||
+      appointmentDate
     ) { 
       mutateRegisterSession();
     }
@@ -43,7 +53,8 @@ const FormSession: React.FC = () => {
         subject: subject,
         duration: duration,
         type: type,
-        comments: comments
+        comments: comments,
+        appointmentDate: appointmentDate
       }),
     {
       onSuccess: () => {
@@ -59,6 +70,18 @@ const FormSession: React.FC = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
+    setAppointmentDate(dateString);
+  };
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value);
+  };
+
+  const handlePatientChange = (value: string) => {
+    setPatientId(value);
   };
 
   return (
@@ -89,18 +112,6 @@ const FormSession: React.FC = () => {
             >
               <Welcome>Cadastro da sessão</Welcome>
             </Form.Item>
-            <Form.Item
-              label="Status"
-              name="status"
-              rules={[
-                {
-                  required: true,
-                  message: 'Insira o status da sessão',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
 
             <Form.Item
               label="Título"
@@ -112,7 +123,52 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Input />
+              <Input style={{ width: 300 }} />
+            </Form.Item>
+
+            <Form.Item
+              label="Selecione o paciente"
+              name="patientId"
+              rules={[
+                {
+                  required: true,
+                  message: 'Selecione o paciente',
+                },
+              ]}
+            >
+              <Select defaultValue="" style={{ width: 300 }} onChange={handlePatientChange}>
+                  <Option value="agendada">Agendada</Option>
+                  <Option value="finalizada">Finalizada</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label="Data da Sessão"
+              name="appointmentDate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Data da sessão',
+                },
+              ]}
+            >
+              <DatePicker onChange={onChange} style={{ width: 200 }} />
+            </Form.Item>
+
+            <Form.Item
+              label="Status"
+              name="status"
+              rules={[
+                {
+                  required: true,
+                  message: 'Insira o status da sessão',
+                },
+              ]}
+            >
+              <Select defaultValue="Agendada" style={{ width: 200 }} onChange={handleStatusChange}>
+                  <Option value="agendada">Agendada</Option>
+                  <Option value="finalizada">Finalizada</Option>
+              </Select>
             </Form.Item>
 
             <Form.Item
@@ -125,7 +181,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Input />
+              <TimePicker defaultValue={moment('00:00', formatDuration)} format={formatDuration} style={{ width: 200 }} />
             </Form.Item>
 
             <Form.Item
@@ -138,7 +194,11 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Input />
+              <Select defaultValue="Individual" style={{ width: 200 }} onChange={handleStatusChange}>
+                  <Option value="individual">Individual</Option>
+                  <Option value="casal">Casal</Option>
+                  <Option value="grupo">Grupo</Option>
+              </Select>
             </Form.Item>
 
             <Form.Item
@@ -151,7 +211,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Input />
+              <TextArea rows={7} style={{ width: 300 }} />
             </Form.Item>
             
             <Form.Item
