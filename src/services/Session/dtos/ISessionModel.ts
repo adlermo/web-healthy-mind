@@ -22,6 +22,7 @@ export interface ISessionEditModel {
   duration: string;
   type: string;
   comments: string;
+  appointmentDate: string;
 }
 
 export interface ISessionShowModel {

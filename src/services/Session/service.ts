@@ -35,15 +35,15 @@ export async function fetchCreateSession({ patientId, status, subject, duration,
 }
 
 
-export async function fetchEditSession({ sessionId, patientId, status, subject, duration, type, comments } :ISessionEditModel): Promise<ISessionParser> {
+export async function fetchEditSession({ sessionId, patientId, status, subject, duration, type, comments, appointmentDate } :ISessionEditModel): Promise<ISessionParser> {
   const params ={
-    sessionId,
     patientId,
     status,
     subject,
     duration,
     type,
-    comments
+    comments,
+    appointmentDate
   }
   
   const url = `/sessions/update/${sessionId}`;

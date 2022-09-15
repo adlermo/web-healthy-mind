@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          Mente Sã ©2020 Created by Dev4Tech
+          Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>
     </Layout>
