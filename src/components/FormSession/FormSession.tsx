@@ -5,13 +5,14 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
 import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
 import { useMutation } from '@tanstack/react-query';
-import { fetchCreateSession } from 'src/services/Session/service';
+import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
 import { Welcome } from './FormSessionStyles';
 import { usePatientsList } from 'src/services/Patient/hooks';
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location: any = useLocation();
+  const currentPath = window.location.pathname;
   const { Footer } = Layout;
   const { Option } = Select;
   const { TextArea } = Input;
@@ -24,7 +25,7 @@ const FormSession: React.FC = () => {
   const [appointmentDate, setAppointmentDate] = useState('');
   const formatDuration = 'HH:mm';
   const filterParams = { page: 1 };
-  console.log(location.state)
+
   const { data } = usePatientsList(filterParams)
 
   const onFinish = (values: any) => {
@@ -33,11 +34,21 @@ const FormSession: React.FC = () => {
     setComments(values.comments);
 
     if (
-      subject ||
-      duration ||
-      comments
-    ) { 
+      currentPath === '/register-session' &&
+      (subject ||
+        duration ||
+        comments)
+    ) {
       mutateRegisterSession();
+    }
+
+    if (
+      currentPath === '/edit-session' &&
+      (subject ||
+        duration ||
+        comments)
+    ) {
+      mutateEditSession();
     }
   };
 
@@ -50,7 +61,7 @@ const FormSession: React.FC = () => {
         duration: duration,
         type: type,
         comments: comments,
-        appointmentDate: appointmentDate
+        appointmentDate: moment(appointmentDate).format('DD-MM-YYYY')
       }),
     {
       onSuccess: () => {
@@ -64,11 +75,35 @@ const FormSession: React.FC = () => {
     },
   );
 
+  const { mutate: mutateEditSession } = useMutation(
+    () =>
+      fetchEditSession({
+        sessionId: location.state?.id.toString(),
+        patientId: patientId,
+        status: status,
+        subject: subject,
+        duration: duration,
+        type: type,
+        comments: comments,
+        appointmentDate: moment(appointmentDate).format('DD-MM-YYYY')
+      }),
+    {
+      onSuccess: () => {
+        message.success('Sessão editada com Sucesso')
+        navigate('/sessions')
+      },
+      onError: (e: any) => {
+        const errorMessage = e.response.data.message
+        message.error(`Error ao editar a sessão - ${errorMessage}`)
+      }
+    },
+  );
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
 
-  const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
+  const onDateChange: DatePickerProps['onChange'] = (_date, dateString) => {
     setAppointmentDate(dateString);
   };
 
@@ -110,7 +145,7 @@ const FormSession: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome>Cadastro da sessão</Welcome>
+              <Welcome>{currentPath === '/register-session' ? 'Cadastro da sessão' : 'Editar a sessão'}</Welcome>
             </Form.Item>
 
             <Form.Item
@@ -136,7 +171,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select defaultValue="" style={{ width: 300 }} onChange={handlePatientChange}>
+              <Select style={{ width: 300 }} onChange={handlePatientChange}>
                   {data?.map(patient => (
                     <Option key={patient.id}>{patient.name}</Option>
                   ))}
@@ -153,7 +188,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <DatePicker onChange={onChange} style={{ width: 200 }} />
+              <DatePicker onChange={onDateChange} style={{ width: 200 }}/>
             </Form.Item>
 
             <Form.Item
@@ -166,7 +201,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select defaultValue="Agendada" style={{ width: 200 }} onChange={handleStatusChange}>
+              <Select style={{ width: 200 }} onChange={handleStatusChange}>
                   <Option value="agendada">Agendada</Option>
                   <Option value="finalizada">Finalizada</Option>
               </Select>
@@ -182,7 +217,10 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <TimePicker defaultValue={moment('00:00', formatDuration)} format={formatDuration} style={{ width: 200 }} />
+              <TimePicker
+                format={formatDuration}
+                style={{ width: 200 }}
+              />
             </Form.Item>
 
             <Form.Item
@@ -195,7 +233,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select defaultValue="Individual" style={{ width: 200 }} onChange={handleTypeChange}>
+              <Select style={{ width: 200 }} onChange={handleTypeChange}>
                   <Option value="individual">Individual</Option>
                   <Option value="casal">Casal</Option>
                   <Option value="grupo">Grupo</Option>

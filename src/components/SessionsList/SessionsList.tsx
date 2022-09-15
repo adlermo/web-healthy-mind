@@ -15,7 +15,7 @@ const SessionsList: React.FC = () => {
     const { data } = useSessionsList(filterParams)
 
     const onEditHandler = (record: any) => {
-        navigate('/register-session',{state: record});
+        navigate('/edit-session',{state: record});
     }
 
     const columns = [
@@ -57,7 +57,7 @@ const SessionsList: React.FC = () => {
                     <ActionBox>
                         <Button
                             type="primary"
-                            href={'/register-session'}
+                            href={'/edit-session'}
                             icon={<EditOutlined />}
                             style={{ marginBottom: 15 }}
                             onClick={() => onEditHandler(record)}

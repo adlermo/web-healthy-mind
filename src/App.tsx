@@ -46,6 +46,10 @@ const App: React.FC = () => {
           <Route path="/register-session" element={<PrivateRoute redirectTo='/'>
             <FormSession />
           </PrivateRoute>} />
+
+          <Route path="/edit-session" element={<PrivateRoute redirectTo='/'>
+            <FormSession />
+          </PrivateRoute>} />
       </Routes>
       </BrowserRouter>
     </QueryClientProvider>
