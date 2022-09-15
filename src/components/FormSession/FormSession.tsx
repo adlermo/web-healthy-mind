@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { fetchCreateSession } from "src/services/Session/service";
 import { Welcome } from "./FormSessionStyles";
 import { usePatientsList } from "src/services/Patient/hooks";
+import NewResourceModal from "../Modals/NewResource";
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
@@ -259,9 +260,7 @@ const FormSession: React.FC = () => {
                 <Option value="nenhum">Nenhum</Option>
                 {/* TODO: map resources from db */}
               </Select>
-              <Button type="text" style={{ color: "gray" }}>
-                Cadastrar novo recurso
-              </Button>
+              <NewResourceModal />
             </Form.Item>
 
             <Form.Item
