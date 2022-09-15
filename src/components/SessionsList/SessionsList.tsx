@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -46,6 +47,7 @@ const SessionsList: React.FC = () => {
     {
       title: 'Ações',
       key: 'action',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       render: (_: any, record: any) => (
         <Space size="middle">
           <EditDeletePatientButton>Editar</EditDeletePatientButton>
@@ -55,7 +57,7 @@ const SessionsList: React.FC = () => {
     },
   ];
 
-  const onSearch = (value: string) => console.log(value);
+  const onSearch = (value: string) => console.info(value);
 
   return (
     <Layout>

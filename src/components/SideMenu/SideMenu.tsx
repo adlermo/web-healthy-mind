@@ -11,7 +11,7 @@ const SideMenu: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const clickHandler = (item: any) => {
+  const clickHandler = (item: { key: string }) => {
     if (item.key === '1') {
       navigate('/');
     }
@@ -21,6 +21,21 @@ const SideMenu: React.FC = () => {
     if (item.key === '3') {
       navigate('/sessions');
     }
+  };
+
+  const returnDefaultSelectedKeys = (): string[] | undefined => {
+    if (location.pathname === '/') return ['1'];
+    if (location.pathname === '/patients') return ['2'];
+    if (location.pathname === '/sessions') return ['3'];
+
+    return [''];
+  };
+
+  const indexToName = (index: number) => {
+    if (index === 0) return 'Dashboard';
+    if (index === 1) return 'Pacientes';
+
+    return 'Sessões';
   };
 
   return (
@@ -48,20 +63,12 @@ const SideMenu: React.FC = () => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={
-              location.pathname === '/'
-                ? ['1']
-                : location.pathname === '/patients'
-                ? ['2']
-                : location.pathname === '/sessions'
-                ? ['3']
-                : ['']
-            }
+            defaultSelectedKeys={returnDefaultSelectedKeys()}
             onClick={clickHandler}
             items={[HomeOutlined, UserOutlined, CalendarOutlined].map((icon, index) => ({
               key: String(index + 1),
               icon: React.createElement(icon),
-              label: index === 0 ? 'Dashboard' : index === 1 ? 'Pacientes' : 'Sessões',
+              label: indexToName(index),
             }))}
           />
         )}

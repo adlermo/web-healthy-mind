@@ -6,10 +6,19 @@ import {
   fetchEditPatient,
   fetchDeletePatient,
 } from './service';
-import { IPatientShowModel, IPatientCreateModel, IPatientEditModel } from './dtos/IPatientModel';
+
+import {
+  IPatientShowModel,
+  IPatientCreateModel,
+  IPatientEditModel,
+  IPatientFilterModel,
+} from './dtos/IPatientModel';
+
 import { IPatientParser } from './dtos/IPatientParser';
 
-export function usePatientsList(filterParams: {}): UseQueryResult<IPatientParser[]> {
+export function usePatientsList(
+  filterParams: IPatientFilterModel,
+): UseQueryResult<IPatientParser[]> {
   const queryKey = ['patientList'];
   return useQuery(queryKey, () => fetchPatientList(filterParams), {
     keepPreviousData: true,

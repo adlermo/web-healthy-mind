@@ -1,8 +1,15 @@
 import api from '../api';
-import { ISessionCreateModel, ISessionEditModel, ISessionShowModel } from './dtos/ISessionModel';
+import {
+  ISessionCreateModel,
+  ISessionEditModel,
+  ISessionFilterModel,
+  ISessionShowModel,
+} from './dtos/ISessionModel';
 import { ISessionParser } from './dtos/ISessionParser';
 
-export async function fetchSessionsList(filterParams: {}): Promise<ISessionParser> {
+export async function fetchSessionsList(
+  filterParams: ISessionFilterModel,
+): Promise<ISessionParser> {
   const url = `/sessions/list`;
   const { data } = await api.get(url, { params: { filterParams } });
 

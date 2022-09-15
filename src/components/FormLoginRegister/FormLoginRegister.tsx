@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { useMutation } from '@tanstack/react-query';
 import { Button, Checkbox, Form, Input, Layout, message } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
@@ -6,6 +8,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
 import SideMenu from '../SideMenu/SideMenu';
 import { Subtitle, Welcome } from './FormLoginRegisterStyles';
+
+interface IFormRegister {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const FormLoginRegister: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +25,7 @@ const FormLoginRegister: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: IFormRegister) => {
     setName(values?.name);
     setEmail(values.email);
     setPassword(values.password);

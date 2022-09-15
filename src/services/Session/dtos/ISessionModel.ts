@@ -27,3 +27,9 @@ export interface ISessionShowModel {
   id: string;
   workerId: string;
 }
+
+export interface ISessionFilterModel {
+  subject?: string;
+  patientId?: string;
+  page?: number;
+}

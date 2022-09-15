@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, message, Layout } from 'antd';
@@ -5,6 +7,14 @@ import { useMutation } from '@tanstack/react-query';
 import { fetchCreateSession } from 'src/services/Session/service';
 import SideMenu from '../SideMenu/SideMenu';
 import { Welcome } from './FormSessionStyles';
+
+interface ISessionForm {
+  status: string;
+  subject: string;
+  duration: string;
+  type: string;
+  comments: string;
+}
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
@@ -15,19 +25,6 @@ const FormSession: React.FC = () => {
   const [duration, setDuration] = useState('');
   const [type, setType] = useState('');
   const [comments, setComments] = useState('');
-
-  const onFinish = (values: any) => {
-    setPatientId('143c94da-e3e2-4958-ac5c-a44387da15f9');
-    setStatus(values.status);
-    setSubject(values.subject);
-    setDuration(values.duration);
-    setType(values.type);
-    setComments(values.comments);
-
-    if (status || subject || duration || type || comments) {
-      mutateRegisterSession();
-    }
-  };
 
   const { mutate: mutateRegisterSession } = useMutation(
     () =>
@@ -50,6 +47,19 @@ const FormSession: React.FC = () => {
       },
     },
   );
+
+  const onFinish = (values: ISessionForm) => {
+    setPatientId('143c94da-e3e2-4958-ac5c-a44387da15f9');
+    setStatus(values.status);
+    setSubject(values.subject);
+    setDuration(values.duration);
+    setType(values.type);
+    setComments(values.comments);
+
+    if (status || subject || duration || type || comments) {
+      mutateRegisterSession();
+    }
+  };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);

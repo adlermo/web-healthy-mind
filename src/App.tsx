@@ -12,13 +12,13 @@ import FormSession from './components/FormSession/FormSession';
 import { queryClient } from './services/queryClient';
 import { isAuthenticated } from './services/Auth/service';
 
-interface PrivateRouteProps {
-  children?: ReactNode;
+interface IPrivateRouteProps {
+  children: ReactNode;
   redirectTo: string;
 }
 
-function PrivateRoute({ children, redirectTo }: PrivateRouteProps) {
-  return isAuthenticated() ? <>{children}</> : <Navigate to={redirectTo} />;
+function PrivateRoute({ children, redirectTo }: IPrivateRouteProps) {
+  return isAuthenticated() ? <> {children} </> : <Navigate to={redirectTo} />;
 }
 
 const App: React.FC = () => {

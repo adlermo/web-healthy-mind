@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/no-cycle
 import api from '../api';
+
 import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from './dtos/IAuthModel';
 import { IAuthLoginParser, IRefreshTokenParser } from './dtos/IAuthParser';
 

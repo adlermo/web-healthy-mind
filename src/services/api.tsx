@@ -1,4 +1,5 @@
 import axios from 'axios';
+// eslint-disable-next-line import/no-cycle
 import { fetchRefreshToken, getRefreshToken, getToken, getUserEmail } from './Auth/service';
 
 const api = axios.create({
@@ -8,6 +9,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
   const token = getToken();
   if (token) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, no-param-reassign
     config.headers!.Authorization = `Bearer ${JSON.parse(token)}`;
   }
   return config;
@@ -17,7 +19,7 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  async function (error) {
+  async (error) => {
     const refresh_token = getRefreshToken();
     const user_email = getUserEmail()?.replace(/[""]+/g, '');
 

@@ -6,10 +6,17 @@ import {
   fetchEditSession,
   fetchDeleteSession,
 } from './service';
-import { ISessionShowModel, ISessionCreateModel, ISessionEditModel } from './dtos/ISessionModel';
+import {
+  ISessionShowModel,
+  ISessionCreateModel,
+  ISessionEditModel,
+  ISessionFilterModel,
+} from './dtos/ISessionModel';
 import { ISessionParser } from './dtos/ISessionParser';
 
-export function useSessionsList(filterParams: {}): UseQueryResult<ISessionParser[]> {
+export function useSessionsList(
+  filterParams: ISessionFilterModel,
+): UseQueryResult<ISessionParser[]> {
   const queryKey = ['sessionList'];
   return useQuery(queryKey, () => fetchSessionsList(filterParams), {
     keepPreviousData: true,

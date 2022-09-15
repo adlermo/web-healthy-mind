@@ -7,7 +7,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isAuthenticated() && navigate('/dashboard');
+    // Se usuário autenticado então acessa Dashboard
+    if (isAuthenticated()) navigate('/dashboard');
   }, [navigate]);
 
   return <FormLoginRegister />;

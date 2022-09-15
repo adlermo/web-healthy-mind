@@ -29,3 +29,9 @@ export interface IPatientShowModel {
   workerId: string;
   patientId: string;
 }
+
+export interface IPatientFilterModel {
+  name?: string;
+  email?: string;
+  page?: number;
+}

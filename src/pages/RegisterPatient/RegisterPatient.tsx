@@ -7,7 +7,8 @@ const RegisterPatient: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isAuthenticated() ? navigate('/dashboard') : navigate('/register');
+    // Se usuário está autenticado navega para o Dashboard
+    if (isAuthenticated()) navigate('/dashboard');
   }, [navigate]);
 
   return <FormPatient />;

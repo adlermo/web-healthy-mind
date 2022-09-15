@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { DatePickerProps } from 'antd';
@@ -16,25 +18,6 @@ const FormPatient: React.FC = () => {
   const [patientGender, setPatientGender] = useState('');
   const [patientBirthDate, setPatientBirthDate] = useState('');
   const [patientPhone, setPatientPhone] = useState(0);
-
-  const onFinish = (values: any) => {
-    setPatientName(values.name);
-    setPatientEmail(values.email);
-    setPatientDocument(values.document);
-    setPatientGender(values.gender);
-    setPatientPhone(values.phone);
-
-    if (
-      patientName &&
-      patientEmail &&
-      patientDocument &&
-      patientGender &&
-      patientBirthDate &&
-      patientPhone
-    ) {
-      mutateRegisterPatient();
-    }
-  };
 
   const { mutate: mutateRegisterPatient } = useMutation(
     () =>
@@ -58,6 +41,25 @@ const FormPatient: React.FC = () => {
       },
     },
   );
+
+  const onFinish = (values: any) => {
+    setPatientName(values.name);
+    setPatientEmail(values.email);
+    setPatientDocument(values.document);
+    setPatientGender(values.gender);
+    setPatientPhone(values.phone);
+
+    if (
+      patientName &&
+      patientEmail &&
+      patientDocument &&
+      patientGender &&
+      patientBirthDate &&
+      patientPhone
+    ) {
+      mutateRegisterPatient();
+    }
+  };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
