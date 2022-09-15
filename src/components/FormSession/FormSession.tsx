@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import moment from "moment";
 import type { DatePickerProps } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SideMenu from "../SideMenu/SideMenu";
 import {
   Button,
@@ -14,13 +14,15 @@ import {
   TimePicker,
 } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import { fetchCreateSession } from "src/services/Session/service";
+import { fetchCreateSession, fetchEditSession } from "src/services/Session/service";
 import { Welcome } from "./FormSessionStyles";
 import { usePatientsList } from "src/services/Patient/hooks";
 import NewResourceModal from "../Modals/NewResource";
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
+  const location: any = useLocation();
+  const currentPath = window.location.pathname;
   const { Footer } = Layout;
   const { Option } = Select;
   const { TextArea } = Input;
@@ -42,8 +44,22 @@ const FormSession: React.FC = () => {
     setDuration(values.duration);
     setComments(values.comments);
 
-    if (subject || duration || comments) {
+    if (
+      currentPath === '/register-session' &&
+      (subject ||
+        duration ||
+        comments)
+    ) {
       mutateRegisterSession();
+    }
+
+    if (
+      currentPath === '/edit-session' &&
+      (subject ||
+        duration ||
+        comments)
+    ) {
+      mutateEditSession();
     }
   };
 
@@ -56,7 +72,7 @@ const FormSession: React.FC = () => {
         duration: duration,
         type: type,
         comments: comments,
-        appointmentDate: appointmentDate,
+        appointmentDate: moment(appointmentDate).format('DD-MM-YYYY')
       }),
     {
       onSuccess: () => {
@@ -70,11 +86,36 @@ const FormSession: React.FC = () => {
     }
   );
 
+  const { mutate: mutateEditSession } = useMutation(
+    () =>
+      fetchEditSession({
+        sessionId: location.state?.id.toString(),
+        patientId: patientId,
+        status: status,
+        subject: subject,
+        duration: duration,
+        type: type,
+        comments: comments,
+        appointmentDate: moment(appointmentDate).format('DD-MM-YYYY')
+      }),
+    {
+      onSuccess: () => {
+        message.success('Sessão editada com Sucesso')
+        navigate('/sessions')
+      },
+      onError: (e: any) => {
+        const errorMessage = e.response.data.message
+        message.error(`Error ao editar a sessão - ${errorMessage}`)
+      }
+    },
+  );
+
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
 
-  const onChange: DatePickerProps["onChange"] = (_date, dateString) => {
+
+  const onDateChange: DatePickerProps['onChange'] = (_date, dateString) => {
     setAppointmentDate(dateString);
   };
 
@@ -120,7 +161,7 @@ const FormSession: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome>Cadastro da sessão</Welcome>
+              <Welcome>{currentPath === '/register-session' ? 'Cadastro da sessão' : 'Editar a sessão'}</Welcome>
             </Form.Item>
 
             <Form.Item
@@ -146,14 +187,10 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select
-                defaultValue=""
-                style={{ width: 300 }}
-                onChange={handlePatientChange}
-              >
-                {data?.map((patient) => (
-                  <Option key={patient.id}>{patient.name}</Option>
-                ))}
+              <Select style={{ width: 300 }} onChange={handlePatientChange}>
+                  {data?.map(patient => (
+                    <Option key={patient.id}>{patient.name}</Option>
+                  ))}
               </Select>
             </Form.Item>
 
@@ -167,7 +204,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <DatePicker onChange={onChange} style={{ width: 200 }} />
+              <DatePicker onChange={onDateChange} style={{ width: 200 }}/>
             </Form.Item>
 
             <Form.Item
@@ -180,13 +217,9 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select
-                defaultValue="Agendada"
-                style={{ width: 200 }}
-                onChange={handleStatusChange}
-              >
-                <Option value="agendada">Agendada</Option>
-                <Option value="finalizada">Finalizada</Option>
+              <Select style={{ width: 200 }} onChange={handleStatusChange}>
+                  <Option value="agendada">Agendada</Option>
+                  <Option value="finalizada">Finalizada</Option>
               </Select>
             </Form.Item>
 
@@ -201,7 +234,6 @@ const FormSession: React.FC = () => {
               ]}
             >
               <TimePicker
-                defaultValue={moment("00:00", formatDuration)}
                 format={formatDuration}
                 style={{ width: 200 }}
               />
@@ -217,14 +249,10 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <Select
-                defaultValue="Individual"
-                style={{ width: 200 }}
-                onChange={handleTypeChange}
-              >
-                <Option value="individual">Individual</Option>
-                <Option value="casal">Casal</Option>
-                <Option value="grupo">Grupo</Option>
+              <Select style={{ width: 200 }} onChange={handleTypeChange}>
+                  <Option value="individual">Individual</Option>
+                  <Option value="casal">Casal</Option>
+                  <Option value="grupo">Grupo</Option>
               </Select>
             </Form.Item>
 
@@ -289,7 +317,7 @@ const FormSession: React.FC = () => {
               textAlign: "center",
             }}
           >
-            Mente Sã ©2020 Created by Dev4Tech
+            Mente Sã ©2022 Created by Dev4Tech
           </Footer>
         </Layout>
       </Layout>

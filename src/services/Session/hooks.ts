@@ -42,7 +42,7 @@ export function useCreateSession({ patientId, status, subject, duration, type, c
   );
 }
 
-export function useEditSession({ sessionId, patientId, status, subject, duration, type, comments }: ISessionEditModel): UseQueryResult<ISessionParser> {
+export function useEditSession({ sessionId, patientId, status, subject, duration, type, comments, appointmentDate }: ISessionEditModel): UseQueryResult<ISessionParser> {
   const queryKey = ['editSession'];
   return useQuery(queryKey, () => fetchEditSession(
       {
@@ -52,7 +52,8 @@ export function useEditSession({ sessionId, patientId, status, subject, duration
         subject,
         duration,
         type,
-        comments
+        comments,
+        appointmentDate
       }
     ),
     {
