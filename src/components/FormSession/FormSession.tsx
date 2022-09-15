@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import moment from 'moment';
-import type { DatePickerProps } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom'
-import SideMenu from '../SideMenu/SideMenu';
-import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
-import { useMutation } from '@tanstack/react-query';
-import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
-import { Welcome } from './FormSessionStyles';
-import { usePatientsList } from 'src/services/Patient/hooks';
+import React, { useState } from "react";
+import moment from "moment";
+import type { DatePickerProps } from "antd";
+import { useNavigate, useLocation } from "react-router-dom";
+import SideMenu from "../SideMenu/SideMenu";
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Layout,
+  DatePicker,
+  Select,
+  TimePicker,
+} from "antd";
+import { useMutation } from "@tanstack/react-query";
+import { fetchCreateSession, fetchEditSession } from "src/services/Session/service";
+import { Welcome } from "./FormSessionStyles";
+import { usePatientsList } from "src/services/Patient/hooks";
+import NewResourceModal from "../Modals/NewResource";
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
@@ -16,17 +26,18 @@ const FormSession: React.FC = () => {
   const { Footer } = Layout;
   const { Option } = Select;
   const { TextArea } = Input;
-  const [patientId, setPatientId] = useState('');
-  const [status, setStatus] = useState('');
-  const [subject, setSubject] = useState('');
-  const [duration, setDuration] = useState('');
-  const [type, setType] = useState('');
-  const [comments, setComments] = useState('');
-  const [appointmentDate, setAppointmentDate] = useState('');
-  const formatDuration = 'HH:mm';
+  const [patientId, setPatientId] = useState("");
+  const [status, setStatus] = useState("");
+  const [subject, setSubject] = useState("");
+  const [duration, setDuration] = useState("");
+  const [type, setType] = useState("");
+  const [comments, setComments] = useState("");
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [resources, setResources] = useState(Array<string>);
+  const formatDuration = "HH:mm";
   const filterParams = { page: 1 };
 
-  const { data } = usePatientsList(filterParams)
+  const { data } = usePatientsList(filterParams);
 
   const onFinish = (values: any) => {
     setSubject(values.subject);
@@ -65,14 +76,14 @@ const FormSession: React.FC = () => {
       }),
     {
       onSuccess: () => {
-        message.success('Sessão registrada com Sucesso')
-        navigate('/sessions')
+        message.success("Sessão registrada com Sucesso");
+        navigate("/sessions");
       },
       onError: (e: any) => {
-        const errorMessage = e.response.data.message
-        message.error(`Error ao registrar sessão - ${errorMessage}`)
-      }
-    },
+        const errorMessage = e.response.data.message;
+        message.error(`Error ao registrar sessão - ${errorMessage}`);
+      },
+    }
   );
 
   const { mutate: mutateEditSession } = useMutation(
@@ -100,8 +111,9 @@ const FormSession: React.FC = () => {
   );
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
+
 
   const onDateChange: DatePickerProps['onChange'] = (_date, dateString) => {
     setAppointmentDate(dateString);
@@ -116,7 +128,11 @@ const FormSession: React.FC = () => {
   };
 
   const handleTypeChange = (value: string) => {
-    setType(value);;
+    setType(value);
+  };
+
+  const handleResourcesChange = (value: string) => {
+    setResources([...resources, value]);
   };
 
   return (
@@ -154,7 +170,7 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Insira o título da sessão',
+                  message: "Insira o título da sessão",
                 },
               ]}
             >
@@ -167,7 +183,7 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Selecione o paciente',
+                  message: "Selecione o paciente",
                 },
               ]}
             >
@@ -184,7 +200,7 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Data da sessão',
+                  message: "Data da sessão",
                 },
               ]}
             >
@@ -197,7 +213,7 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Insira o status da sessão',
+                  message: "Insira o status da sessão",
                 },
               ]}
             >
@@ -213,7 +229,7 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Insira a duração da sessão',
+                  message: "Insira a duração da sessão",
                 },
               ]}
             >
@@ -229,7 +245,7 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Insira o tipo da sessão',
+                  message: "Insira o tipo da sessão",
                 },
               ]}
             >
@@ -246,13 +262,35 @@ const FormSession: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Anotações extras',
+                  message: "Anotações extras",
                 },
               ]}
             >
               <TextArea rows={7} style={{ width: 300 }} />
             </Form.Item>
-            
+
+            <Form.Item
+              label="Recursos"
+              name="resources"
+              rules={[
+                {
+                  required: true,
+                  message: "Selecione os recursos",
+                },
+              ]}
+            >
+              <Select
+                mode="tags"
+                defaultValue="nenhum"
+                style={{ width: 200 }}
+                onChange={handleResourcesChange}
+              >
+                <Option value="nenhum">Nenhum</Option>
+                {/* TODO: map resources from db */}
+              </Select>
+              <NewResourceModal />
+            </Form.Item>
+
             <Form.Item
               wrapperCol={{
                 offset: 6,
@@ -261,7 +299,7 @@ const FormSession: React.FC = () => {
             >
               <Button
                 type="default"
-                href='/sessions'
+                href="/sessions"
                 style={{
                   marginRight: 30,
                 }}
@@ -276,7 +314,7 @@ const FormSession: React.FC = () => {
           </Form>
           <Footer
             style={{
-              textAlign: 'center',
+              textAlign: "center",
             }}
           >
             Mente Sã ©2022 Created by Dev4Tech
