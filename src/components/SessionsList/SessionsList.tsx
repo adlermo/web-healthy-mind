@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate} from 'react-router-dom';
 import SideMenu from '../SideMenu/SideMenu';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -6,11 +7,16 @@ import { MainBox, UpperBox, BottomBox, ActionBox } from './SessionsListStyles';
 import { useSessionsList } from 'src/services/Session/hooks';
 
 const SessionsList: React.FC = () => {
+    const navigate = useNavigate();
     const filterParams = { page: 1 };
     const { Footer } = Layout;
     const { Title } = Typography;
     const { Search } = Input;
     const { data } = useSessionsList(filterParams)
+
+    const onEditHandler = (record: any) => {
+        navigate('/register-session',{state: record});
+    }
 
     const columns = [
         {
@@ -49,7 +55,13 @@ const SessionsList: React.FC = () => {
             render: (_: any, record: any) => (
                 <Space size="middle">
                     <ActionBox>
-                        <Button type="primary" href={'/register-session'} icon={<EditOutlined />} style={{marginBottom: 15}}>
+                        <Button
+                            type="primary"
+                            href={'/register-session'}
+                            icon={<EditOutlined />}
+                            style={{ marginBottom: 15 }}
+                            onClick={() => onEditHandler(record)}
+                        >
                             Editar
                         </Button>
                         <Button type="primary" href={'/register-session'} icon={<DeleteOutlined />}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import type { DatePickerProps } from 'antd';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import SideMenu from '../SideMenu/SideMenu';
 import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ import { usePatientsList } from 'src/services/Patient/hooks';
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { Footer } = Layout;
   const { Option } = Select;
   const { TextArea } = Input;
@@ -23,7 +24,7 @@ const FormSession: React.FC = () => {
   const [appointmentDate, setAppointmentDate] = useState('');
   const formatDuration = 'HH:mm';
   const filterParams = { page: 1 };
-
+  console.log(location.state)
   const { data } = usePatientsList(filterParams)
 
   const onFinish = (values: any) => {
