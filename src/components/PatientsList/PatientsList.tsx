@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React from 'react';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { usePatientsList } from 'src/services/Patient/hooks';
-import { MainBox, UpperBox, BottomBox, EditDeletePatientButton } from './PatientsListStyles';
+import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
 import SideMenu from '../SideMenu/SideMenu';
+import { ActionBox } from '../SessionsList/SessionsListStyles';
 
 const PatientsList: React.FC = () => {
   const filterParams = { page: 1 };
@@ -48,13 +50,20 @@ const PatientsList: React.FC = () => {
     {
       title: 'Ações',
       key: 'action',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       render: (_: any, record: any) => (
         <Space size="middle">
-          <EditDeletePatientButton onClick={() => console.log(record)}>
-            Editar
-          </EditDeletePatientButton>
-          <EditDeletePatientButton>Remover</EditDeletePatientButton>
+          <ActionBox>
+            <Button
+              type="primary"
+              href="/register-patient"
+              icon={<EditOutlined />}
+              style={{ marginBottom: 15 }}>
+              Editar
+            </Button>
+            <Button type="primary" href="/register-patient" icon={<DeleteOutlined />}>
+              Arquivar
+            </Button>
+          </ActionBox>
         </Space>
       ),
     },
@@ -95,7 +104,7 @@ const PatientsList: React.FC = () => {
           style={{
             textAlign: 'center',
           }}>
-          Mente Sã ©2020 Created by Dev4Tech
+          Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>
     </Layout>

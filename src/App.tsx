@@ -72,6 +72,15 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
+
+          <Route
+            path="/edit-session"
+            element={
+              <PrivateRoute redirectTo="/">
+                <FormSession />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

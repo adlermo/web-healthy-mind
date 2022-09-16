@@ -167,6 +167,100 @@ const FormPatient: React.FC = () => {
             <InputNumber style={{ width: 170 }} />
           </Form.Item>
 
+          {/* <Form.Item
+            wrapperCol={{
+              offset: 6,
+              span: 12,
+            }}
+            initialValue={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+          </Form.Item> */}
+
+          <Form.Item
+            wrapperCol={{
+              offset: 6,
+              span: 12,
+            }}>
+            <Welcome>Cadastro do Paciente</Welcome>
+          </Form.Item>
+
+          <Form.Item
+            label="Nome"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: 'Nome do paciente',
+              },
+            ]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: 'Email do paciente',
+              },
+            ]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Documento"
+            name="document"
+            rules={[
+              {
+                required: true,
+                message: 'Documento do paciente',
+              },
+            ]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Gênero"
+            name="gender"
+            rules={[
+              {
+                required: true,
+                message: 'Gênero do paciente',
+              },
+            ]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Data de nascimento"
+            name="birthDate"
+            rules={[
+              {
+                required: true,
+                message: 'Data de nascimento do paciente',
+              },
+            ]}>
+            <DatePicker onChange={onChange} />
+          </Form.Item>
+
+          <Form.Item
+            label="Telefone"
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: 'Telefone do paciente',
+              },
+            ]}>
+            <InputNumber style={{ width: 170 }} />
+          </Form.Item>
+
           <Form.Item
             wrapperCol={{
               offset: 6,
@@ -190,7 +284,7 @@ const FormPatient: React.FC = () => {
           style={{
             textAlign: 'center',
           }}>
-          Mente Sã ©2020 Created by Dev4Tech
+          Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>
     </Layout>

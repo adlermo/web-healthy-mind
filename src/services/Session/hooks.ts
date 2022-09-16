@@ -1,10 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
   fetchSessionsList,
-  fetchSessionById,
   fetchCreateSession,
   fetchEditSession,
-  fetchDeleteSession,
+  fetchRemoveSession,
 } from './service';
 import {
   ISessionShowModel,
@@ -23,16 +22,6 @@ export function useSessionsList(
   });
 }
 
-export function useSessionById({
-  id,
-  workerId,
-}: ISessionShowModel): UseQueryResult<ISessionParser> {
-  const queryKey = ['sessionById'];
-  return useQuery(queryKey, () => fetchSessionById({ id, workerId }), {
-    keepPreviousData: true,
-  });
-}
-
 export function useCreateSession({
   patientId,
   status,
@@ -40,6 +29,7 @@ export function useCreateSession({
   duration,
   type,
   comments,
+  appointmentDate,
 }: ISessionCreateModel): UseQueryResult<ISessionParser> {
   const queryKey = ['registerSession'];
   return useQuery(
@@ -52,6 +42,7 @@ export function useCreateSession({
         duration,
         type,
         comments,
+        appointmentDate,
       }),
     {
       keepPreviousData: true,
@@ -67,6 +58,7 @@ export function useEditSession({
   duration,
   type,
   comments,
+  appointmentDate,
 }: ISessionEditModel): UseQueryResult<ISessionParser> {
   const queryKey = ['editSession'];
   return useQuery(
@@ -80,6 +72,7 @@ export function useEditSession({
         duration,
         type,
         comments,
+        appointmentDate,
       }),
     {
       keepPreviousData: true,
@@ -87,12 +80,9 @@ export function useEditSession({
   );
 }
 
-export function useDeleteSession({
-  id,
-  workerId,
-}: ISessionShowModel): UseQueryResult<ISessionParser> {
+export function useRemoveSession({ sessionId }: ISessionShowModel): UseQueryResult<ISessionParser> {
   const queryKey = ['deleteSession'];
-  return useQuery(queryKey, () => fetchDeleteSession({ id, workerId }), {
+  return useQuery(queryKey, () => fetchRemoveSession({ sessionId }), {
     keepPreviousData: true,
   });
 }
