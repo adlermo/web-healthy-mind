@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
 import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { usePatientsList } from 'src/services/Patient/hooks';
+import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
 import SideMenu from '../SideMenu/SideMenu';
 import { ActionBox } from '../SessionsList/SessionsListStyles';
@@ -67,12 +68,12 @@ const PatientsList: React.FC = () => {
           <ActionBox>
             <Button
               type="primary"
-              href={'/register-patient'}
+              href="/register-patient"
               icon={<EditOutlined />}
               style={{ marginBottom: 15 }}>
               Editar
             </Button>
-            <Button type="primary" href={'/register-patient'} icon={<DeleteOutlined />}>
+            <Button type="primary" href="/register-patient" icon={<DeleteOutlined />}>
               Arquivar
             </Button>
           </ActionBox>
@@ -98,7 +99,7 @@ const PatientsList: React.FC = () => {
                 width: `45%`,
               }}
             />
-            <Button type="primary" href={'/register-patient'} icon={<PlusCircleOutlined />}>
+            <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
               Novo paciente
             </Button>
           </UpperBox>
