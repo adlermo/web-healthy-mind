@@ -6560,7 +6560,7 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-moment@^2.24.0, moment@^2.29.2:
+moment@^2.24.0, moment@^2.29.2, moment@^2.29.4:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
@@ -7935,7 +7935,7 @@ rc-segmented@~2.1.0:
     rc-motion "^2.4.4"
     rc-util "^5.17.0"
 
-rc-select@~14.1.0, rc-select@~14.1.1:
+rc-select@^14.1.11, rc-select@~14.1.0, rc-select@~14.1.1:
   version "14.1.11"
   resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-14.1.11.tgz#7f1227c14fe47c0f6e880a57e428c3318ac9bffe"
   integrity sha512-3UI781eaTg/V4BEc8rLk1i2BQmO+n0sOsi3RKcV2EkHu2ErjTlg/1SOixllnWTWcH02oizvdvALZ1nvZulin9A==

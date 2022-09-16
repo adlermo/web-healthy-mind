@@ -1,8 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
-import { Button, Form, Input, message, Modal, Select } from "antd";
-import TextArea from "antd/lib/input/TextArea";
-import { SelectHandler } from "rc-select/lib/Select";
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+import { useMutation } from '@tanstack/react-query';
+import { Button, Form, Input, message, Modal, Select } from 'antd';
+import TextArea from 'antd/lib/input/TextArea';
+import { SelectHandler } from 'rc-select/lib/Select';
+import React, { useState } from 'react';
 
 interface INewResourceDTO {
   category: string;
@@ -12,9 +14,9 @@ interface INewResourceDTO {
 
 const NewResourceModal: React.FC = () => {
   const [data, setData] = useState<INewResourceDTO>({
-    category: "",
-    title: "",
-    description: "",
+    category: '',
+    title: '',
+    description: '',
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,8 +26,8 @@ const NewResourceModal: React.FC = () => {
   };
 
   const handleOk = () => {
-    message.success("Recurso criado com sucesso");
-    //TODO: call hook to refresh resources
+    message.success('Recurso criado com sucesso');
+    // TODO: call hook to refresh resources
     setIsModalOpen(false);
   };
 
@@ -34,49 +36,41 @@ const NewResourceModal: React.FC = () => {
   };
 
   const createResource = useMutation(
-    async (data: INewResourceDTO) => {
-      console.log(data);
-      //TODO: call api
+    // ESLint tem regra de não usar mesmo nome de variável que existe em escopo acima
+    async (_data: INewResourceDTO) => {
+      console.log(_data);
+      // TODO: call api
     },
     {
       onSuccess: handleOk,
-      onError: (err) => {},
-    }
+      onError: (_err) => {},
+    },
   );
 
   const { Option } = Select;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSelect = ({
-    name,
-    select,
-  }: {
-    name: string;
-    select: SelectHandler<string>;
-  }) => {
+  const handleSelect = ({ name, select }: { name: string; select: SelectHandler<string> }) => {
     setData({ ...data, [name]: select });
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
     <>
-      <Button type="text" style={{ color: "gray" }} onClick={showModal}>
+      <Button type="text" style={{ color: 'gray' }} onClick={showModal}>
         Cadastrar novo recurso
       </Button>
       <Modal
         title="Cadastro de novo recurso"
         onCancel={handleCancel}
         open={isModalOpen}
-        footer={null}
-      >
+        footer={null}>
         <Form
           name="basic"
           labelCol={{
@@ -90,18 +84,12 @@ const NewResourceModal: React.FC = () => {
           }}
           autoComplete="off"
           onFinish={() => createResource.mutate(data)}
-          onFinishFailed={onFinishFailed}
-        >
+          onFinishFailed={onFinishFailed}>
           <Form.Item
             label="Título"
             name="title"
-            rules={[{ required: true, message: "Insira o título do recurso" }]}
-          >
-            <Input
-              name="title"
-              style={{ width: 300 }}
-              onChange={handleChange}
-            />
+            rules={[{ required: true, message: 'Insira o título do recurso' }]}>
+            <Input name="title" style={{ width: 300 }} onChange={handleChange} />
           </Form.Item>
           <Form.Item
             label="Categoria"
@@ -109,16 +97,14 @@ const NewResourceModal: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: "Selecione uma categoria",
+                message: 'Selecione uma categoria',
               },
-            ]}
-          >
+            ]}>
             <Select
               style={{ width: 200 }}
               onSelect={(select: SelectHandler<string>) =>
-                handleSelect({ name: "category", select })
-              }
-            >
+                handleSelect({ name: 'category', select })
+              }>
               <Option value="Ferramenta">Ferramenta</Option>
               <Option value="Metáfora">Metáfora</Option>
               <Option value="Transe">Transe</Option>
@@ -128,30 +114,20 @@ const NewResourceModal: React.FC = () => {
           <Form.Item
             label="Descrição"
             name="description"
-            rules={[
-              { required: true, message: "Insira a descrição do recurso" },
-            ]}
-          >
-            <TextArea
-              name="description"
-              rows={7}
-              style={{ width: 300 }}
-              onChange={handleChange}
-            />
+            rules={[{ required: true, message: 'Insira a descrição do recurso' }]}>
+            <TextArea name="description" rows={7} style={{ width: 300 }} onChange={handleChange} />
           </Form.Item>
           <Form.Item
             wrapperCol={{
               offset: 6,
               span: 12,
-            }}
-          >
+            }}>
             <Button
               type="default"
               onClick={handleCancel}
               style={{
                 marginRight: 30,
-              }}
-            >
+              }}>
               Cancelar
             </Button>
             <Button type="primary" htmlType="submit">
