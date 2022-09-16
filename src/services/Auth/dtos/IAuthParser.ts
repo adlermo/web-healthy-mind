@@ -1,25 +1,25 @@
 export interface IAuthLoginParser {
-  token: Token
-  user: User
+  token: IToken;
+  user: IUser;
 }
 
 export interface IRefreshTokenParser {
-  tokenType: string
-  accessToken: string
-  refreshToken: string
-  expiresIn: string
+  tokenType: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: string;
 }
 
-export interface Token {
-  tokenType: string
-  accessToken: string
-  refreshToken: string
-  expiresIn: string
+export interface IToken {
+  tokenType: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: string;
 }
 
-export interface User {
-  id: string
-  email: string
-  role: string
-  createdAt: string
+export interface IUser {
+  id: string;
+  email: string;
+  role: string;
+  createdAt: string;
 }
