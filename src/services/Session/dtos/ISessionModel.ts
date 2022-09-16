@@ -26,6 +26,5 @@ export interface ISessionEditModel {
 }
 
 export interface ISessionShowModel {
-  id: string
-  workerId: string
+  sessionId: string
 }
