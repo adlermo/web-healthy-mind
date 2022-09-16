@@ -210,6 +210,7 @@ const SessionsList: React.FC = () => {
           </UpperBox>
           <BottomBox>
             <Table
+              loading={isLoading}
               dataSource={data}
               columns={columns}
               style={{
