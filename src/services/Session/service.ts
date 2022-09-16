@@ -9,14 +9,6 @@ export async function fetchSessionsList(filterParams: {}): Promise<ISessionParse
   return data.response;
 }
 
-export async function fetchSessionById({id, workerId}: ISessionShowModel): Promise<ISessionParser> {
-  const url = `v1/sessions/${id}`;
-  const params = {workerId}
-  const { data } = await api.get(url, { params });
-
-  return data;
-}
-
 export async function fetchCreateSession({ patientId, status, subject, duration, type, comments, appointmentDate }: ISessionCreateModel): Promise<ISessionParser> {
   const params ={
     patientId,
@@ -51,10 +43,9 @@ export async function fetchEditSession({ sessionId, patientId, status, subject, 
   return data;
 }
 
-export async function fetchDeleteSession({id, workerId}: ISessionShowModel): Promise<ISessionParser> {
-  const url = `v1/sessions/${id}`;
-  const params = {workerId}
-  const { data } = await api.delete(url, { params });
+export async function fetchRemoveSession({sessionId}: ISessionShowModel): Promise<ISessionParser> {
+  const url = `/sessions/remove/${sessionId}`;
+  const { data } = await api.delete(url);
 
   return data;
 }
