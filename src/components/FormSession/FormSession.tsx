@@ -14,7 +14,10 @@ import {
   TimePicker,
 } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import { fetchCreateSession, fetchEditSession } from "src/services/Session/service";
+import {
+  fetchCreateSession,
+  fetchEditSession,
+} from "src/services/Session/service";
 import { Welcome } from "./FormSessionStyles";
 import { usePatientsList } from "src/services/Patient/hooks";
 import NewResourceModal from "../Modals/NewResource";
@@ -45,20 +48,13 @@ const FormSession: React.FC = () => {
     setComments(values.comments);
 
     if (
-      currentPath === '/register-session' &&
-      (subject ||
-        duration ||
-        comments)
+      currentPath === "/register-session" &&
+      (subject || duration || comments)
     ) {
       mutateRegisterSession();
     }
 
-    if (
-      currentPath === '/edit-session' &&
-      (subject ||
-        duration ||
-        comments)
-    ) {
+    if (currentPath === "/edit-session" && (subject || duration || comments)) {
       mutateEditSession();
     }
   };
@@ -72,7 +68,7 @@ const FormSession: React.FC = () => {
         duration: duration,
         type: type,
         comments: comments,
-        appointmentDate: moment(appointmentDate).format('DD-MM-YYYY')
+        appointmentDate: moment(appointmentDate).toISOString(),
       }),
     {
       onSuccess: () => {
@@ -96,26 +92,25 @@ const FormSession: React.FC = () => {
         duration: duration,
         type: type,
         comments: comments,
-        appointmentDate: moment(appointmentDate).format('DD-MM-YYYY')
+        appointmentDate: moment(appointmentDate).toISOString(),
       }),
     {
       onSuccess: () => {
-        message.success('Sessão editada com Sucesso')
-        navigate('/sessions')
+        message.success("Sessão editada com Sucesso");
+        navigate("/sessions");
       },
       onError: (e: any) => {
-        const errorMessage = e.response.data.message
-        message.error(`Error ao editar a sessão - ${errorMessage}`)
-      }
-    },
+        const errorMessage = e.response.data.message;
+        message.error(`Error ao editar a sessão - ${errorMessage}`);
+      },
+    }
   );
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
 
-
-  const onDateChange: DatePickerProps['onChange'] = (_date, dateString) => {
+  const onDateChange: DatePickerProps["onChange"] = (_date, dateString) => {
     setAppointmentDate(dateString);
   };
 
@@ -161,7 +156,11 @@ const FormSession: React.FC = () => {
                 span: 12,
               }}
             >
-              <Welcome>{currentPath === '/register-session' ? 'Cadastro da sessão' : 'Editar a sessão'}</Welcome>
+              <Welcome>
+                {currentPath === "/register-session"
+                  ? "Cadastro da sessão"
+                  : "Editar a sessão"}
+              </Welcome>
             </Form.Item>
 
             <Form.Item
@@ -188,9 +187,9 @@ const FormSession: React.FC = () => {
               ]}
             >
               <Select style={{ width: 300 }} onChange={handlePatientChange}>
-                  {data?.map(patient => (
-                    <Option key={patient.id}>{patient.name}</Option>
-                  ))}
+                {data?.map((patient) => (
+                  <Option key={patient.id}>{patient.name}</Option>
+                ))}
               </Select>
             </Form.Item>
 
@@ -204,7 +203,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <DatePicker onChange={onDateChange} style={{ width: 200 }}/>
+              <DatePicker onChange={onDateChange} style={{ width: 200 }} />
             </Form.Item>
 
             <Form.Item
@@ -218,8 +217,8 @@ const FormSession: React.FC = () => {
               ]}
             >
               <Select style={{ width: 200 }} onChange={handleStatusChange}>
-                  <Option value="agendada">Agendada</Option>
-                  <Option value="finalizada">Finalizada</Option>
+                <Option value="agendada">Agendada</Option>
+                <Option value="finalizada">Finalizada</Option>
               </Select>
             </Form.Item>
 
@@ -233,10 +232,7 @@ const FormSession: React.FC = () => {
                 },
               ]}
             >
-              <TimePicker
-                format={formatDuration}
-                style={{ width: 200 }}
-              />
+              <TimePicker format={formatDuration} style={{ width: 200 }} />
             </Form.Item>
 
             <Form.Item
@@ -250,9 +246,9 @@ const FormSession: React.FC = () => {
               ]}
             >
               <Select style={{ width: 200 }} onChange={handleTypeChange}>
-                  <Option value="individual">Individual</Option>
-                  <Option value="casal">Casal</Option>
-                  <Option value="grupo">Grupo</Option>
+                <Option value="individual">Individual</Option>
+                <Option value="casal">Casal</Option>
+                <Option value="grupo">Grupo</Option>
               </Select>
             </Form.Item>
 
@@ -274,7 +270,7 @@ const FormSession: React.FC = () => {
               name="resources"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Selecione os recursos",
                 },
               ]}
