@@ -21,7 +21,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const refresh_token = getRefreshToken();
-    const user_email = getUserEmail()?.replace(/[""]+/g, '');
+    const user_email = getUserEmail();
 
     if (error.response.status === 401 && refresh_token && user_email) {
       const response = await fetchRefreshToken({
