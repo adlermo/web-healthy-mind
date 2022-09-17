@@ -31,7 +31,6 @@ api.interceptors.response.use(
       const originalConfig = error.config;
 
       if (!refreshToken) {
-        console.log("foo");
         logout();
         return Promise.reject(error);
       }
@@ -44,8 +43,6 @@ api.interceptors.response.use(
             api.defaults.headers.common[
               "Authorization"
             ] = `Bearer ${res.accessToken}`;
-
-            console.log("refreshed token");
 
             failedRequestsQueue.forEach((request) => {
               request.onSuccess(res.accessToken);
