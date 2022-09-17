@@ -1,16 +1,21 @@
 <div align="center">
- <a href="">
-  <img src="https://img.shields.io/badge/See-live-brightgreen?style=for-the-badge" alt="See live icon">
- </a>
- <a href="https://github.com/luciano-ilha/front-dev4tech/issues">
-  <img src="https://img.shields.io/badge/GitHub-Issues-important?style=for-the-badge&logo=GitHub" alt="Issues icon">
- </a>
- <a href="https://github.com/luciano-ilha/front-dev4tech/pulls">
-  <img src="https://img.shields.io/badge/GitHub-Pull%20Requests-informational?style=for-the-badge&logo=GitHub" alt="Pull requests icon">
- </a>
- <a href="https://www.linkedin.com/in/luciano-carbonell/?locale=en_US">
-  <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0B65C2" alt="Linkedin icon">
- </a>
+ <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/william-ribeiro/web-healthy-mind?color=%2304D361">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/william-ribeiro/web-healthy-mind">
+  <a href="https://github.com/william-ribeiro/web-healthy-mind/commits/main">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/william-ribeiro/web-healthy-mind">
+  </a>    
+   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
+  <a href="https://www.gama.academy/gama-station">
+    <img alt="NaveTeam" src="https://img.shields.io/badge/Gama-Academy-%237159c1?style=flat&logo=ghost">
+    </a>    
+  <a href="https://github.com/william-ribeiro/api-healthy-mind/stargazers">
+  <a href="https://www.codefactor.io/repository/github/william-ribeiro/web-healthy-mind"><img src="https://www.codefactor.io/repository/github/william-ribeiro/web-healthy-mind/badge" alt="CodeFactor" /></a>
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/william-ribeiro/web-healthy-mind?style=social">
+  </a>
+    
+  <div align="center" style="margin-bottom: 20px;">
+
+</div>
 </div>
 
 <!-- PROJECT LOGO -->
@@ -58,7 +63,6 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#authors">Authors</a></li>
-    <li><a href="#contact">Contact</a></li>
     <li><a href="#support">Show your support</a></li>
   </ol>
 </details>
@@ -176,38 +180,73 @@ Contributions are what make the open source community such an amazing place to b
 
 ## ✒️ Authors <a name = "author"></a>
 
-👤 **Luciano Ilha Carbonell**
+👤 **Adler Mesquita Orteney**
+<a href="https://github.com/adlermo">
 
-<a href="https://github.com/luciano-ilha">
  <img src="https://img.shields.io/badge/-GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=ffffff" alt="Github icon">
-</a>
-<br>
-<a href="https://twitter.com/CarbonellIlha">
- <img src="https://img.shields.io/badge/-Twitter-1da1f1?style=for-the-badge&logo=Twitter&logoColor=ffffff" alt="Twitter icon">
-</a>
-<br>
-<a href="https://www.linkedin.com/in/luciano-carbonell/?locale=en_US">
+ <a href="https://www.linkedin.com/in/adler-orteney/">
  <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0B65C2" alt="Linkedin icon">
 </a>
-
+<a href="mailto:adlerorteney@gmail.com">
+ <img src="https://img.shields.io/badge/-Gmail-black.svg?style=for-the-badge&logo=Gmail&colorB=ffffff" alt="Email icon">
+</a>
+</a>
 <br><br>
 
-<!-- CONTACT -->
-<div id="contact"></div>
+👤 **Luciano Ilha Carbonell**
+<a href="https://github.com/luciano-ilha">
 
-## 📱 Contact
-
-<a href="https://api.whatsapp.com/send?phone=5551991773752">
- <img src="https://img.shields.io/badge/-WhatsApp-black.svg?style=for-the-badge&logo=WhatsApp&colorB=00a038" alt="Whatsapp icon">
+ <img src="https://img.shields.io/badge/-GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=ffffff" alt="Github icon">
+ <a href="https://www.linkedin.com/in/luciano-carbonell/?locale=en_US">
+ <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0B65C2" alt="Linkedin icon">
 </a>
-<br>
 <a href="mailto:ilha.dev.br@gmail.com">
  <img src="https://img.shields.io/badge/-Gmail-black.svg?style=for-the-badge&logo=Gmail&colorB=ffffff" alt="Email icon">
 </a>
+</a>
+<br><br>
 
-Project Link: [https://github.com/luciano-ilha/front-dev4tech](https://github.com/luciano-ilha/front-dev4tech)
+👤 **Ricardo Santos Siqueira**
+<a href="https://github.com/ricardossiqueira">
 
-<br>
+ <img src="https://img.shields.io/badge/-GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=ffffff" alt="Github icon">
+ <a href="https://www.linkedin.com/in/ricardoss-/">
+ <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0B65C2" alt="Linkedin icon">
+</a>
+<a href="mailto:ricardosantossiqueira@poli.ufrj.br">
+ <img src="https://img.shields.io/badge/-Gmail-black.svg?style=for-the-badge&logo=Gmail&colorB=ffffff" alt="Email icon">
+</a>
+</a>
+<br><br>
+
+👤 **William Ribeiro**
+<a href="https://github.com/william-ribeiro">
+
+ <img src="https://img.shields.io/badge/-GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=ffffff" alt="Github icon">
+ <a href="https://www.linkedin.com/in/william-ribeiro-0b5ab911a/">
+ <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0B65C2" alt="Linkedin icon">
+</a>
+<a href="mailto:sbrdigital15@gmail.com">
+ <img src="https://img.shields.io/badge/-Gmail-black.svg?style=for-the-badge&logo=Gmail&colorB=ffffff" alt="Email icon">
+</a>
+</a>
+<br><br>
+
+👤 **William Silva**
+<a href="https://github.com/WilliamfSilva">
+
+ <img src="https://img.shields.io/badge/-GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=ffffff" alt="Github icon">
+ <a href="https://www.linkedin.com/in/williamfsilva/">
+ <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=0B65C2" alt="Linkedin icon">
+</a>
+<a href="mailto:williamfsilva.ti@gmail.com">
+ <img src="https://img.shields.io/badge/-Gmail-black.svg?style=for-the-badge&logo=Gmail&colorB=ffffff" alt="Email icon">
+</a>
+</a>
+
+
+
+<br><br>
 
 <div id="support"></div>
 
