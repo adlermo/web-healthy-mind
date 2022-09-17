@@ -1,24 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { DatePickerProps } from 'antd';
-import { Button, DatePicker, Form, Input, message, Layout, InputNumber } from 'antd';
-import { useMutation } from '@tanstack/react-query';
-import { fetchRegisterPatient } from 'src/services/Patient/service';
-import { Content } from 'antd/lib/layout/layout';
-import SideMenu from '../SideMenu/SideMenu';
-import { Welcome } from './FormPatientStyles';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { DatePickerProps } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Layout,
+  InputNumber,
+} from "antd";
+import { useMutation } from "@tanstack/react-query";
+import { fetchRegisterPatient } from "src/services/Patient/service";
+import { Content } from "antd/lib/layout/layout";
+import SideMenu from "../SideMenu/SideMenu";
+import { Welcome } from "./FormPatientStyles";
 
 const FormPatient: React.FC = () => {
   const navigate = useNavigate();
   const { Footer } = Layout;
-  const [address, setAddress] = useState('');
-  const [patientName, setPatientName] = useState('');
-  const [patientEmail, setPatientEmail] = useState('');
-  const [patientDocument, setPatientDocument] = useState('');
-  const [patientGender, setPatientGender] = useState('');
-  const [patientBirthDate, setPatientBirthDate] = useState('');
+  const [address, setAddress] = useState("");
+  const [patientName, setPatientName] = useState("");
+  const [patientEmail, setPatientEmail] = useState("");
+  const [patientDocument, setPatientDocument] = useState("");
+  const [patientGender, setPatientGender] = useState("");
+  const [patientBirthDate, setPatientBirthDate] = useState("");
   const [patientPhone, setPatientPhone] = useState(0);
 
   const { mutate: mutateRegisterPatient } = useMutation(
@@ -34,14 +42,14 @@ const FormPatient: React.FC = () => {
       }),
     {
       onSuccess: () => {
-        message.success('Paciente registrado com Sucesso');
-        navigate('/patients');
+        message.success("Paciente registrado com Sucesso");
+        navigate("/patients");
       },
       onError: (e: any) => {
         const errorMessage = e.response.data.message;
         message.error(`Error ao registrar paciente - ${errorMessage}`);
       },
-    },
+    }
   );
 
   const onFinish = (values: any) => {
@@ -65,15 +73,15 @@ const FormPatient: React.FC = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
-  const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
+  const onChange: DatePickerProps["onChange"] = (_date, dateString) => {
     setPatientBirthDate(dateString);
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <SideMenu />
       <Layout>
         <Content>
@@ -90,12 +98,14 @@ const FormPatient: React.FC = () => {
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off">
+            autoComplete="off"
+          >
             <Form.Item
               wrapperCol={{
                 offset: 6,
                 span: 12,
-              }}>
+              }}
+            >
               <Welcome>Cadastro do Paciente</Welcome>
             </Form.Item>
 
@@ -105,9 +115,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Nome do paciente',
+                  message: "Nome do paciente",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
 
@@ -117,9 +128,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Email do paciente',
+                  message: "Email do paciente",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
 
@@ -129,9 +141,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: false,
-                  message: 'Endereço do paciente',
+                  message: "Endereço do paciente",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
 
@@ -141,9 +154,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Documento do paciente',
+                  message: "Documento do paciente",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
 
@@ -153,9 +167,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Gênero do paciente',
+                  message: "Gênero do paciente",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
 
@@ -165,9 +180,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Data de nascimento do paciente',
+                  message: "Data de nascimento do paciente",
                 },
-              ]}>
+              ]}
+            >
               <DatePicker onChange={onChange} />
             </Form.Item>
 
@@ -177,9 +193,10 @@ const FormPatient: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: 'Telefone do paciente',
+                  message: "Telefone do paciente",
                 },
-              ]}>
+              ]}
+            >
               <InputNumber style={{ width: 170 }} />
             </Form.Item>
 
@@ -187,13 +204,15 @@ const FormPatient: React.FC = () => {
               wrapperCol={{
                 offset: 6,
                 span: 12,
-              }}>
+              }}
+            >
               <Button
                 type="default"
                 href="/patients"
                 style={{
                   marginRight: 30,
-                }}>
+                }}
+              >
                 Cancelar
               </Button>
 
@@ -206,8 +225,9 @@ const FormPatient: React.FC = () => {
 
         <Footer
           style={{
-            textAlign: 'center',
-          }}>
+            textAlign: "center",
+          }}
+        >
           Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>

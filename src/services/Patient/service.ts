@@ -1,14 +1,16 @@
-import { api } from '../api';
+import { api } from "../api";
 import {
   IPatientCreateModel,
   IPatientDeleteModel,
   IPatientEditModel,
   IPatientFilterModel,
   IPatientShowModel,
-} from './dtos/IPatientModel';
-import { IPatientParser } from './dtos/IPatientParser';
+} from "./dtos/IPatientModel";
+import { IPatientParser } from "./dtos/IPatientParser";
 
-export async function fetchPatientList(filterParams: IPatientFilterModel): Promise<IPatientParser> {
+export async function fetchPatientList(
+  filterParams: IPatientFilterModel
+): Promise<IPatientParser> {
   const url = `/patients/list`;
   const { data } = await api.get(url, { params: { filterParams } });
 
@@ -24,7 +26,9 @@ export async function fetchPatientById({
   return data;
 }
 
-export async function fetchRegisterPatient(params: IPatientCreateModel): Promise<IPatientParser> {
+export async function fetchRegisterPatient(
+  params: IPatientCreateModel
+): Promise<IPatientParser> {
   // eslint-disable-next-line no-param-reassign
   params.addressId = 1;
   // Remover

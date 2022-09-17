@@ -1,14 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Layout, Typography, Input, Button, Table, Space, Modal, message } from 'antd';
-import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useSessionsList } from 'src/services/Session/hooks';
-import { fetchRemoveSession } from 'src/services/Session/service';
-import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
-import { usePatientsList } from 'src/services/Patient/hooks';
-import { MainBox, UpperBox, BottomBox, ActionBox, ModalText } from './SessionsListStyles';
-import SideMenu from '../SideMenu/SideMenu';
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Layout,
+  Typography,
+  Input,
+  Button,
+  Table,
+  Space,
+  Modal,
+  message,
+} from "antd";
+import {
+  PlusCircleOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import { useSessionsList } from "src/services/Session/hooks";
+import { fetchRemoveSession } from "src/services/Session/service";
+import { ISessionParser } from "src/services/Session/dtos/ISessionParser";
+import { usePatientsList } from "src/services/Patient/hooks";
+import {
+  MainBox,
+  UpperBox,
+  BottomBox,
+  ActionBox,
+  ModalText,
+} from "./SessionsListStyles";
+import SideMenu from "../SideMenu/SideMenu";
 
 interface ISessionParserWithName extends ISessionParser {
   patientName: string;
@@ -23,32 +42,37 @@ const SessionsList: React.FC = () => {
   const { data: sessionsList, isLoading } = useSessionsList(filterParams);
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Realmente deseja arquivar a sessão?');
-  const [removeSessionId, setRemoveSessionId] = useState('');
+  const [modalText, setModalText] = useState(
+    "Realmente deseja arquivar a sessão?"
+  );
+  const [removeSessionId, setRemoveSessionId] = useState("");
 
   const { data: pacientsList } = usePatientsList(filterParams);
 
   const traverseData = useCallback(
     () =>
       (sessionsList as ISessionParser[]).map((session) => {
-        const patientName = pacientsList?.find((patient) => patient.id === session.patientId)?.name;
+        const patientName = pacientsList?.find(
+          (patient) => patient.id === session.patientId
+        )?.name;
         return { patientName, ...session };
       }),
-    [pacientsList, sessionsList],
+    [pacientsList, sessionsList]
   );
 
   const [data, setData] = useState<ISessionParserWithName[]>([]);
 
   useEffect(
     () => sessionsList && setData(traverseData() as ISessionParserWithName[]),
-    [sessionsList, traverseData],
+    [sessionsList, traverseData]
   );
 
   const handleSearch = (value: string) => {
     setData(
       (traverseData() as ISessionParserWithName[]).filter(
-        (item) => item.subject.includes(value) || item.patientName.includes(value),
-      ),
+        (item) =>
+          item.subject.includes(value) || item.patientName.includes(value)
+      )
     );
   };
 
@@ -58,13 +82,13 @@ const SessionsList: React.FC = () => {
   };
 
   const handleOk = () => {
-    setModalText('Arquivando a sessão');
+    setModalText("Arquivando a sessão");
 
     fetchRemoveSession({
       sessionId: removeSessionId,
     })
       .then(() => {
-        message.success('Arquivado com Sucesso');
+        message.success("Arquivado com Sucesso");
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
@@ -84,45 +108,45 @@ const SessionsList: React.FC = () => {
   };
 
   const onEditHandler = (record: any) => {
-    navigate('/edit-session', { state: record });
+    navigate("/edit-session", { state: record });
   };
 
   const onSearch = (value: string) => handleSearch(value);
 
   const columns = [
     {
-      title: 'Nome',
-      dataIndex: 'patientName',
-      key: 'patientName',
+      title: "Nome",
+      dataIndex: "patientName",
+      key: "patientName",
     },
     {
-      title: 'Status da sessão',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Status da sessão",
+      dataIndex: "status",
+      key: "status",
     },
     {
-      title: 'Título',
-      dataIndex: 'subject',
-      key: 'subject',
+      title: "Título",
+      dataIndex: "subject",
+      key: "subject",
     },
     {
-      title: 'Duração da sessão',
-      dataIndex: 'duration',
-      key: 'duration',
+      title: "Duração da sessão",
+      dataIndex: "duration",
+      key: "duration",
     },
     {
-      title: 'Tipo da sessão',
-      dataIndex: 'type',
-      key: 'type',
+      title: "Tipo da sessão",
+      dataIndex: "type",
+      key: "type",
     },
     {
-      title: 'Anotações',
-      dataIndex: 'comments',
-      key: 'comments',
+      title: "Anotações",
+      dataIndex: "comments",
+      key: "comments",
     },
     {
-      title: 'Ações',
-      key: 'action',
+      title: "Ações",
+      key: "action",
       render: (_: any, record: any) => (
         <Space size="middle">
           <ActionBox>
@@ -131,10 +155,15 @@ const SessionsList: React.FC = () => {
               href="/edit-session"
               icon={<EditOutlined />}
               style={{ marginBottom: 15 }}
-              onClick={() => onEditHandler(record)}>
+              onClick={() => onEditHandler(record)}
+            >
               Editar
             </Button>
-            <Button type="primary" icon={<DeleteOutlined />} onClick={() => showModal(record)}>
+            <Button
+              type="primary"
+              icon={<DeleteOutlined />}
+              onClick={() => showModal(record)}
+            >
               Arquivar
             </Button>
             <Modal
@@ -142,7 +171,8 @@ const SessionsList: React.FC = () => {
               open={open}
               onOk={handleOk}
               confirmLoading={confirmLoading}
-              onCancel={handleCancel}>
+              onCancel={handleCancel}
+            >
               <ModalText>{modalText}</ModalText>
             </Modal>
           </ActionBox>
@@ -152,7 +182,7 @@ const SessionsList: React.FC = () => {
   ];
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <SideMenu />
       <Layout>
         <MainBox>
@@ -166,7 +196,11 @@ const SessionsList: React.FC = () => {
                 width: `45%`,
               }}
             />
-            <Button type="primary" href="/register-session" icon={<PlusCircleOutlined />}>
+            <Button
+              type="primary"
+              href="/register-session"
+              icon={<PlusCircleOutlined />}
+            >
               Nova sessão
             </Button>
           </UpperBox>
@@ -183,8 +217,9 @@ const SessionsList: React.FC = () => {
         </MainBox>
         <Footer
           style={{
-            textAlign: 'center',
-          }}>
+            textAlign: "center",
+          }}
+        >
           Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>
