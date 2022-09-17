@@ -24,6 +24,7 @@ const FormPatient: React.FC = () => {
   const { mutate: mutateRegisterPatient } = useMutation(
     () =>
       fetchRegisterPatient({
+        addressId: 1,
         address: address && address,
         name: patientName && patientName,
         email: patientEmail && patientEmail,

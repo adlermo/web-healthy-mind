@@ -50,6 +50,7 @@ export function useRegisterPatient({
     queryKey,
     () =>
       fetchRegisterPatient({
+        addressId: 1,
         address,
         name,
         email,
