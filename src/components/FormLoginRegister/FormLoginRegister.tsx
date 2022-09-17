@@ -1,69 +1,81 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
-import SideMenu from '../SideMenu/SideMenu';
-import { useMutation } from '@tanstack/react-query';
-import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
-import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
-import { Welcome, Subtitle } from './FormLoginRegisterStyles';
-import { Content } from 'antd/lib/layout/layout';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import SideMenu from "../SideMenu/SideMenu";
+import { useMutation } from "@tanstack/react-query";
+import { Button, Checkbox, Form, Input, message, Layout } from "antd";
+import { fetchLoginUser, fetchRegisterUser } from "src/services/Auth/service";
+import { Welcome, Subtitle } from "./FormLoginRegisterStyles";
+import { Content } from "antd/lib/layout/layout";
 
 const FormLoginRegister: React.FC = () => {
   const navigate = useNavigate();
   const currentPath = window.location.pathname;
   const { Footer } = Layout;
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+
+  const toggleRemember = () => setRemember((e) => !e);
 
   const onFinish = (values: any) => {
-    setName(values?.name)
-    setEmail(values.email)
-    setPassword(values.password)
-    setConfirmPassword(values?.confirmPassword)
+    setName(values?.name);
+    setEmail(values.email);
+    setPassword(values.password);
+    setConfirmPassword(values?.confirmPassword);
 
-    if(email !=='' && password !==''){
-      currentPath === '/register' ? mutateRegister() : mutateLogin();
+    if (email !== "" && password !== "") {
+      currentPath === "/register" ? mutateRegister() : mutateLogin();
     }
   };
 
   const { mutate: mutateLogin } = useMutation(
     () =>
-    fetchLoginUser({
-      email, password
-      }),
+      fetchLoginUser(
+        {
+          email,
+          password,
+        },
+        remember
+      ),
     {
       onSuccess: () => {
-        message.success('Logado com Sucesso')
-        navigate('/dashboard')
+        message.success("Logado com Sucesso");
+        navigate("/dashboard");
       },
       onError: (e: any) => {
-        const errorMessage = e.response.data.message
-        message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`)
-        navigate('/register')
-      }
-    },
+        const errorMessage = e.response.data.message;
+        message.error(
+          `Erro ao logar, por favor crie sua conta - ${errorMessage}`
+        );
+        navigate("/register");
+      },
+    }
   );
 
   const { mutate: mutateRegister } = useMutation(
     () =>
-    fetchRegisterUser({
-      name, email, password, confirmPassword
+      fetchRegisterUser({
+        name,
+        email,
+        password,
+        confirmPassword,
       }),
     {
       onSuccess: () => {
-        message.success('Registrado com Sucesso')
-        navigate('/')
+        message.success("Registrado com Sucesso");
+        navigate("/");
       },
       onError: (e: any) => {
-        const errorMessage = e.response.data.message
-        message.error(`Error ao registrar - ${errorMessage}`)
-      }
-    },
+        const errorMessage = e.response.data.message;
+        message.error(`Error ao registrar - ${errorMessage}`);
+      },
+    }
   );
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -72,121 +84,134 @@ const FormLoginRegister: React.FC = () => {
         <SideMenu />
         <Layout>
           <Content>
-
-          <Form
-            name="basic"
-            labelCol={{
-              span: 6,
-            }}
-            wrapperCol={{
-              span: 12,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
+            <Form
+              name="basic"
+              labelCol={{
+                span: 6,
+              }}
               wrapperCol={{
-                offset: 6,
                 span: 12,
               }}
-            >
-              <Welcome>{currentPath === '/register' ? 'Cadastro do profissional' : 'Bem vindo ao sistema'}</Welcome>
-              <Subtitle>{currentPath === '/register' ? 'Crie a sua conta' : 'Por favor entre com a sua conta'}</Subtitle>
-            </Form.Item>
-
-            {currentPath === '/register' &&  
-            <Form.Item
-              label="Nome"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Insira seu nome',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>}
-
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Insira seu melhor email',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Senha"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Insira sua senha',
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            {currentPath === '/register' &&
-            <Form.Item
-              label="Confirme sua senha"
-              name="confirmPassword"
-              rules={[
-                {
-                  required: true,
-                  message: 'Confirme a senha',
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>}
-
-            <Form.Item
-              name="remember"
-              wrapperCol={{
-                offset: 6,
-                span: 12,
+              initialValues={{
+                remember: true,
               }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
             >
-              <Checkbox>Lembrar usuário</Checkbox>
-            </Form.Item>
+              <Form.Item
+                wrapperCol={{
+                  offset: 6,
+                  span: 12,
+                }}
+              >
+                <Welcome>
+                  {currentPath === "/register"
+                    ? "Cadastro do profissional"
+                    : "Bem vindo ao sistema"}
+                </Welcome>
+                <Subtitle>
+                  {currentPath === "/register"
+                    ? "Crie a sua conta"
+                    : "Por favor entre com a sua conta"}
+                </Subtitle>
+              </Form.Item>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 6,
-                span: 12,
-              }}
-            >
-              {currentPath === '/' && <Link to='/register'>Criar uma conta</Link>}
-              {currentPath === '/register' && <Link to='../'>Já sou cadastrado</Link>}
-            </Form.Item>
+              {currentPath === "/register" && (
+                <Form.Item
+                  label="Nome"
+                  name="name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Insira seu nome",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              )}
 
-            <Form.Item
-              wrapperCol={{
-                offset: 6,
-                span: 12,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-              {currentPath === '/register' ? 'Cadastrar' : 'Login'}
-              </Button>
-            </Form.Item>
-          </Form>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Insira seu melhor email",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Senha"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Insira sua senha",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              {currentPath === "/register" && (
+                <Form.Item
+                  label="Confirme sua senha"
+                  name="confirmPassword"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Confirme a senha",
+                    },
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+              )}
+
+              <Form.Item
+                name="remember"
+                wrapperCol={{
+                  offset: 6,
+                  span: 12,
+                }}
+              >
+                <Checkbox onChange={toggleRemember}>Lembrar usuário</Checkbox>
+              </Form.Item>
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 6,
+                  span: 12,
+                }}
+              >
+                {currentPath === "/" && (
+                  <Link to="/register">Criar uma conta</Link>
+                )}
+                {currentPath === "/register" && (
+                  <Link to="../">Já sou cadastrado</Link>
+                )}
+              </Form.Item>
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 6,
+                  span: 12,
+                }}
+              >
+                <Button type="primary" htmlType="submit">
+                  {currentPath === "/register" ? "Cadastrar" : "Login"}
+                </Button>
+              </Form.Item>
+            </Form>
           </Content>
           <Footer
             style={{
-              textAlign: 'center',
+              textAlign: "center",
             }}
           >
             Mente Sã ©2022 Created by Dev4Tech
