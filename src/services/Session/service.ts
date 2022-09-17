@@ -34,6 +34,7 @@ export async function fetchCreateSession({
   duration,
   type,
   comments,
+  appointmentDate,
 }: ISessionCreateModel): Promise<ISessionParser> {
   const params = {
     patientId,
@@ -42,6 +43,7 @@ export async function fetchCreateSession({
     duration,
     type,
     comments,
+    appointmentDate,
   };
 
   const url = `/sessions`;

@@ -5,22 +5,23 @@ export interface IPatientListModel {
 }
 
 export interface IPatientCreateModel {
-  addressId: number;
+  addressId?: number;
+  address?: string;
   name: string;
   email: string;
   document: string;
-  gender: string;
+  gender?: string;
   birthDate: string;
   phone: number;
 }
 
 export interface IPatientEditModel {
   patientId: string;
-  addressId: string;
+  address?: string;
   name: string;
   email: string;
   document: string;
-  gender: string;
+  gender?: string;
   birthDate: string;
   phone: string;
 }

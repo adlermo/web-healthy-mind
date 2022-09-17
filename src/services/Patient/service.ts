@@ -25,7 +25,7 @@ export async function fetchPatientById({
 }
 
 export async function fetchRegisterPatient({
-  addressId,
+  address,
   name,
   email,
   document,
@@ -34,7 +34,8 @@ export async function fetchRegisterPatient({
   phone,
 }: IPatientCreateModel): Promise<IPatientParser> {
   const params = {
-    addressId,
+    addressId: 1,
+    address,
     name,
     email,
     document,
@@ -51,7 +52,7 @@ export async function fetchRegisterPatient({
 
 export async function fetchEditPatient({
   patientId,
-  addressId,
+  address,
   name,
   email,
   document,
@@ -61,7 +62,7 @@ export async function fetchEditPatient({
 }: IPatientEditModel): Promise<IPatientParser> {
   const params = {
     patientId,
-    addressId,
+    address,
     name,
     email,
     document,

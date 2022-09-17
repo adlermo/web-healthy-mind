@@ -37,7 +37,7 @@ export function usePatientById({
 }
 
 export function useRegisterPatient({
-  addressId,
+  address,
   name,
   email,
   document,
@@ -50,7 +50,8 @@ export function useRegisterPatient({
     queryKey,
     () =>
       fetchRegisterPatient({
-        addressId,
+        addressId: 1,
+        address,
         name,
         email,
         document,
@@ -66,7 +67,7 @@ export function useRegisterPatient({
 
 export function useEditPatient({
   patientId,
-  addressId,
+  address,
   name,
   email,
   document,
@@ -80,7 +81,7 @@ export function useEditPatient({
     () =>
       fetchEditPatient({
         patientId,
-        addressId,
+        address,
         name,
         email,
         document,
