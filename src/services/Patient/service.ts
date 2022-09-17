@@ -1,6 +1,7 @@
 import { api } from '../api';
 import {
   IPatientCreateModel,
+  IPatientDeleteModel,
   IPatientEditModel,
   IPatientFilterModel,
   IPatientShowModel,
@@ -75,10 +76,9 @@ export async function fetchEditPatient({
 }
 
 export async function fetchDeletePatient({
-  workerId,
   patientId,
-}: IPatientShowModel): Promise<IPatientParser> {
-  const url = `v1/${workerId}/patients/${patientId}`;
+}: IPatientDeleteModel): Promise<IPatientParser> {
+  const url = `/patients/remove/${patientId}`;
   const { data } = await api.delete(url);
 
   return data;

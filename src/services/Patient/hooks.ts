@@ -12,6 +12,7 @@ import {
   IPatientCreateModel,
   IPatientEditModel,
   IPatientFilterModel,
+  IPatientDeleteModel,
 } from './dtos/IPatientModel';
 
 import { IPatientParser } from './dtos/IPatientParser';
@@ -94,11 +95,10 @@ export function useEditPatient({
 }
 
 export function useDeletePatient({
-  workerId,
   patientId,
-}: IPatientShowModel): UseQueryResult<IPatientParser> {
+}: IPatientDeleteModel): UseQueryResult<IPatientParser> {
   const queryKey = ['deletePatient'];
-  return useQuery(queryKey, () => fetchDeletePatient({ workerId, patientId }), {
+  return useQuery(queryKey, () => fetchDeletePatient({ patientId }), {
     keepPreviousData: true,
   });
 }
