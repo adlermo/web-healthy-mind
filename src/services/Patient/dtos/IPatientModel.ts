@@ -5,6 +5,7 @@ export interface IPatientListModel {
 }
 
 export interface IPatientCreateModel {
+  addressId?: number;
   address?: string;
   name: string;
   email: string;

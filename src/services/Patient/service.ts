@@ -24,24 +24,10 @@ export async function fetchPatientById({
   return data;
 }
 
-export async function fetchRegisterPatient({
-  address,
-  name,
-  email,
-  document,
-  gender,
-  birthDate,
-  phone,
-}: IPatientCreateModel): Promise<IPatientParser> {
-  const params = {
-    address,
-    name,
-    email,
-    document,
-    gender,
-    birthDate,
-    phone,
-  };
+export async function fetchRegisterPatient(params: IPatientCreateModel): Promise<IPatientParser> {
+  // eslint-disable-next-line no-param-reassign
+  params.addressId = 1;
+  // Remover
 
   const url = `/patients`;
   const { data } = await api.post(url, params);
