@@ -1,22 +1,19 @@
-import api from "../api";
-import { IAuthLoginParser, IRefreshTokenParser } from "./dtos/IAuthParser";
-import {
-  IAuthLoginModel,
-  IAuthRegisterModel,
-  IRefreshTokenModel,
-} from "./dtos/IAuthModel";
+// eslint-disable-next-line import/no-cycle
+import { api } from '../api';
+import { IAuthLoginParser, IRefreshTokenParser } from './dtos/IAuthParser';
+import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from './dtos/IAuthModel';
 
-export const TOKEN_KEY = "@menteSa-Token";
-export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
-export const USER_EMAIL = "@menteSa-UserEmail";
-export const CURRENT_WORKER_ID = "@menteSa-CurrentWorkerId";
-export const SWORDFISH = "@menteSa-Swordfish";
+export const TOKEN_KEY = '@menteSa-Token';
+export const REFRESH_TOKEN = '@menteSa-RefreshTokem';
+export const USER_EMAIL = '@menteSa-UserEmail';
+export const CURRENT_WORKER_ID = '@menteSa-CurrentWorkerId';
+export const SWORDFISH = '@menteSa-Swordfish';
 
 export async function fetchLoginUser(
   { email, password }: IAuthLoginModel,
-  remember = false
+  remember = false,
 ): Promise<IAuthLoginParser> {
-  const url = "/signin";
+  const url = '/signin';
   const payload = { email, password };
   const { data, status } = await api.post(url, payload);
 
@@ -47,7 +44,7 @@ export const logout = () => {
 export async function fetchRefreshToken({
   refreshToken,
 }: IRefreshTokenModel): Promise<IRefreshTokenParser> {
-  const url = "/refresh-token";
+  const url = '/refresh-token';
 
   const { data, status } = await api.post(url, { refreshToken });
 
@@ -63,7 +60,7 @@ export async function fetchRegisterUser({
   password,
   confirmPassword,
 }: IAuthRegisterModel) {
-  const url = "/signup";
+  const url = '/signup';
   const payload = { name, email, password, confirmPassword };
   const { data, status } = await api.post(url, payload);
 

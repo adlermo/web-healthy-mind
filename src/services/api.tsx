@@ -1,13 +1,9 @@
-import axios, { AxiosError } from "axios";
-import {
-  fetchRefreshToken,
-  getToken,
-  getRefreshToken,
-  logout,
-  TOKEN_KEY,
-} from "./Auth/service";
+import axios, { AxiosError } from 'axios';
+// eslint-disable-next-line import/no-cycle
+import { fetchRefreshToken, getToken, getRefreshToken, logout, TOKEN_KEY } from './Auth/service';
 
 let isRefreshing = false;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let failedRequestsQueue: any[] = [];
 
 const api = axios.create({
@@ -17,6 +13,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
   const token = getToken();
   if (token) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, no-param-reassign
     config.headers!.Authorization = `Bearer ${JSON.parse(token)}`;
   }
   return config;
@@ -40,9 +37,7 @@ api.interceptors.response.use(
         fetchRefreshToken({ refreshToken })
           .then((res) => {
             localStorage.setItem(TOKEN_KEY, res.accessToken);
-            api.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${res.accessToken}`;
+            api.defaults.headers.common.Authorization = `Bearer ${res.accessToken}`;
 
             failedRequestsQueue.forEach((request) => {
               request.onSuccess(res.accessToken);
@@ -63,17 +58,18 @@ api.interceptors.response.use(
       return new Promise((resolve, reject) => {
         failedRequestsQueue.push({
           onSuccess: (token: string) => {
-            originalConfig.headers!["Authorization"] = `Bearer ${token}`;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            originalConfig.headers!.Authorization = `Bearer ${token}`;
             resolve(api(originalConfig));
           },
           onFailure: reject,
         });
       });
-    } else {
-      logout();
     }
+    logout();
+
     return Promise.reject(error);
-  }
+  },
 );
 
-export default api;
+export { api };
