@@ -2,14 +2,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
+
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
-import { PlusCircleOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
-import { usePatientsList } from 'src/services/Patient/hooks';
-import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 import { Content } from 'antd/lib/layout/layout';
-import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
-import SideMenu from '../SideMenu/SideMenu';
+import { PlusCircleOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
+
+import { useDeletePatient, usePatientsList } from 'src/services/Patient/hooks';
+import { fetchDeletePatient } from 'src/services/Patient/service';
+
+import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
+
 import { ActionBox } from '../SessionsList/SessionsListStyles';
+import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
+
+import SideMenu from '../SideMenu/SideMenu';
+
+interface IPatient {
+  id: string;
+  userId: string;
+}
 
 const PatientsList: React.FC = () => {
   const filterParams = { page: 1 };
@@ -21,6 +32,27 @@ const PatientsList: React.FC = () => {
   const [data, setData] = useState<IPatientParser[]>([]);
 
   useEffect(() => patientsList && setData(patientsList), [patientsList]);
+
+  const handleArchive = (value: IPatient, e: any) => {
+    const { id: patientId, userId: workerId } = value;
+    // console.log(e.target.innerText); // Getting button description
+    fetchDeletePatient({ patientId, workerId })
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        },
+      )
+      .catch();
+  };
+
+  const handleEdit = (value: IPatient, e: any) => {
+    // e.preventDefault();
+    console.log(value);
+    console.log(e.target.innerText);
+  };
 
   const handleSearch = (value: string) => {
     setData(
@@ -58,8 +90,8 @@ const PatientsList: React.FC = () => {
     },
     {
       title: 'Endereço',
-      // dataIndex: 'address',
-      // key: 'address',
+      dataIndex: 'address',
+      key: 'address',
     },
     {
       title: 'Ações',
@@ -69,12 +101,20 @@ const PatientsList: React.FC = () => {
           <ActionBox>
             <Button
               type="primary"
-              href="/register-patient"
+              onClick={(e) => {
+                handleEdit(record, e);
+              }}
               icon={<EditOutlined />}
-              style={{ marginBottom: 15 }}>
+              style={{ marginBottom: 5 }}>
               Editar
             </Button>
-            <Button type="primary" href="/register-patient" icon={<FolderOutlined />}>
+            <Button
+              type="primary"
+              onClick={(e) => {
+                handleArchive(record, e);
+              }}
+              icon={<FolderOutlined />}
+              style={{ marginTop: 5 }}>
               Arquivar
             </Button>
           </ActionBox>
