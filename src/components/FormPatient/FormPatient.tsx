@@ -13,6 +13,7 @@ import { Welcome } from './FormPatientStyles';
 const FormPatient: React.FC = () => {
   const navigate = useNavigate();
   const { Footer } = Layout;
+  const [address, setAddress] = useState('');
   const [patientName, setPatientName] = useState('');
   const [patientEmail, setPatientEmail] = useState('');
   const [patientDocument, setPatientDocument] = useState('');
@@ -23,7 +24,7 @@ const FormPatient: React.FC = () => {
   const { mutate: mutateRegisterPatient } = useMutation(
     () =>
       fetchRegisterPatient({
-        addressId: 1,
+        address: address && address,
         name: patientName && patientName,
         email: patientEmail && patientEmail,
         document: patientDocument && patientDocument,
@@ -44,6 +45,7 @@ const FormPatient: React.FC = () => {
   );
 
   const onFinish = (values: any) => {
+    setAddress(values.address);
     setPatientName(values.name);
     setPatientEmail(values.email);
     setPatientDocument(values.document);
