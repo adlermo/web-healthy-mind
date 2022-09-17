@@ -1,7 +1,7 @@
 export interface ISessionListModel {
-  id: string
-  page: number,
-  perPage: number
+  id: string;
+  page: number;
+  perPage: number;
 }
 
 export interface ISessionCreateModel {
@@ -26,5 +26,13 @@ export interface ISessionEditModel {
 }
 
 export interface ISessionShowModel {
-  sessionId: string
+  id?: string;
+  workerId?: string;
+  sessionId: string;
+}
+
+export interface ISessionFilterModel {
+  subject?: string;
+  patientId?: string;
+  page?: number;
 }

@@ -1,20 +1,28 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { fetchLoginUser, fetchRegisterUser } from "./service";
-import { IAuthLoginModel, IAuthRegisterModel } from "./dtos/IAuthModel";
-import { IAuthLoginParser } from "./dtos/IAuthParser";
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { fetchLoginUser, fetchRegisterUser } from './service';
+import { IAuthLoginModel, IAuthRegisterModel } from './dtos/IAuthModel';
+import { IAuthLoginParser } from './dtos/IAuthParser';
 
-export function useLoginUser({ email, password }: IAuthLoginModel): UseQueryResult<IAuthLoginParser>{
-    const queryKey = ['loginUser']
+export function useLoginUser({
+  email,
+  password,
+}: IAuthLoginModel): UseQueryResult<IAuthLoginParser> {
+  const queryKey = ['loginUser'];
 
-    return useQuery(queryKey, () => fetchLoginUser({email, password}),{
-        keepPreviousData: true,
-    } );
+  return useQuery(queryKey, () => fetchLoginUser({ email, password }), {
+    keepPreviousData: true,
+  });
 }
 
-export function useRegisterUser({ name, email, password, confirmPassword }: IAuthRegisterModel): UseQueryResult<IAuthLoginParser>{
-    const queryKey = ['registerUser']
+export function useRegisterUser({
+  name,
+  email,
+  password,
+  confirmPassword,
+}: IAuthRegisterModel): UseQueryResult<IAuthLoginParser> {
+  const queryKey = ['registerUser'];
 
-    return useQuery(queryKey, () => fetchRegisterUser({name, email, password, confirmPassword}),{
-        keepPreviousData: true,
-    } );
+  return useQuery(queryKey, () => fetchRegisterUser({ name, email, password, confirmPassword }), {
+    keepPreviousData: true,
+  });
 }
