@@ -35,3 +35,7 @@ export interface IPatientFilterModel {
   email?: string;
   page: number;
 }
+
+export interface IPatientDeleteModel {
+  patientId: string;
+}
