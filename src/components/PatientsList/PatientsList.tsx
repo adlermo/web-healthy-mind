@@ -3,9 +3,10 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Input, Button, Table, Space } from 'antd';
-import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
+import { Content } from 'antd/lib/layout/layout';
 import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
 import SideMenu from '../SideMenu/SideMenu';
 import { ActionBox } from '../SessionsList/SessionsListStyles';
@@ -73,7 +74,7 @@ const PatientsList: React.FC = () => {
               style={{ marginBottom: 15 }}>
               Editar
             </Button>
-            <Button type="primary" href="/register-patient" icon={<DeleteOutlined />}>
+            <Button type="primary" href="/register-patient" icon={<FolderOutlined />}>
               Arquivar
             </Button>
           </ActionBox>
@@ -85,35 +86,37 @@ const PatientsList: React.FC = () => {
   const onSearch = (value: string) => handleSearch(value);
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       <SideMenu />
       <Layout>
-        <MainBox>
-          <UpperBox>
-            <Title level={3}>Meus pacientes</Title>
-            <Search
-              placeholder="Nome ou email"
-              onSearch={onSearch}
-              enterButton
-              style={{
-                width: `45%`,
-              }}
-            />
-            <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
-              Novo paciente
-            </Button>
-          </UpperBox>
-          <BottomBox>
-            <Table
-              dataSource={data}
-              loading={isLoading}
-              columns={columns}
-              style={{
-                width: `100%`,
-              }}
-            />
-          </BottomBox>
-        </MainBox>
+        <Content>
+          <MainBox>
+            <UpperBox>
+              <Title level={3}>Meus pacientes</Title>
+              <Search
+                placeholder="Nome ou email"
+                onSearch={onSearch}
+                enterButton
+                style={{
+                  width: `45%`,
+                }}
+              />
+              <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
+                Novo paciente
+              </Button>
+            </UpperBox>
+            <BottomBox>
+              <Table
+                dataSource={data}
+                loading={isLoading}
+                columns={columns}
+                style={{
+                  width: `100%`,
+                }}
+              />
+            </BottomBox>
+          </MainBox>
+        </Content>
         <Footer
           style={{
             textAlign: 'center',

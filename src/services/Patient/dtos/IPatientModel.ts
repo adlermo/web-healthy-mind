@@ -33,5 +33,5 @@ export interface IPatientShowModel {
 export interface IPatientFilterModel {
   name?: string;
   email?: string;
-  page?: number;
+  page: number;
 }
