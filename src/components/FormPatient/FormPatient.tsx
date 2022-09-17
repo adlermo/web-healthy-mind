@@ -122,6 +122,18 @@ const FormPatient: React.FC = () => {
             </Form.Item>
 
             <Form.Item
+              label="Endereço"
+              name="address"
+              rules={[
+                {
+                  required: false,
+                  message: 'Endereço do paciente',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item
               label="Documento"
               name="document"
               rules={[

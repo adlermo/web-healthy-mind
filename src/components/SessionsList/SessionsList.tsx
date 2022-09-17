@@ -91,11 +91,6 @@ const SessionsList: React.FC = () => {
 
   const columns = [
     {
-      title: 'Id do paciente',
-      dataIndex: 'patientId',
-      key: 'patientId',
-    },
-    {
       title: 'Nome',
       dataIndex: 'patientName',
       key: 'patientName',
@@ -157,7 +152,7 @@ const SessionsList: React.FC = () => {
   ];
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       <SideMenu />
       <Layout>
         <MainBox>
