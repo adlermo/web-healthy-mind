@@ -11,6 +11,5 @@ export interface IAuthRegisterModel {
 }
 
 export interface IRefreshTokenModel {
-  email: string;
   refreshToken: string;
 }

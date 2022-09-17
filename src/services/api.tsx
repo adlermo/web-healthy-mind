@@ -1,6 +1,10 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 // eslint-disable-next-line import/no-cycle
-import { fetchRefreshToken, getRefreshToken, getToken, getUserEmail } from './Auth/service';
+import { fetchRefreshToken, getToken, getRefreshToken, logout, TOKEN_KEY } from './Auth/service';
+
+let isRefreshing = false;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let failedRequestsQueue: any[] = [];
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -16,22 +20,56 @@ api.interceptors.request.use(async (config) => {
 });
 
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    const refresh_token = getRefreshToken();
-    const user_email = getUserEmail()?.replace(/[""]+/g, '');
+  (response) => response,
+  (error: AxiosError<{ message: string }>) => {
+    const refreshToken = getRefreshToken() as string;
 
-    if (error.response.status === 401 && refresh_token && user_email) {
-      const response = await fetchRefreshToken({
-        email: JSON.parse(user_email),
-        refreshToken: JSON.parse(refresh_token),
+    if (error.response?.status === 401) {
+      const originalConfig = error.config;
+
+      if (!refreshToken) {
+        logout();
+        return Promise.reject(error);
+      }
+
+      if (!isRefreshing) {
+        isRefreshing = true;
+        fetchRefreshToken({ refreshToken })
+          .then((res) => {
+            localStorage.setItem(TOKEN_KEY, res.accessToken);
+            api.defaults.headers.common.Authorization = `Bearer ${res.accessToken}`;
+
+            failedRequestsQueue.forEach((request) => {
+              request.onSuccess(res.accessToken);
+              failedRequestsQueue = [];
+            });
+          })
+          .catch((err) => {
+            failedRequestsQueue.forEach((request) => {
+              request.onFailure(err);
+              failedRequestsQueue = [];
+            });
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      }
+
+      return new Promise((resolve, reject) => {
+        failedRequestsQueue.push({
+          onSuccess: (token: string) => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            originalConfig.headers!.Authorization = `Bearer ${token}`;
+            resolve(api(originalConfig));
+          },
+          onFailure: reject,
+        });
       });
-      return response;
     }
+    logout();
+
     return Promise.reject(error);
   },
 );
 
-export default api;
+export { api };
