@@ -1,10 +1,9 @@
 import { useQuery, UseQueryResult } from  '@tanstack/react-query';
 import {
   fetchSessionsList,
-  fetchSessionById,
   fetchCreateSession,
   fetchEditSession,
-  fetchDeleteSession
+  fetchRemoveSession
 } from './service';
 import { ISessionShowModel, ISessionCreateModel, ISessionEditModel } from './dtos/ISessionModel';
 import { ISessionParser } from './dtos/ISessionParser';
@@ -16,14 +15,7 @@ export function useSessionsList(filterParams: {}): UseQueryResult<ISessionParser
   });
 }
 
-export function useSessionById({id, workerId}: ISessionShowModel): UseQueryResult<ISessionParser> {
-  const queryKey = ['sessionById'];
-  return useQuery(queryKey, () => fetchSessionById({id, workerId}), {
-    keepPreviousData: true,
-  });
-}
-
-export function useCreateSession({ patientId, status, subject, duration, type, comments }: ISessionCreateModel): UseQueryResult<ISessionParser> {
+export function useCreateSession({ patientId, status, subject, duration, type, comments, appointmentDate }: ISessionCreateModel): UseQueryResult<ISessionParser> {
   const queryKey = ['registerSession'];
   return useQuery(queryKey, () => fetchCreateSession(
       {
@@ -32,7 +24,8 @@ export function useCreateSession({ patientId, status, subject, duration, type, c
         subject,
         duration,
         type,
-        comments
+        comments,
+        appointmentDate
       }
     ),
     {
@@ -41,7 +34,7 @@ export function useCreateSession({ patientId, status, subject, duration, type, c
   );
 }
 
-export function useEditSession({ sessionId, patientId, status, subject, duration, type, comments }: ISessionEditModel): UseQueryResult<ISessionParser> {
+export function useEditSession({ sessionId, patientId, status, subject, duration, type, comments, appointmentDate }: ISessionEditModel): UseQueryResult<ISessionParser> {
   const queryKey = ['editSession'];
   return useQuery(queryKey, () => fetchEditSession(
       {
@@ -51,7 +44,8 @@ export function useEditSession({ sessionId, patientId, status, subject, duration
         subject,
         duration,
         type,
-        comments
+        comments,
+        appointmentDate
       }
     ),
     {
@@ -60,9 +54,9 @@ export function useEditSession({ sessionId, patientId, status, subject, duration
   );
 }
 
-export function useDeleteSession({id, workerId}: ISessionShowModel): UseQueryResult<ISessionParser> {
+export function useRemoveSession({sessionId}: ISessionShowModel): UseQueryResult<ISessionParser> {
   const queryKey = ['deleteSession'];
-  return useQuery(queryKey, () => fetchDeleteSession({id, workerId}), {
+  return useQuery(queryKey, () => fetchRemoveSession({sessionId}), {
     keepPreviousData: true,
   });
 }

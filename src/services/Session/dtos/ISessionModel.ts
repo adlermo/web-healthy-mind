@@ -11,6 +11,7 @@ export interface ISessionCreateModel {
   duration: string;
   type: string;
   comments: string;
+  appointmentDate: string;
 }
 
 export interface ISessionEditModel {
@@ -21,9 +22,9 @@ export interface ISessionEditModel {
   duration: string;
   type: string;
   comments: string;
+  appointmentDate: string;
 }
 
 export interface ISessionShowModel {
-  id: string
-  workerId: string
+  sessionId: string
 }
