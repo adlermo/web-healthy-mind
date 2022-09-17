@@ -1,8 +1,7 @@
 // eslint-disable-next-line import/no-cycle
-import api from '../api';
-
-import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from './dtos/IAuthModel';
+import { api } from '../api';
 import { IAuthLoginParser, IRefreshTokenParser } from './dtos/IAuthParser';
+import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from './dtos/IAuthModel';
 
 export const TOKEN_KEY = '@menteSa-Token';
 export const REFRESH_TOKEN = '@menteSa-RefreshTokem';
@@ -11,10 +10,10 @@ export const USER_ROLE = '@menteSa-UserRole';
 export const CURRENT_WORKER_ID = '@menteSa-CurrentWorkerId';
 export const SWORDFISH = '@menteSa-Swordfish';
 
-export async function fetchLoginUser({
-  email,
-  password,
-}: IAuthLoginModel): Promise<IAuthLoginParser> {
+export async function fetchLoginUser(
+  { email, password }: IAuthLoginModel,
+  remember = false,
+): Promise<IAuthLoginParser> {
   const url = '/signin';
   const payload = { email, password };
   const { data, status } = await api.post(url, payload);
@@ -23,6 +22,10 @@ export async function fetchLoginUser({
     localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id));
     localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken));
     localStorage.setItem(USER_ROLE, JSON.stringify('patient'));
+
+    if (remember) {
+      localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
+    }
   }
   return data;
 }
@@ -37,17 +40,16 @@ export const getUserEmail = () => localStorage.getItem(USER_EMAIL)?.replace(/[""
 
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN);
+  localStorage.removeItem(CURRENT_WORKER_ID);
 };
 
 export async function fetchRefreshToken({
-  email,
   refreshToken,
 }: IRefreshTokenModel): Promise<IRefreshTokenParser> {
-  const url = 'v1/auth/refresh-token';
+  const url = '/refresh-token';
 
-  const payload = { email, refreshToken };
-
-  const { data, status } = await api.post(url, payload);
+  const { data, status } = await api.post(url, { refreshToken });
 
   if (status === 200) {
     localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id));

@@ -2,13 +2,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-import { Layout, Typography, Input, Button, Table, Space } from 'antd';
-import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+
+import { Layout, Typography, Input, Button, Table, Space, Modal, message } from 'antd';
+import { Content } from 'antd/lib/layout/layout';
+import { PlusCircleOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
+
 import { usePatientsList } from 'src/services/Patient/hooks';
+import { fetchDeletePatient } from 'src/services/Patient/service';
+
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
+
+import { ActionBox, ModalText } from '../SessionsList/SessionsListStyles';
 import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
+
 import SideMenu from '../SideMenu/SideMenu';
-import { ActionBox } from '../SessionsList/SessionsListStyles';
+
+interface IPatient {
+  id: string;
+  userId: string;
+}
 
 const PatientsList: React.FC = () => {
   const filterParams = { page: 1 };
@@ -16,10 +28,50 @@ const PatientsList: React.FC = () => {
   const { Title } = Typography;
   const { Search } = Input;
   const { data: patientsList, isLoading } = usePatientsList(filterParams);
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Realmente deseja arquivar o paciente?');
+  const [removePatientId, setRemovePatientId] = useState('');
+
+  const showModal = (record: any) => {
+    setRemovePatientId(record.id);
+    setOpen(true);
+  };
 
   const [data, setData] = useState<IPatientParser[]>([]);
 
   useEffect(() => patientsList && setData(patientsList), [patientsList]);
+
+  const handleOk = () => {
+    setModalText('Arquivando o paciente');
+    setConfirmLoading(true);
+
+    fetchDeletePatient({
+      patientId: removePatientId,
+    })
+      .then(() => {
+        message.success('Arquivado com Sucesso');
+        setData(data.filter((p) => p.id !== removePatientId));
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.message;
+        message.error(`Erro ao arquivar o paciente - ${errorMessage}`);
+      })
+      .finally(() => {
+        setOpen(false);
+        setConfirmLoading(false);
+      });
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const handleEdit = (value: IPatient, e: any) => {
+    // e.preventDefault();
+    console.log(value);
+    console.log(e.target.innerText);
+  };
 
   const handleSearch = (value: string) => {
     setData(
@@ -57,8 +109,8 @@ const PatientsList: React.FC = () => {
     },
     {
       title: 'Endereço',
-      // dataIndex: 'address',
-      // key: 'address',
+      dataIndex: 'address',
+      key: 'address',
     },
     {
       title: 'Ações',
@@ -68,14 +120,28 @@ const PatientsList: React.FC = () => {
           <ActionBox>
             <Button
               type="primary"
-              href="/register-patient"
+              onClick={(e) => {
+                handleEdit(record, e);
+              }}
               icon={<EditOutlined />}
-              style={{ marginBottom: 15 }}>
+              style={{ marginBottom: 5 }}>
               Editar
             </Button>
-            <Button type="primary" href="/register-patient" icon={<DeleteOutlined />}>
+            <Button
+              type="primary"
+              onClick={() => showModal(record)}
+              icon={<FolderOutlined />}
+              style={{ marginTop: 5 }}>
               Arquivar
             </Button>
+            <Modal
+              title="Arquivar o paciente"
+              open={open}
+              onOk={handleOk}
+              confirmLoading={confirmLoading}
+              onCancel={handleCancel}>
+              <ModalText>{modalText}</ModalText>
+            </Modal>
           </ActionBox>
         </Space>
       ),
@@ -85,35 +151,37 @@ const PatientsList: React.FC = () => {
   const onSearch = (value: string) => handleSearch(value);
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh' }}>
       <SideMenu />
       <Layout>
-        <MainBox>
-          <UpperBox>
-            <Title level={3}>Meus pacientes</Title>
-            <Search
-              placeholder="Nome ou email"
-              onSearch={onSearch}
-              enterButton
-              style={{
-                width: `45%`,
-              }}
-            />
-            <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
-              Novo paciente
-            </Button>
-          </UpperBox>
-          <BottomBox>
-            <Table
-              dataSource={data}
-              loading={isLoading}
-              columns={columns}
-              style={{
-                width: `100%`,
-              }}
-            />
-          </BottomBox>
-        </MainBox>
+        <Content>
+          <MainBox>
+            <UpperBox>
+              <Title level={3}>Meus pacientes</Title>
+              <Search
+                placeholder="Nome ou email"
+                onSearch={onSearch}
+                enterButton
+                style={{
+                  width: `45%`,
+                }}
+              />
+              <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
+                Novo paciente
+              </Button>
+            </UpperBox>
+            <BottomBox>
+              <Table
+                dataSource={data}
+                loading={isLoading}
+                columns={columns}
+                style={{
+                  width: `100%`,
+                }}
+              />
+            </BottomBox>
+          </MainBox>
+        </Content>
         <Footer
           style={{
             textAlign: 'center',

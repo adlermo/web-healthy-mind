@@ -1,20 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { useMutation } from '@tanstack/react-query';
-import { Button, Checkbox, Form, Input, Layout, message } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
 import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
+import { Content } from 'antd/lib/layout/layout';
+import { Welcome, Subtitle } from './FormLoginRegisterStyles';
 import SideMenu from '../SideMenu/SideMenu';
-import { Subtitle, Welcome } from './FormLoginRegisterStyles';
-
-interface IFormRegister {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 const FormLoginRegister: React.FC = () => {
   const navigate = useNavigate();
@@ -24,25 +17,19 @@ const FormLoginRegister: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [remember, setRemember] = useState(false);
 
-  const onFinish = (values: IFormRegister) => {
-    setName(values?.name);
-    setEmail(values.email);
-    setPassword(values.password);
-    setConfirmPassword(values?.confirmPassword);
-
-    if (email !== '' && password !== '') {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions, @typescript-eslint/no-use-before-define
-      currentPath === '/register' ? mutateRegister() : mutateLogin();
-    }
-  };
+  const toggleRemember = () => setRemember((e) => !e);
 
   const { mutate: mutateLogin } = useMutation(
     () =>
-      fetchLoginUser({
-        email,
-        password,
-      }),
+      fetchLoginUser(
+        {
+          email,
+          password,
+        },
+        remember,
+      ),
     {
       onSuccess: () => {
         message.success('Logado com Sucesso');
@@ -60,8 +47,11 @@ const FormLoginRegister: React.FC = () => {
     () =>
       fetchRegisterUser({
         name,
+
         email,
+
         password,
+
         confirmPassword,
       }),
     {
@@ -75,6 +65,18 @@ const FormLoginRegister: React.FC = () => {
       },
     },
   );
+
+  const onFinish = (values: any) => {
+    setName(values?.name);
+    setEmail(values.email);
+    setPassword(values.password);
+    setConfirmPassword(values?.confirmPassword);
+
+    if (email !== '' && password !== '') {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      currentPath === '/register' ? mutateRegister() : mutateLogin();
+    }
+  };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -172,7 +174,7 @@ const FormLoginRegister: React.FC = () => {
                 offset: 6,
                 span: 12,
               }}>
-              <Checkbox>Lembrar usuário</Checkbox>
+              <Checkbox onChange={toggleRemember}>Lembrar usuário</Checkbox>
             </Form.Item>
 
             <Form.Item
@@ -199,7 +201,7 @@ const FormLoginRegister: React.FC = () => {
           style={{
             textAlign: 'center',
           }}>
-          Mente Sã ©2020 Created by Dev4Tech
+          Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>
     </Layout>
