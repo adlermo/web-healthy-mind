@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FormLoginRegister from 'src/components/FormLoginRegister/FormLoginRegister'
+import FormLoginRegister from 'src/components/FormLoginRegister/FormLoginRegister';
 import { isAuthenticated } from 'src/services/Auth/service';
 
-const Login:React.FC = () =>{
-    const navigate = useNavigate();
+const Login: React.FC = () => {
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        isAuthenticated() && navigate("/dashboard");
-    }, [navigate])
+  useEffect(() => {
+    // Se usuário autenticado então acessa Dashboard
+    if (isAuthenticated()) navigate('/dashboard');
+  }, [navigate]);
 
-    return(
-        <FormLoginRegister/>
-    )
-}
+  return <FormLoginRegister />;
+};
 
 export default Login;

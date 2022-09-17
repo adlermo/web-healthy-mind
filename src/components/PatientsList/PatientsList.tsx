@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import SideMenu from "../SideMenu/SideMenu";
-import { Layout, Typography, Input, Button, Table, Space } from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
-import { MainBox, UpperBox, BottomBox } from "./PatientsListStyles";
-import { usePatientsList } from "src/services/Patient/hooks";
-import { ActionBox } from "../SessionsList/SessionsListStyles";
-import { IPatientParser } from "src/services/Patient/dtos/IPatientParser";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
+import React, { useEffect, useState } from 'react';
+import { Layout, Typography, Input, Button, Table, Space } from 'antd';
+import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { usePatientsList } from 'src/services/Patient/hooks';
+import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
+import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
+import SideMenu from '../SideMenu/SideMenu';
+import { ActionBox } from '../SessionsList/SessionsListStyles';
 
 const PatientsList: React.FC = () => {
   const filterParams = { page: 1 };
@@ -25,61 +24,56 @@ const PatientsList: React.FC = () => {
   const handleSearch = (value: string) => {
     setData(
       (patientsList as IPatientParser[]).filter(
-        (item) => item.name.includes(value) || item.email.includes(value)
-      )
+        (item) => item.name.includes(value) || item.email.includes(value),
+      ),
     );
   };
 
   const columns = [
     {
-      title: "Nome",
-      dataIndex: "name",
-      key: "name",
+      title: 'Nome',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: "Documento",
-      dataIndex: "document",
-      key: "document",
+      title: 'Documento',
+      dataIndex: 'document',
+      key: 'document',
     },
     {
-      title: "Data de Nascimento",
-      dataIndex: "birthDate",
-      key: "email",
+      title: 'Data de Nascimento',
+      dataIndex: 'birthDate',
+      key: 'email',
     },
     {
-      title: "Telefone",
-      dataIndex: "phone",
-      key: "phone",
+      title: 'Telefone',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
-      title: "Endereço",
+      title: 'Endereço',
       // dataIndex: 'address',
       // key: 'address',
     },
     {
-      title: "Ações",
-      key: "action",
+      title: 'Ações',
+      key: 'action',
       render: (_: any, record: any) => (
         <Space size="middle">
           <ActionBox>
             <Button
               type="primary"
-              href={"/register-patient"}
+              href="/register-patient"
               icon={<EditOutlined />}
-              style={{ marginBottom: 15 }}
-            >
+              style={{ marginBottom: 15 }}>
               Editar
             </Button>
-            <Button
-              type="primary"
-              href={"/register-patient"}
-              icon={<DeleteOutlined />}
-            >
+            <Button type="primary" href="/register-patient" icon={<DeleteOutlined />}>
               Arquivar
             </Button>
           </ActionBox>
@@ -105,11 +99,7 @@ const PatientsList: React.FC = () => {
                 width: `45%`,
               }}
             />
-            <Button
-              type="primary"
-              href={"/register-patient"}
-              icon={<PlusCircleOutlined />}
-            >
+            <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
               Novo paciente
             </Button>
           </UpperBox>
@@ -126,9 +116,8 @@ const PatientsList: React.FC = () => {
         </MainBox>
         <Footer
           style={{
-            textAlign: "center",
-          }}
-        >
+            textAlign: 'center',
+          }}>
           Mente Sã ©2022 Created by Dev4Tech
         </Footer>
       </Layout>

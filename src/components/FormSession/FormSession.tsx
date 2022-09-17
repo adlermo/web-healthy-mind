@@ -42,22 +42,7 @@ const FormSession: React.FC = () => {
 
   const { data } = usePatientsList(filterParams);
 
-  const onFinish = (values: any) => {
-    setSubject(values.subject);
-    setDuration(values.duration);
-    setComments(values.comments);
 
-    if (
-      currentPath === "/register-session" &&
-      (subject || duration || comments)
-    ) {
-      mutateRegisterSession();
-    }
-
-    if (currentPath === "/edit-session" && (subject || duration || comments)) {
-      mutateEditSession();
-    }
-  };
 
   const { mutate: mutateRegisterSession } = useMutation(
     () =>
@@ -72,14 +57,14 @@ const FormSession: React.FC = () => {
       }),
     {
       onSuccess: () => {
-        message.success("Sessão registrada com Sucesso");
-        navigate("/sessions");
+        message.success('Sessão registrada com Sucesso');
+        navigate('/sessions');
       },
       onError: (e: any) => {
         const errorMessage = e.response.data.message;
         message.error(`Error ao registrar sessão - ${errorMessage}`);
       },
-    }
+    },
   );
 
   const { mutate: mutateEditSession } = useMutation(
@@ -106,8 +91,25 @@ const FormSession: React.FC = () => {
     }
   );
 
+  const onFinish = (values: any) => {
+    setSubject(values.subject);
+    setDuration(values.duration);
+    setComments(values.comments);
+
+    if (
+      currentPath === "/register-session" &&
+      (subject || duration || comments)
+    ) {
+      mutateRegisterSession();
+    }
+
+    if (currentPath === "/edit-session" && (subject || duration || comments)) {
+      mutateEditSession();
+    }
+  };
+
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    console.error('Failed:', errorInfo);
   };
 
   const onDateChange: DatePickerProps["onChange"] = (_date, dateString) => {
