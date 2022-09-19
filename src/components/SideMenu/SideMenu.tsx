@@ -11,7 +11,8 @@ const SideMenu: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userRole = getUserRole();
-  const isProfessionalAuthenticated = isAuthenticated() && userRole !== 'patient';
+  const isProfessionalAuthenticated = isAuthenticated() && userRole === 'professional';
+  const isPatientAuthenticated = isAuthenticated() && userRole === 'patient';
 
   const clickHandler = (item: { key: string }) => {
     if (item.key === '1') {
@@ -27,7 +28,7 @@ const SideMenu: React.FC = () => {
 
   const patientClickHandler = (item: { key: string }) => {
     if (item.key === '1') {
-      navigate('/patients-dashboard');
+      navigate('/dashboard');
     }
   };
 
@@ -40,7 +41,7 @@ const SideMenu: React.FC = () => {
   };
 
   const returnPatientDefaultSelectedKeys = (): string[] | undefined => {
-    if (location.pathname === '/patients-dashboard') return ['1'];
+    if (userRole === 'patient') return ['1'];
 
     return [''];
   };
@@ -74,7 +75,7 @@ const SideMenu: React.FC = () => {
             Mente Sã
           </Title>
         </LogoTitle>
-        {isAuthenticated() && (
+        {isPatientAuthenticated && (
           <Menu
             theme="dark"
             mode="inline"

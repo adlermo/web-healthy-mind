@@ -11,7 +11,6 @@ import {
 } from './DashboardStyles';
 
 const Dashboard: React.FC = () => {
-  const currentPath = window.location.pathname;
   const { Content, Footer } = Layout;
   const userRole = getUserRole();
 
@@ -23,33 +22,35 @@ const Dashboard: React.FC = () => {
           style={{
             margin: '25px 20px',
           }}>
-          <LayoutBackground>
-            <Row gutter={[0, 40]} wrap>
-              <Col span={24}>
-                <PatientGridItem>
-                  <PatientItemTitle>Titulo da sessao</PatientItemTitle>
-                  <Divider />
-                  <Descriptions layout="vertical" bordered>
-                    <Descriptions.Item label="Status" span={3}>
-                      <Badge status="processing" text="Running" />
-                    </Descriptions.Item>
-                  </Descriptions>
-                </PatientGridItem>
-              </Col>
-              <Col span={24}>
-                <PatientGridItem>
-                  <PatientItemTitle>Titulo da sessao</PatientItemTitle>
-                  <Divider />
-                  <Descriptions layout="vertical" bordered>
-                    <Descriptions.Item label="Status" span={3}>
-                      <Badge status="processing" text="Running" />
-                    </Descriptions.Item>
-                  </Descriptions>
-                </PatientGridItem>
-              </Col>
-            </Row>
-          </LayoutBackground>
-          {userRole !== 'patient' && (
+          {userRole === 'patient' && (
+            <LayoutBackground>
+              <Row gutter={[0, 40]} wrap>
+                <Col span={24}>
+                  <PatientGridItem>
+                    <PatientItemTitle>Titulo da sessao</PatientItemTitle>
+                    <Divider />
+                    <Descriptions layout="vertical" bordered>
+                      <Descriptions.Item label="Status" span={3}>
+                        <Badge status="processing" text="Running" />
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </PatientGridItem>
+                </Col>
+                <Col span={24}>
+                  <PatientGridItem>
+                    <PatientItemTitle>Titulo da sessao</PatientItemTitle>
+                    <Divider />
+                    <Descriptions layout="vertical" bordered>
+                      <Descriptions.Item label="Status" span={3}>
+                        <Badge status="processing" text="Running" />
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </PatientGridItem>
+                </Col>
+              </Row>
+            </LayoutBackground>
+          )}
+          {userRole === 'professional' && (
             <LayoutBackground>
               <Row gutter={[20, 20]} wrap>
                 <Col>

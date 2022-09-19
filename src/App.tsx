@@ -47,15 +47,6 @@ const App: React.FC = () => {
           />
 
           <Route
-            path="/patients-dashboard"
-            element={
-              <PrivateRoute redirectTo="/">
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
             path="/register-patient"
             element={
               <PrivateRoute redirectTo="/">
