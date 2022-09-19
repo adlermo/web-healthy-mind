@@ -37,8 +37,7 @@ const FormLoginRegister: React.FC = () => {
       },
       onError: (e: any) => {
         const errorMessage = e.response.data.message;
-        message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
-        navigate('/register');
+        message.error(`Erro ao logar - ${errorMessage}`);
       },
     },
   );
@@ -47,11 +46,8 @@ const FormLoginRegister: React.FC = () => {
     () =>
       fetchRegisterUser({
         name,
-
         email,
-
         password,
-
         confirmPassword,
       }),
     {
