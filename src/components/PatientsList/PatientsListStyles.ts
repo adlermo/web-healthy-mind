@@ -20,3 +20,8 @@ export const BottomBox = styled.div`
   display: flex;
   width: 100%;
 `;
+
+export const ModalText = styled.p`
+  font-size: 20px;
+  margin: 0;
+`;

@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Layout, Typography, Input, Button, Table, Space, Modal, message } from 'antd';
-import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
+import {
+  PlusCircleOutlined,
+  EditOutlined,
+  EyeOutlined,
+  FolderOpenOutlined,
+} from '@ant-design/icons';
 import { useSessionsList } from 'src/services/Session/hooks';
 import { fetchRemoveSession } from 'src/services/Session/service';
 import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
 import { usePatientsList } from 'src/services/Patient/hooks';
-import { MainBox, UpperBox, BottomBox, ActionBox, ModalText } from './SessionsListStyles';
+import { MainBox, UpperBox, BottomBox, ModalText } from './SessionsListStyles';
 import SideMenu from '../SideMenu/SideMenu';
 
 interface ISessionParserWithName extends ISessionParser {
@@ -87,6 +92,10 @@ const SessionsList: React.FC = () => {
     navigate('/edit-session', { state: record });
   };
 
+  const onDetailHandler = (record: any) => {
+    message.info(record);
+  };
+
   const onSearch = (value: string) => handleSearch(value);
 
   const columns = [
@@ -124,28 +133,33 @@ const SessionsList: React.FC = () => {
       title: 'Ações',
       key: 'action',
       render: (_: any, record: any) => (
-        <Space size="middle">
-          <ActionBox>
+        <Space>
+          {/* <ActionBox> */}
+          <Popover content="Ver dados da sessão">
+            <Button type="primary" icon={<EyeOutlined />} onClick={() => onDetailHandler(record)} />
+          </Popover>
+
+          <Popover content="Editar sessão">
+            <Button type="primary" icon={<EditOutlined />} onClick={() => onEditHandler(record)} />
+          </Popover>
+
+          <Popover content="Arquivar sessão">
             <Button
               type="primary"
-              href="/edit-session"
-              icon={<EditOutlined />}
-              style={{ marginBottom: 15 }}
-              onClick={() => onEditHandler(record)}>
-              Editar
-            </Button>
-            <Button type="primary" icon={<DeleteOutlined />} onClick={() => showModal(record)}>
-              Arquivar
-            </Button>
-            <Modal
-              title="Arquivar a sessão"
-              open={open}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}>
-              <ModalText>{modalText}</ModalText>
-            </Modal>
-          </ActionBox>
+              icon={<FolderOpenOutlined />}
+              onClick={() => showModal(record)}
+            />
+          </Popover>
+
+          <Modal
+            title="Arquivar a sessão"
+            open={open}
+            onOk={handleOk}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}>
+            <ModalText>{modalText}</ModalText>
+          </Modal>
+          {/* </ActionBox> */}
         </Space>
       ),
     },

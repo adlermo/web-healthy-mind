@@ -3,17 +3,21 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 
-import { Layout, Typography, Input, Button, Table, Space, Modal, message } from 'antd';
+import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
-import { PlusCircleOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
+import {
+  PlusCircleOutlined,
+  EditOutlined,
+  EyeOutlined,
+  FolderOpenOutlined,
+} from '@ant-design/icons';
 
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { fetchDeletePatient } from 'src/services/Patient/service';
 
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 
-import { ActionBox, ModalText } from '../SessionsList/SessionsListStyles';
-import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
+import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
 
@@ -30,19 +34,27 @@ const PatientsList: React.FC = () => {
   const { data: patientsList, isLoading } = usePatientsList(filterParams);
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Realmente deseja arquivar o paciente?');
+  const [modalText, setModalText] = useState('Realmente deseja arquivar este paciente?');
   const [removePatientId, setRemovePatientId] = useState('');
 
-  const showModal = (record: any) => {
-    setRemovePatientId(record.id);
+  const showModal = (value: IPatient) => {
+    setRemovePatientId(value.id);
     setOpen(true);
+  };
+
+  const handleEdit = (value: IPatient) => {
+    console.log(value);
+  };
+
+  const showPatient = (value: IPatient) => {
+    console.log(value);
   };
 
   const [data, setData] = useState<IPatientParser[]>([]);
 
   useEffect(() => patientsList && setData(patientsList), [patientsList]);
 
-  const handleOk = () => {
+  const confirmArchive = () => {
     setModalText('Arquivando o paciente');
     setConfirmLoading(true);
 
@@ -63,14 +75,8 @@ const PatientsList: React.FC = () => {
       });
   };
 
-  const handleCancel = () => {
+  const cancelArchive = () => {
     setOpen(false);
-  };
-
-  const handleEdit = (value: IPatient, e: any) => {
-    // e.preventDefault();
-    console.log(value);
-    console.log(e.target.innerText);
   };
 
   const handleSearch = (value: string) => {
@@ -116,33 +122,31 @@ const PatientsList: React.FC = () => {
       title: 'Ações',
       key: 'action',
       render: (_: any, record: any) => (
-        <Space size="middle">
-          <ActionBox>
-            <Button
-              type="primary"
-              onClick={(e) => {
-                handleEdit(record, e);
-              }}
-              icon={<EditOutlined />}
-              style={{ marginBottom: 5 }}>
-              Editar
-            </Button>
+        <Space>
+          <Popover content="Ver dados do paciente">
+            <Button type="primary" onClick={() => showPatient(record)} icon={<EyeOutlined />} />
+          </Popover>
+
+          <Popover content="Editar o paciente">
+            <Button type="primary" onClick={() => handleEdit(record)} icon={<EditOutlined />} />
+          </Popover>
+
+          <Popover content="Arquivar paciente">
             <Button
               type="primary"
               onClick={() => showModal(record)}
-              icon={<FolderOutlined />}
-              style={{ marginTop: 5 }}>
-              Arquivar
-            </Button>
-            <Modal
-              title="Arquivar o paciente"
-              open={open}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}>
-              <ModalText>{modalText}</ModalText>
-            </Modal>
-          </ActionBox>
+              icon={<FolderOpenOutlined />}
+            />
+          </Popover>
+
+          <Modal
+            title="Arquivar o paciente"
+            open={open}
+            onOk={confirmArchive}
+            confirmLoading={confirmLoading}
+            onCancel={cancelArchive}>
+            <ModalText>{modalText}</ModalText>
+          </Modal>
         </Space>
       ),
     },
