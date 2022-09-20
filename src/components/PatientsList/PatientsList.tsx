@@ -16,6 +16,7 @@ import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
+import ViewPatient from '../Modals/ViewPatient';
 
 interface IPatient {
   id: string;
@@ -28,14 +29,15 @@ const PatientsList: React.FC = () => {
   const { Title } = Typography;
   const { Search } = Input;
   const { data: patientsList, isLoading } = usePatientsList(filterParams);
-  const [open, setOpen] = useState(false);
+  const [archive, setArchive] = useState(false);
+  const [view, setView] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Realmente deseja arquivar este paciente?');
   const [removePatientId, setRemovePatientId] = useState('');
 
   const showModal = (value: IPatient) => {
     setRemovePatientId(value.id);
-    setOpen(true);
+    setArchive(true);
   };
 
   const handleEdit = (value: IPatient) => {
@@ -43,7 +45,12 @@ const PatientsList: React.FC = () => {
   };
 
   const showPatient = (value: IPatient) => {
+    setView(true);
     console.log(value);
+  };
+
+  const cancelView = () => {
+    setView(false);
   };
 
   const [data, setData] = useState<IPatientParser[]>([]);
@@ -66,13 +73,13 @@ const PatientsList: React.FC = () => {
         message.error(`Erro ao arquivar o paciente - ${errorMessage}`);
       })
       .finally(() => {
-        setOpen(false);
+        setArchive(false);
         setConfirmLoading(false);
       });
   };
 
   const cancelArchive = () => {
-    setOpen(false);
+    setArchive(false);
   };
 
   const handleSearch = (value: string) => {
@@ -137,8 +144,17 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Modal
+            title={`Ver paciente ${record.name}`}
+            open={view}
+            onCancel={cancelView}
+            onOk={cancelView}
+            footer={null}>
+            <ViewPatient patientId={record.id} />
+          </Modal>
+
+          <Modal
             title="Arquivar o paciente"
-            open={open}
+            open={archive}
             onOk={confirmArchive}
             confirmLoading={confirmLoading}
             onCancel={cancelArchive}>
