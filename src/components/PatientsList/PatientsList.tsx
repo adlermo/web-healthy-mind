@@ -16,7 +16,6 @@ import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
-import ViewPatient from '../Modals/ViewPatient';
 
 interface IPatient {
   id: string;
@@ -34,6 +33,7 @@ const PatientsList: React.FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Realmente deseja arquivar este paciente?');
   const [removePatientId, setRemovePatientId] = useState('');
+  const [modalPatient, setModalPatient] = useState(Object);
 
   const showModal = (value: IPatient) => {
     setRemovePatientId(value.id);
@@ -44,9 +44,13 @@ const PatientsList: React.FC = () => {
     console.log(value);
   };
 
-  const showPatient = (value: IPatient) => {
+  const showPatient = (value: any) => {
+    setModalPatient(value);
     setView(true);
-    console.log(value);
+  };
+
+  const confirmView = () => {
+    console.log('Inside confirmView handler');
   };
 
   const cancelView = () => {
@@ -144,12 +148,14 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Modal
-            title={`Ver paciente ${record.name}`}
+            title={`Ver paciente ${modalPatient.name}`}
             open={view}
-            onCancel={cancelView}
-            onOk={cancelView}
-            footer={null}>
-            <ViewPatient patientId={record.id} />
+            onOk={confirmView}
+            onCancel={cancelView}>
+            <ModalText>{modalPatient.email}</ModalText>
+            <ModalText>{modalPatient.document}</ModalText>
+            <ModalText>{modalPatient.birthDate}</ModalText>
+            <ModalText>{modalPatient.phone}</ModalText>
           </Modal>
 
           <Modal
