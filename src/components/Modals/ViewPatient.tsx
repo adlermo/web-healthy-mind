@@ -1,11 +1,13 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ViewPatient: React.FC<any> = (patientId: string) => {
   const [patient, setPatient] = useState<IPatientParser[]>([]);
-  const { data: getPatient, isLoading } = usePatientsList({ page: 1 });
+  const { data: getPatient } = usePatientsList({ page: 1 });
 
   useEffect(() => {
     console.log('patientId');
