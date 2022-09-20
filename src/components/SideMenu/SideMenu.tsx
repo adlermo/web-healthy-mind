@@ -2,7 +2,7 @@ import { CalendarOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons'
 import { Image, Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isAuthenticated } from 'src/services/Auth/service';
+import { isAuthenticated, getUserRole } from 'src/services/Auth/service';
 import { LogoTitle } from './SideMenuStyles';
 
 const SideMenu: React.FC = () => {
@@ -10,6 +10,9 @@ const SideMenu: React.FC = () => {
   const { Title } = Typography;
   const navigate = useNavigate();
   const location = useLocation();
+  const userRole = getUserRole();
+  const isProfessionalAuthenticated = isAuthenticated() && userRole === 'professional';
+  const isPatientAuthenticated = isAuthenticated() && userRole === 'patient';
 
   const clickHandler = (item: { key: string }) => {
     if (item.key === '1') {
@@ -23,10 +26,22 @@ const SideMenu: React.FC = () => {
     }
   };
 
+  const patientClickHandler = (item: { key: string }) => {
+    if (item.key === '1') {
+      navigate('/dashboard');
+    }
+  };
+
   const returnDefaultSelectedKeys = (): string[] | undefined => {
     if (location.pathname === '/') return ['1'];
     if (location.pathname === '/patients') return ['2'];
     if (location.pathname === '/sessions') return ['3'];
+
+    return [''];
+  };
+
+  const returnPatientDefaultSelectedKeys = (): string[] | undefined => {
+    if (userRole === 'patient') return ['1'];
 
     return [''];
   };
@@ -37,6 +52,8 @@ const SideMenu: React.FC = () => {
 
     return 'Sessões';
   };
+
+  const indexToPatientName = () => 'Minhas sessões';
 
   return (
     <Sider>
@@ -49,7 +66,6 @@ const SideMenu: React.FC = () => {
               marginTop: '20px',
             }}
           />
-          {/* <img src="public/mente-sa-logo.png" alt="Mente Sã logo"></img> */}
           <Title
             style={{
               color: 'white',
@@ -59,7 +75,20 @@ const SideMenu: React.FC = () => {
             Mente Sã
           </Title>
         </LogoTitle>
-        {isAuthenticated() && (
+        {isPatientAuthenticated && (
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={returnPatientDefaultSelectedKeys()}
+            onClick={patientClickHandler}
+            items={[CalendarOutlined].map((icon, index) => ({
+              key: String(index + 1),
+              icon: React.createElement(icon),
+              label: indexToPatientName(),
+            }))}
+          />
+        )}
+        {isProfessionalAuthenticated && (
           <Menu
             theme="dark"
             mode="inline"
