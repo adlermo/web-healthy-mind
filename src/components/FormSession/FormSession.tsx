@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+
 import moment from 'moment';
+
 import type { DatePickerProps } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
@@ -265,14 +267,15 @@ const FormSession: React.FC = () => {
               offset: 6,
               span: 12,
             }}>
-            <Button
-              type="default"
-              href="/sessions"
-              style={{
-                marginRight: 30,
-              }}>
-              Cancelar
-            </Button>
+            <Link to="/sessions">
+              <Button
+                type="default"
+                style={{
+                  marginRight: 30,
+                }}>
+                Cancelar
+              </Button>
+            </Link>
 
             <Button type="primary" htmlType="submit">
               Salvar
