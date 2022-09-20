@@ -21,7 +21,7 @@ export async function fetchLoginUser(
   if (status === 200) {
     localStorage.setItem(CURRENT_WORKER_ID, JSON.stringify(data.id));
     localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken));
-    localStorage.setItem(USER_ROLE, JSON.stringify('patient'));
+    localStorage.setItem(USER_ROLE, JSON.stringify('professional'));
 
     if (remember) {
       localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
