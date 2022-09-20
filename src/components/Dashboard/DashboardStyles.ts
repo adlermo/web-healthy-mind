@@ -9,8 +9,7 @@ export const LayoutBackground = styled.div`
 export const PatientGridItem = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  padding: 35px;
   background: white;
   border-radius: 10px;
   box-shadow: 14px 18px 23px -11px rgba(0, 0, 0, 0.35);
@@ -38,4 +37,5 @@ export const ItemNumber = styled.span`
 
 export const PatientItemTitle = styled.h1`
   margin-top: 10px;
+  font-size: 25px;
 `;
