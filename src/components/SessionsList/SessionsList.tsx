@@ -3,12 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  EyeOutlined,
-  FolderOpenOutlined,
-} from '@ant-design/icons';
+import { PlusCircleOutlined, EditOutlined, EyeOutlined, FolderOpenFilled } from '@ant-design/icons';
 
 import { useSessionsList } from 'src/services/Session/hooks';
 import { fetchRemoveSession } from 'src/services/Session/service';
@@ -139,7 +134,7 @@ const SessionsList: React.FC = () => {
       render: (_: any, record: any) => (
         <Space>
           <Popover content="Ver dados da sessão">
-            <Button type="primary" icon={<EyeOutlined />} onClick={() => onDetailHandler(record)} />
+            <Button type="default" icon={<EyeOutlined />} onClick={() => onDetailHandler(record)} />
           </Popover>
 
           <Popover content="Editar sessão">
@@ -148,8 +143,9 @@ const SessionsList: React.FC = () => {
 
           <Popover content="Arquivar sessão">
             <Button
-              type="primary"
-              icon={<FolderOpenOutlined />}
+              danger
+              type="default"
+              icon={<FolderOpenFilled />}
               onClick={() => showModal(record)}
             />
           </Popover>
