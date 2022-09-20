@@ -2,15 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  EyeOutlined,
-  FolderOpenOutlined,
-} from '@ant-design/icons';
+import { PlusCircleOutlined, EditOutlined, EyeOutlined, FolderOpenFilled } from '@ant-design/icons';
 
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { fetchDeletePatient } from 'src/services/Patient/service';
@@ -124,7 +120,7 @@ const PatientsList: React.FC = () => {
       render: (_: any, record: any) => (
         <Space>
           <Popover content="Ver dados do paciente">
-            <Button type="primary" onClick={() => showPatient(record)} icon={<EyeOutlined />} />
+            <Button type="default" onClick={() => showPatient(record)} icon={<EyeOutlined />} />
           </Popover>
 
           <Popover content="Editar o paciente">
@@ -133,9 +129,10 @@ const PatientsList: React.FC = () => {
 
           <Popover content="Arquivar paciente">
             <Button
-              type="primary"
+              danger
+              type="default"
               onClick={() => showModal(record)}
-              icon={<FolderOpenOutlined />}
+              icon={<FolderOpenFilled />}
             />
           </Popover>
 
@@ -170,9 +167,11 @@ const PatientsList: React.FC = () => {
                   width: `45%`,
                 }}
               />
-              <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
-                Novo paciente
-              </Button>
+              <Link to="/register-patient">
+                <Button type="primary" icon={<PlusCircleOutlined />}>
+                  Novo paciente
+                </Button>
+              </Link>
             </UpperBox>
             <BottomBox>
               <Table

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
 import {
   PlusCircleOutlined,
@@ -8,11 +9,14 @@ import {
   EyeOutlined,
   FolderOpenOutlined,
 } from '@ant-design/icons';
+
 import { useSessionsList } from 'src/services/Session/hooks';
 import { fetchRemoveSession } from 'src/services/Session/service';
-import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
 import { usePatientsList } from 'src/services/Patient/hooks';
+
+import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
 import { MainBox, UpperBox, BottomBox, ModalText } from './SessionsListStyles';
+
 import SideMenu from '../SideMenu/SideMenu';
 
 interface ISessionParserWithName extends ISessionParser {
@@ -134,7 +138,6 @@ const SessionsList: React.FC = () => {
       key: 'action',
       render: (_: any, record: any) => (
         <Space>
-          {/* <ActionBox> */}
           <Popover content="Ver dados da sessão">
             <Button type="primary" icon={<EyeOutlined />} onClick={() => onDetailHandler(record)} />
           </Popover>
@@ -159,7 +162,6 @@ const SessionsList: React.FC = () => {
             onCancel={handleCancel}>
             <ModalText>{modalText}</ModalText>
           </Modal>
-          {/* </ActionBox> */}
         </Space>
       ),
     },
@@ -180,9 +182,11 @@ const SessionsList: React.FC = () => {
                 width: `45%`,
               }}
             />
-            <Button type="primary" href="/register-session" icon={<PlusCircleOutlined />}>
-              Nova sessão
-            </Button>
+            <Link to="/register-session">
+              <Button type="primary" icon={<PlusCircleOutlined />}>
+                Nova sessão
+              </Button>
+            </Link>
           </UpperBox>
           <BottomBox>
             <Table
