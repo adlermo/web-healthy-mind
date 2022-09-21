@@ -26,6 +26,7 @@ const FormSession: React.FC = () => {
   const [subject, setSubject] = useState('');
   const [duration, setDuration] = useState('');
   const [type, setType] = useState('');
+  const [service, setService] = useState('');
   const [comments, setComments] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [resources, setResources] = useState(Array<string>);
@@ -42,6 +43,8 @@ const FormSession: React.FC = () => {
         subject,
         duration,
         type,
+        service,
+        resourceId: '1',
         comments,
         appointmentDate: moment(appointmentDate).toISOString(),
       }),
@@ -66,6 +69,8 @@ const FormSession: React.FC = () => {
         subject,
         duration,
         type,
+        service,
+        resourceId: '1',
         comments,
         appointmentDate: moment(appointmentDate).toISOString(),
       }),
@@ -113,6 +118,10 @@ const FormSession: React.FC = () => {
 
   const handleTypeChange = (value: string) => {
     setType(value);
+  };
+
+  const handleServiceChange = (value: string) => {
+    setService(value);
   };
 
   const handleResourcesChange = (value: string) => {
@@ -227,6 +236,21 @@ const FormSession: React.FC = () => {
               <Option value="individual">Individual</Option>
               <Option value="casal">Casal</Option>
               <Option value="grupo">Grupo</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Serviço"
+            name="service"
+            rules={[
+              {
+                required: true,
+                message: 'Insira a categoria de serviço',
+              },
+            ]}>
+            <Select style={{ width: 200 }} onChange={handleServiceChange}>
+              <Option value="remote">Remoto</Option>
+              <Option value="presential">Presencial</Option>
             </Select>
           </Form.Item>
 
