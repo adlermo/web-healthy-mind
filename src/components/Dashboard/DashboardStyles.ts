@@ -6,6 +6,16 @@ export const LayoutBackground = styled.div`
   min-height: 360px;
 `;
 
+export const PatientGridItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 35px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 14px 18px 23px -11px rgba(0, 0, 0, 0.35);
+  width: 100%;
+`;
+
 export const GridItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,4 +33,9 @@ export const ItemTitle = styled.span`
 
 export const ItemNumber = styled.span`
   font-size: 35px;
+`;
+
+export const PatientItemTitle = styled.h1`
+  margin-top: 10px;
+  font-size: 25px;
 `;
