@@ -39,10 +39,14 @@ const FormLoginRegister: React.FC = () => {
         navigate('/dashboard');
       },
       onError: (e: any) => {
-        if (e.response.config.url === '/signin?type=patient') {
+        if (e.response.config.url === '/signin?type=patient' && e.response.status === 401) {
           const errorMessage = 'Logar como Profissional e criar novo paciente';
           message.error(`Erro ao logar Paciente - ${errorMessage}`);
           navigate('/');
+        } else if (e.response.config.url === '/signin?type=patient' && e.response.status === 400) {
+          const errorMessage = e.response.data.message;
+          message.warning(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
+          navigate('/update-password');
         } else {
           const errorMessage = e.response.data.message;
           message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
