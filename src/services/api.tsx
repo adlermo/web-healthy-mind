@@ -53,20 +53,20 @@ api.interceptors.response.use(
           .finally(() => {
             isRefreshing = false;
           });
+        return new Promise((resolve, reject) => {
+          failedRequestsQueue.push({
+            onSuccess: (token: string) => {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              originalConfig.headers!.Authorization = `Bearer ${token}`;
+              resolve(api(originalConfig));
+            },
+            onFailure: reject,
+          });
+        });
       }
 
-      return new Promise((resolve, reject) => {
-        failedRequestsQueue.push({
-          onSuccess: (token: string) => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            originalConfig.headers!.Authorization = `Bearer ${token}`;
-            resolve(api(originalConfig));
-          },
-          onFailure: reject,
-        });
-      });
+      logout();
     }
-    logout();
 
     return Promise.reject(error);
   },
