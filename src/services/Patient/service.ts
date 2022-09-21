@@ -8,6 +8,8 @@ import {
 } from './dtos/IPatientModel';
 import { IPatientParser } from './dtos/IPatientParser';
 
+export const PATIENT_FIRST_PASSWORD = '@menteSa-PatientFirstPassword';
+
 export async function fetchPatientList(filterParams: IPatientFilterModel): Promise<IPatientParser> {
   const url = `/patients/list`;
   const { data } = await api.get(url, { params: { filterParams } });
@@ -45,7 +47,10 @@ export async function fetchRegisterPatient({
   };
 
   const url = `/patients`;
-  const { data } = await api.post(url, params);
+  const { data, status } = await api.post(url, params);
+  if (status === 201) {
+    localStorage.setItem(PATIENT_FIRST_PASSWORD, JSON.stringify(data.password));
+  }
 
   return data;
 }
