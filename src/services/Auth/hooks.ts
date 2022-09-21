@@ -6,10 +6,11 @@ import { IAuthLoginParser } from './dtos/IAuthParser';
 export function useLoginUser({
   email,
   password,
+  userType,
 }: IAuthLoginModel): UseQueryResult<IAuthLoginParser> {
   const queryKey = ['loginUser'];
 
-  return useQuery(queryKey, () => fetchLoginUser({ email, password }), {
+  return useQuery(queryKey, () => fetchLoginUser({ email, password, userType }), {
     keepPreviousData: true,
   });
 }

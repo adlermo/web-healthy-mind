@@ -8,25 +8,37 @@ export const REFRESH_TOKEN = '@menteSa-RefreshTokem';
 export const USER_EMAIL = '@menteSa-UserEmail';
 export const USER_ROLE = '@menteSa-UserRole';
 export const CURRENT_USER_ID = '@menteSa-CurrentUserId';
+export const FIRST_LOGIN = '@menteSa-FirstLogin';
 export const SWORDFISH = '@menteSa-Swordfish';
 
 export async function fetchLoginUser(
-  { email, password }: IAuthLoginModel,
+  { email, password, userType }: IAuthLoginModel,
   remember = false,
 ): Promise<IAuthLoginParser> {
-  const url = '/signin';
+  const url = `/signin?type=${userType}`;
   const payload = { email, password };
   const { data, status } = await api.post(url, payload);
 
   if (status === 200) {
     localStorage.setItem(CURRENT_USER_ID, JSON.stringify(data.id));
     localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken));
-    localStorage.setItem(USER_ROLE, JSON.stringify('professional'));
+    if (data.userRole) {
+      localStorage.setItem(USER_ROLE, JSON.stringify(data.userRole));
+    } else {
+      localStorage.setItem(USER_ROLE, JSON.stringify(2));
+    }
+
+    if (data.isFirstLogin) {
+      localStorage.setItem(FIRST_LOGIN, JSON.stringify(true));
+    } else {
+      localStorage.setItem(FIRST_LOGIN, JSON.stringify(false));
+    }
 
     if (remember) {
       localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
     }
   }
+
   return data;
 }
 
