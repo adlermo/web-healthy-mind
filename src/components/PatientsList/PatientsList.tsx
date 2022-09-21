@@ -16,7 +16,7 @@ import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
-import ViewPatient from '../Modals/ViewPatient';
+import ViewPatient from '../ViewPatient/ViewPatient';
 
 interface IPatient {
   id: string;
