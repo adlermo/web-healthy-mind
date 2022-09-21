@@ -5,7 +5,7 @@ export interface IPatientParser {
   document: string;
   birthDate: Date;
   phone: string;
-  isFirstLogin: string;
-  password: string;
-  roleId: string;
+  isFirstLogin?: string;
+  password?: string;
+  roleId?: string;
 }
