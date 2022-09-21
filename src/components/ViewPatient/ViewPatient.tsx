@@ -1,4 +1,4 @@
-import { Divider, Space, Table } from 'antd';
+import { Divider, Table } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 
 import React, { useState, useEffect } from 'react';
@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { IPatientParser } from '../../services/Patient/dtos/IPatientParser';
 import { ISessionParser } from '../../services/Session/dtos/ISessionParser';
 
+import { useSessionsList } from '../../services/Session/hooks';
 import { usePatientsList } from '../../services/Patient/hooks';
 import { PatientData } from './ViewPatientStyles';
 
@@ -13,19 +14,21 @@ interface IPatient {
   id: string;
 }
 
-interface ISessionParserWithName extends ISessionParser {
-  patientName: string;
-}
-
 const ViewPatient: React.FC<IPatient> = ({ id }: IPatient) => {
   const [patient, setPatient] = useState<IPatientParser>();
-  const { data: patientList, isLoading } = usePatientsList({ page: 1 });
+  const { data: patientList } = usePatientsList({ page: 1 });
+  const { data: sessionList, isLoading } = useSessionsList({ page: 1 });
 
-  const [sessions, setSessions] = useState<ISessionParserWithName[]>([]);
+  const [sessions, setSessions] = useState<ISessionParser[] | undefined>([]);
 
   useEffect(
     () => patientList && setPatient(patientList.filter((p) => p.id === id)[0]),
     [id, patientList],
+  );
+
+  useEffect(
+    () => sessions && setSessions(sessionList?.filter((s) => s.patientId === id)),
+    [id, sessionList, sessions],
   );
 
   const columns = [
