@@ -16,6 +16,7 @@ import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
+import ViewPatient from '../Modals/ViewPatient';
 
 interface IPatient {
   id: string;
@@ -148,14 +149,13 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Modal
-            title={`Histórico de Paciente: ${modalPatient.name}`}
+            title={`Histórico Clínico de Paciente: ${modalPatient.name}`}
+            footer={null} // Removing default footer
+            width={700}
             open={view}
             onOk={confirmView}
             onCancel={cancelView}>
-            <ModalText>{modalPatient.email}</ModalText>
-            <ModalText>{modalPatient.document}</ModalText>
-            <ModalText>{modalPatient.birthDate}</ModalText>
-            <ModalText>{modalPatient.phone}</ModalText>
+            <ViewPatient id={modalPatient.id} />
           </Modal>
 
           <Modal
