@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Checkbox, Form, Input, message, Layout } from 'antd';
+import { Button, Checkbox, Form, Input, message, Layout, Select } from 'antd';
 import { fetchLoginUser, fetchRegisterUser } from 'src/services/Auth/service';
 import { Content } from 'antd/lib/layout/layout';
 import { Welcome, Subtitle } from './FormLoginRegisterStyles';
@@ -13,11 +13,13 @@ const FormLoginRegister: React.FC = () => {
   const navigate = useNavigate();
   const currentPath = window.location.pathname;
   const { Footer } = Layout;
+  const { Option } = Select;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [remember, setRemember] = useState(false);
+  const [userType, setUserType] = useState('professional');
 
   const toggleRemember = () => setRemember((e) => !e);
 
@@ -27,6 +29,7 @@ const FormLoginRegister: React.FC = () => {
         {
           email,
           password,
+          userType,
         },
         remember,
       ),
@@ -36,9 +39,15 @@ const FormLoginRegister: React.FC = () => {
         navigate('/dashboard');
       },
       onError: (e: any) => {
-        const errorMessage = e.response.data.message;
-        message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
-        navigate('/register');
+        if (e.response.config.url === '/signin?type=patient') {
+          const errorMessage = 'Logar como Profissional e criar novo paciente';
+          message.error(`Erro ao logar Paciente - ${errorMessage}`);
+          navigate('/');
+        } else {
+          const errorMessage = e.response.data.message;
+          message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
+          navigate('/');
+        }
       },
     },
   );
@@ -47,11 +56,8 @@ const FormLoginRegister: React.FC = () => {
     () =>
       fetchRegisterUser({
         name,
-
         email,
-
         password,
-
         confirmPassword,
       }),
     {
@@ -80,6 +86,10 @@ const FormLoginRegister: React.FC = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const handleUserTypeChange = (value: string) => {
+    setUserType(value);
   };
 
   return (
@@ -152,6 +162,24 @@ const FormLoginRegister: React.FC = () => {
                 },
               ]}>
               <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="Tipo de Usuário"
+              name="userType"
+              rules={[
+                {
+                  required: false,
+                  message: 'Insira o tipo de usuário',
+                },
+              ]}>
+              <Select
+                defaultValue="professional"
+                style={{ width: 120 }}
+                onChange={handleUserTypeChange}>
+                <Option value="professional">Profissional</Option>
+                <Option value="patient">Paciente</Option>
+              </Select>
             </Form.Item>
 
             {currentPath === '/register' && (

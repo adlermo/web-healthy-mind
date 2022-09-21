@@ -11,8 +11,8 @@ const SideMenu: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userRole = getUserRole();
-  const isProfessionalAuthenticated = isAuthenticated() && userRole === 'professional';
-  const isPatientAuthenticated = isAuthenticated() && userRole === 'patient';
+  const isProfessionalAuthenticated = isAuthenticated() && userRole === '2';
+  const isPatientAuthenticated = isAuthenticated() && userRole === '3';
 
   const clickHandler = (item: { key: string }) => {
     if (item.key === '1') {
@@ -41,7 +41,7 @@ const SideMenu: React.FC = () => {
   };
 
   const returnPatientDefaultSelectedKeys = (): string[] | undefined => {
-    if (userRole === 'patient') return ['1'];
+    if (userRole === '3') return ['1'];
 
     return [''];
   };

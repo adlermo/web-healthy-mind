@@ -1,4 +1,4 @@
-import { Col, Layout, Row, Divider, Descriptions, Badge } from 'antd';
+import { Col, Layout, Row, Divider, Descriptions } from 'antd';
 import { getUserRole } from 'src/services/Auth/service';
 import moment from 'moment';
 // import { useSessionsList } from 'src/services/Session/hooks';
@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
       appointmentDate: '2023-02-11 16:00',
     },
   ];
-  // console.log(sessionsList);
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <SideMenu />
@@ -73,7 +73,7 @@ const Dashboard: React.FC = () => {
           style={{
             margin: '25px 20px',
           }}>
-          {userRole === 'patient' && (
+          {userRole === '3' && (
             <LayoutBackground>
               <Row gutter={[0, 40]} wrap>
                 {sessionsList.map((session) => {
@@ -116,7 +116,7 @@ const Dashboard: React.FC = () => {
               </Row>
             </LayoutBackground>
           )}
-          {userRole === 'professional' && (
+          {userRole === '2' && (
             <LayoutBackground>
               <Row gutter={[20, 20]} wrap>
                 <Col>

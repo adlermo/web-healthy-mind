@@ -1,6 +1,7 @@
 export interface IAuthLoginModel {
   email: string;
   password: string;
+  userType: string;
 }
 
 export interface IAuthRegisterModel {
