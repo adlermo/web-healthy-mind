@@ -148,7 +148,7 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Modal
-            title={`Ver paciente ${modalPatient.name}`}
+            title={`Histórico de Paciente: ${modalPatient.name}`}
             open={view}
             onOk={confirmView}
             onCancel={cancelView}>
