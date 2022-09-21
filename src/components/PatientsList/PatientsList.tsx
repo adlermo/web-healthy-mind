@@ -2,20 +2,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Layout, Typography, Input, Button, Table, Space, Modal, message } from 'antd';
+import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
-import { PlusCircleOutlined, EditOutlined, FolderOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, EditOutlined, EyeOutlined, FolderOpenFilled } from '@ant-design/icons';
 
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { fetchDeletePatient } from 'src/services/Patient/service';
 
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 
-import { ActionBox, ModalText } from '../SessionsList/SessionsListStyles';
-import { MainBox, UpperBox, BottomBox } from './PatientsListStyles';
+import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
+import ViewPatient from '../ViewPatient/ViewPatient';
 
 interface IPatient {
   id: string;
@@ -28,21 +29,40 @@ const PatientsList: React.FC = () => {
   const { Title } = Typography;
   const { Search } = Input;
   const { data: patientsList, isLoading } = usePatientsList(filterParams);
-  const [open, setOpen] = useState(false);
+  const [archive, setArchive] = useState(false);
+  const [view, setView] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Realmente deseja arquivar o paciente?');
+  const [modalText, setModalText] = useState('Realmente deseja arquivar este paciente?');
   const [removePatientId, setRemovePatientId] = useState('');
+  const [modalPatient, setModalPatient] = useState(Object);
 
-  const showModal = (record: any) => {
-    setRemovePatientId(record.id);
-    setOpen(true);
+  const showModal = (value: IPatient) => {
+    setRemovePatientId(value.id);
+    setArchive(true);
+  };
+
+  const handleEdit = (value: IPatient) => {
+    console.log(value);
+  };
+
+  const showPatient = (value: any) => {
+    setModalPatient(value);
+    setView(true);
+  };
+
+  const confirmView = () => {
+    console.log('Inside confirmView handler');
+  };
+
+  const cancelView = () => {
+    setView(false);
   };
 
   const [data, setData] = useState<IPatientParser[]>([]);
 
   useEffect(() => patientsList && setData(patientsList), [patientsList]);
 
-  const handleOk = () => {
+  const confirmArchive = () => {
     setModalText('Arquivando o paciente');
     setConfirmLoading(true);
 
@@ -58,19 +78,13 @@ const PatientsList: React.FC = () => {
         message.error(`Erro ao arquivar o paciente - ${errorMessage}`);
       })
       .finally(() => {
-        setOpen(false);
+        setArchive(false);
         setConfirmLoading(false);
       });
   };
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
-  const handleEdit = (value: IPatient, e: any) => {
-    // e.preventDefault();
-    console.log(value);
-    console.log(e.target.innerText);
+  const cancelArchive = () => {
+    setArchive(false);
   };
 
   const handleSearch = (value: string) => {
@@ -116,33 +130,42 @@ const PatientsList: React.FC = () => {
       title: 'Ações',
       key: 'action',
       render: (_: any, record: any) => (
-        <Space size="middle">
-          <ActionBox>
+        <Space>
+          <Popover content="Ver dados do paciente">
+            <Button type="default" onClick={() => showPatient(record)} icon={<EyeOutlined />} />
+          </Popover>
+
+          <Popover content="Editar o paciente">
+            <Button type="primary" onClick={() => handleEdit(record)} icon={<EditOutlined />} />
+          </Popover>
+
+          <Popover content="Arquivar paciente">
             <Button
-              type="primary"
-              onClick={(e) => {
-                handleEdit(record, e);
-              }}
-              icon={<EditOutlined />}
-              style={{ marginBottom: 5 }}>
-              Editar
-            </Button>
-            <Button
-              type="primary"
+              danger
+              type="default"
               onClick={() => showModal(record)}
-              icon={<FolderOutlined />}
-              style={{ marginTop: 5 }}>
-              Arquivar
-            </Button>
-            <Modal
-              title="Arquivar o paciente"
-              open={open}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-              onCancel={handleCancel}>
-              <ModalText>{modalText}</ModalText>
-            </Modal>
-          </ActionBox>
+              icon={<FolderOpenFilled />}
+            />
+          </Popover>
+
+          <Modal
+            title={`Histórico Clínico de Paciente: ${modalPatient.name}`}
+            footer={null} // Removing default footer
+            width={700}
+            open={view}
+            onOk={confirmView}
+            onCancel={cancelView}>
+            <ViewPatient id={modalPatient.id} />
+          </Modal>
+
+          <Modal
+            title="Arquivar o paciente"
+            open={archive}
+            onOk={confirmArchive}
+            confirmLoading={confirmLoading}
+            onCancel={cancelArchive}>
+            <ModalText>{modalText}</ModalText>
+          </Modal>
         </Space>
       ),
     },
@@ -166,9 +189,11 @@ const PatientsList: React.FC = () => {
                   width: `45%`,
                 }}
               />
-              <Button type="primary" href="/register-patient" icon={<PlusCircleOutlined />}>
-                Novo paciente
-              </Button>
+              <Link to="/register-patient">
+                <Button type="primary" icon={<PlusCircleOutlined />}>
+                  Novo paciente
+                </Button>
+              </Link>
             </UpperBox>
             <BottomBox>
               <Table

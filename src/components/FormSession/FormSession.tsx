@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+
 import moment from 'moment';
+
 import type { DatePickerProps } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
@@ -24,6 +26,7 @@ const FormSession: React.FC = () => {
   const [subject, setSubject] = useState('');
   const [duration, setDuration] = useState('');
   const [type, setType] = useState('');
+  const [service, setService] = useState('');
   const [comments, setComments] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [resources, setResources] = useState(Array<string>);
@@ -40,6 +43,8 @@ const FormSession: React.FC = () => {
         subject,
         duration,
         type,
+        service,
+        resourceId: '1',
         comments,
         appointmentDate: moment(appointmentDate).toISOString(),
       }),
@@ -64,6 +69,8 @@ const FormSession: React.FC = () => {
         subject,
         duration,
         type,
+        service,
+        resourceId: '1',
         comments,
         appointmentDate: moment(appointmentDate).toISOString(),
       }),
@@ -111,6 +118,10 @@ const FormSession: React.FC = () => {
 
   const handleTypeChange = (value: string) => {
     setType(value);
+  };
+
+  const handleServiceChange = (value: string) => {
+    setService(value);
   };
 
   const handleResourcesChange = (value: string) => {
@@ -229,6 +240,21 @@ const FormSession: React.FC = () => {
           </Form.Item>
 
           <Form.Item
+            label="Serviço"
+            name="service"
+            rules={[
+              {
+                required: true,
+                message: 'Insira a categoria de serviço',
+              },
+            ]}>
+            <Select style={{ width: 200 }} onChange={handleServiceChange}>
+              <Option value="remote">Remoto</Option>
+              <Option value="presential">Presencial</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
             label="Anotações"
             name="comments"
             rules={[
@@ -265,14 +291,15 @@ const FormSession: React.FC = () => {
               offset: 6,
               span: 12,
             }}>
-            <Button
-              type="default"
-              href="/sessions"
-              style={{
-                marginRight: 30,
-              }}>
-              Cancelar
-            </Button>
+            <Link to="/sessions">
+              <Button
+                type="default"
+                style={{
+                  marginRight: 30,
+                }}>
+                Cancelar
+              </Button>
+            </Link>
 
             <Button type="primary" htmlType="submit">
               Salvar

@@ -33,6 +33,8 @@ export async function fetchCreateSession({
   subject,
   duration,
   type,
+  service,
+  resourceId,
   comments,
   appointmentDate,
 }: ISessionCreateModel): Promise<ISessionParser> {
@@ -42,6 +44,8 @@ export async function fetchCreateSession({
     subject,
     duration,
     type,
+    service,
+    resourceId,
     comments,
     appointmentDate,
   };
@@ -59,6 +63,8 @@ export async function fetchEditSession({
   subject,
   duration,
   type,
+  service,
+  resourceId,
   comments,
 }: ISessionEditModel): Promise<ISessionParser> {
   const params = {
@@ -68,6 +74,8 @@ export async function fetchEditSession({
     subject,
     duration,
     type,
+    service,
+    resourceId,
     comments,
   };
 

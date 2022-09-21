@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import type { DatePickerProps } from 'antd';
 import { Button, DatePicker, Form, Input, message, Layout, InputNumber } from 'antd';
 import { useMutation } from '@tanstack/react-query';
@@ -189,14 +189,15 @@ const FormPatient: React.FC = () => {
                 offset: 6,
                 span: 12,
               }}>
-              <Button
-                type="default"
-                href="/patients"
-                style={{
-                  marginRight: 30,
-                }}>
-                Cancelar
-              </Button>
+              <Link to="/patients">
+                <Button
+                  type="default"
+                  style={{
+                    marginRight: 30,
+                  }}>
+                  Cancelar
+                </Button>
+              </Link>
 
               <Button type="primary" htmlType="submit">
                 Salvar

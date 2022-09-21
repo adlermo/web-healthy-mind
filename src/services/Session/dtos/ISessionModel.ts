@@ -10,8 +10,10 @@ export interface ISessionCreateModel {
   subject: string;
   duration: string;
   type: string;
+  service: string;
   comments: string;
   appointmentDate: string;
+  resourceId: string;
 }
 
 export interface ISessionEditModel {
@@ -21,8 +23,10 @@ export interface ISessionEditModel {
   subject: string;
   duration: string;
   type: string;
+  service: string;
   comments: string;
   appointmentDate: string;
+  resourceId: string;
 }
 
 export interface ISessionShowModel {
