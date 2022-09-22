@@ -1,3 +1,5 @@
+import { IAddressPatient } from './IAddressModel';
+
 export interface IPatientListModel {
   workerId: string;
   page: number;
@@ -5,8 +7,7 @@ export interface IPatientListModel {
 }
 
 export interface IPatientCreateModel {
-  addressId?: number;
-  address?: string;
+  address: IAddressPatient;
   name: string;
   email: string;
   document: string;
@@ -17,7 +18,6 @@ export interface IPatientCreateModel {
 
 export interface IPatientEditModel {
   patientId: string;
-  address?: string;
   name: string;
   email: string;
   document: string;
