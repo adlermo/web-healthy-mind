@@ -1,3 +1,5 @@
+import { IAddressPatient } from './IAddressModel';
+
 export interface IPatientParser {
   id: string;
   name: string;
@@ -6,6 +8,7 @@ export interface IPatientParser {
   gender: string;
   birthDate: Date;
   phone: string;
+  address: IAddressPatient;
   isFirstLogin?: string;
   password?: string;
   roleId?: string;
