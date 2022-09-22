@@ -55,32 +55,16 @@ const ViewPatient: React.FC<IPatient> = ({ id }: IPatient) => {
   ];
 
   const formatAddress = (address: IAddressPatient): string => {
-    return `${address?.street}, ${address?.number} - ${address?.district}`;
+    return `${address?.street}, ${address?.number} - ${address?.district} - ${address?.city}, ${address?.state} - ${address?.country}`;
   };
 
   return (
     <>
-      <Row>
+      <Row gutter={10}>
         <Col span={12}>
           <p>
             <strong>Email: </strong>
             {patient.email}
-          </p>
-        </Col>
-
-        <Col span={12}>
-          <p>
-            <strong>Endereço: </strong>
-            {formatAddress(patient.address)}
-          </p>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col span={12}>
-          <p>
-            <strong>Details: </strong>
-            {patient.address?.details}
           </p>
         </Col>
 
@@ -92,21 +76,46 @@ const ViewPatient: React.FC<IPatient> = ({ id }: IPatient) => {
         </Col>
       </Row>
 
-      {/* <Row>
+      <Row gutter={10}>
         <Col span={12}>
           <p>
             <strong>Nascimento: </strong>
-            {moment(patient?.birthDate, 'dd-mm-yyyy')}
+            {moment(patient?.birthDate).format('DD MMM YYYY')}
           </p>
         </Col>
 
         <Col span={12}>
           <p>
-            <strong>Nascimento: </strong>
-            {patient.birthDate}
+            <strong>Gênero: </strong>
+            {patient?.gender}
           </p>
         </Col>
-      </Row> */}
+      </Row>
+
+      <Row gutter={10}>
+        <Col span={12}>
+          <p>
+            <strong>Endereço: </strong>
+            {formatAddress(patient.address)}
+          </p>
+        </Col>
+
+        <Col span={12}>
+          <p>
+            <strong>Details: </strong>
+            {patient.address?.details}
+          </p>
+        </Col>
+      </Row>
+
+      <Row gutter={10}>
+        <Col span={12}>
+          <p>
+            <strong>CEP: </strong>
+            {patient.address?.postalCode}
+          </p>
+        </Col>
+      </Row>
 
       <Divider>Sessões Finalizadas</Divider>
 
