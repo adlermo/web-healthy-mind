@@ -46,7 +46,9 @@ const FormLoginRegister: React.FC = () => {
         } else if (e.response.config.url === '/signin?type=patient' && e.response.status === 400) {
           const errorMessage = e.response.data.message;
           message.warning(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
-          navigate('/update-password');
+          navigate('/update-password', {
+            state: { builtPassword: password, newToken: e.response.data.token },
+          });
         } else {
           const errorMessage = e.response.data.message;
           message.error(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);

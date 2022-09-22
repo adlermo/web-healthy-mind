@@ -10,6 +10,7 @@ export const USER_ROLE = '@menteSa-UserRole';
 export const CURRENT_USER_ID = '@menteSa-CurrentUserId';
 export const FIRST_LOGIN = '@menteSa-FirstLogin';
 export const SWORDFISH = '@menteSa-Swordfish';
+export const PATIENT_FIRST_PASSWORD = '@menteSa-PatientFirstPassword';
 
 export async function fetchLoginUser(
   { email, password, userType }: IAuthLoginModel,
@@ -22,16 +23,10 @@ export async function fetchLoginUser(
   if (status === 200) {
     localStorage.setItem(CURRENT_USER_ID, JSON.stringify(data.id));
     localStorage.setItem(TOKEN_KEY, JSON.stringify(data.accessToken));
-    if (data.userRole) {
-      localStorage.setItem(USER_ROLE, JSON.stringify(data.userRole));
+    if (data.roleId) {
+      localStorage.setItem(USER_ROLE, JSON.stringify(data.roleId));
     } else {
       localStorage.setItem(USER_ROLE, JSON.stringify(2));
-    }
-
-    if (data.isFirstLogin) {
-      localStorage.setItem(FIRST_LOGIN, JSON.stringify(true));
-    } else {
-      localStorage.setItem(FIRST_LOGIN, JSON.stringify(false));
     }
 
     if (remember) {

@@ -7,8 +7,7 @@ import {
   IPatientShowModel,
 } from './dtos/IPatientModel';
 import { IPatientParser } from './dtos/IPatientParser';
-
-export const PATIENT_FIRST_PASSWORD = '@menteSa-PatientFirstPassword';
+import { PATIENT_FIRST_PASSWORD } from '../Auth/service';
 
 export async function fetchPatientList(filterParams: IPatientFilterModel): Promise<IPatientParser> {
   const url = `/patients/list`;
@@ -64,9 +63,11 @@ export async function fetchEditPatient({
   gender,
   birthDate,
   phone,
+  password,
+  newPassword,
+  confirmPassword,
 }: IPatientEditModel): Promise<IPatientParser> {
   const params = {
-    patientId,
     address,
     name,
     email,
@@ -74,9 +75,12 @@ export async function fetchEditPatient({
     gender,
     birthDate,
     phone,
+    password,
+    newPassword,
+    confirmPassword,
   };
 
-  const url = `/patients/update/${patientId}`;
+  const url = `/patients/update/${patientId.toString()}`;
   const { data } = await api.put(url, params);
   return data;
 }
