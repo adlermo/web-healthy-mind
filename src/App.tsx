@@ -9,6 +9,7 @@ import Register from './pages/Register/Register';
 import FormPatient from './components/FormPatient/FormPatient';
 import Sessions from './pages/Sessions/Sessions';
 import FormSession from './components/FormSession/FormSession';
+import UpdatePassword from './components/UpdatePassword/UpdatePassword';
 import { queryClient } from './services/queryClient';
 import { isAuthenticated } from './services/Auth/service';
 
@@ -28,6 +29,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
           <Route
             path="/dashboard"
             element={

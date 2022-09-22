@@ -18,12 +18,15 @@ export interface IPatientCreateModel {
 export interface IPatientEditModel {
   patientId: string;
   address?: string;
-  name: string;
-  email: string;
-  document: string;
+  name?: string;
+  email?: string;
+  document?: string;
   gender?: string;
-  birthDate: string;
-  phone: string;
+  birthDate?: string;
+  phone?: string;
+  password?: string;
+  newPassword?: string;
+  confirmPassword?: string;
 }
 
 export interface IPatientShowModel {
