@@ -1,23 +1,21 @@
-import { Col, Layout, Row, Divider, Descriptions } from 'antd';
-import { getUserRole } from 'src/services/Auth/service';
+import { Col, Descriptions, Divider, Layout, Row } from 'antd';
 import moment from 'moment';
-// import { useSessionsList } from 'src/services/Session/hooks';
+import { getUserRole } from 'src/services/Auth/service';
+import { useDashboard } from 'src/services/Dashboard/hooks';
 import SideMenu from '../SideMenu/SideMenu';
-// import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
 import {
   GridItem,
-  PatientGridItem,
   ItemNumber,
   ItemTitle,
   LayoutBackground,
+  PatientGridItem,
   PatientItemTitle,
 } from './DashboardStyles';
 
 const Dashboard: React.FC = () => {
   const { Content, Footer } = Layout;
   const userRole = getUserRole();
-  // const filterParams = { page: 1 };
-  // const { data: sessionsList } = useSessionsList(filterParams);
+  const { data: dashboard } = useDashboard();
   const sessionsList = [
     {
       patientId: 1,
@@ -122,43 +120,43 @@ const Dashboard: React.FC = () => {
                 <Col>
                   <GridItem>
                     <ItemTitle>Sessões agendadas (dia)</ItemTitle>
-                    <ItemNumber>5</ItemNumber>
+                    <ItemNumber>{dashboard?.totalSessionsScheduledPerDay}</ItemNumber>
                   </GridItem>
                 </Col>
                 <Col>
                   <GridItem>
                     <ItemTitle>Sessões agendadas (mês)</ItemTitle>
-                    <ItemNumber>15</ItemNumber>
+                    <ItemNumber>{dashboard?.totalSessionsScheduledPerMonth}</ItemNumber>
                   </GridItem>
                 </Col>
                 <Col>
                   <GridItem>
                     <ItemTitle>Sessões canceladas (mês)</ItemTitle>
-                    <ItemNumber>1</ItemNumber>
+                    <ItemNumber>{dashboard?.totalSessionsCanceledPerMonth}</ItemNumber>
                   </GridItem>
                 </Col>
                 <Col>
                   <GridItem>
                     <ItemTitle>Total de pacientes cadastrados</ItemTitle>
-                    <ItemNumber>61152</ItemNumber>
+                    <ItemNumber>{dashboard?.totalPatients}</ItemNumber>
                   </GridItem>
                 </Col>
                 <Col>
                   <GridItem>
                     <ItemTitle>Total de sessões (individuais)</ItemTitle>
-                    <ItemNumber>5</ItemNumber>
+                    <ItemNumber>{dashboard?.totalSessionsIndividual}</ItemNumber>
                   </GridItem>
                 </Col>
                 <Col>
                   <GridItem>
                     <ItemTitle>Total de sessões (dupla)</ItemTitle>
-                    <ItemNumber>5</ItemNumber>
+                    <ItemNumber>{dashboard?.totalSessionsPair}</ItemNumber>
                   </GridItem>
                 </Col>
                 <Col>
                   <GridItem>
                     <ItemTitle>Total de sessões (grupo)</ItemTitle>
-                    <ItemNumber>5</ItemNumber>
+                    <ItemNumber>{dashboard?.totalSessionsGroup}</ItemNumber>
                   </GridItem>
                 </Col>
               </Row>

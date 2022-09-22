@@ -1,21 +1,19 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import moment from 'moment';
 
-import { IResourceParser } from 'src/services/Resource/dto/IResourceParser';
-import type { DatePickerProps } from 'antd';
-import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
 import { useMutation } from '@tanstack/react-query';
-import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
+import type { DatePickerProps } from 'antd';
+import { Button, DatePicker, Form, Input, Layout, message, Select, TimePicker } from 'antd';
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { useListResources } from 'src/services/Resource/hooks';
-import { listResources } from 'src/services/Resource/service';
-import { Welcome } from './FormSessionStyles';
-import SideMenu from '../SideMenu/SideMenu';
+import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
 import NewResourceModal from '../Modals/NewResource';
+import SideMenu from '../SideMenu/SideMenu';
+import { Welcome } from './FormSessionStyles';
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
@@ -218,6 +216,7 @@ const FormSession: React.FC = () => {
             <Select style={{ width: 200 }} onChange={handleStatusChange}>
               <Option value="agendada">Agendada</Option>
               <Option value="finalizada">Finalizada</Option>
+              <Option value="cancelada">Cancelada</Option>
             </Select>
           </Form.Item>
 
@@ -244,7 +243,7 @@ const FormSession: React.FC = () => {
             ]}>
             <Select style={{ width: 200 }} onChange={handleTypeChange}>
               <Option value="individual">Individual</Option>
-              <Option value="casal">Casal</Option>
+              <Option value="dupla">Casal</Option>
               <Option value="grupo">Grupo</Option>
             </Select>
           </Form.Item>
