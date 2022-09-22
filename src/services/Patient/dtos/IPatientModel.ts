@@ -22,8 +22,11 @@ export interface IPatientEditModel {
   email: string;
   document: string;
   gender?: string;
-  birthDate: string;
-  phone: string;
+  birthDate?: string;
+  phone?: string;
+  password?: string;
+  newPassword?: string;
+  confirmPassword?: string;
 }
 
 export interface IPatientShowModel {
