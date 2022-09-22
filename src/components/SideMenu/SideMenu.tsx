@@ -1,8 +1,8 @@
-import { CalendarOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { CalendarOutlined, HomeOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Image, Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isAuthenticated, getUserRole } from 'src/services/Auth/service';
+import { isAuthenticated, getUserRole, logout } from 'src/services/Auth/service';
 import { LogoTitle } from './SideMenuStyles';
 
 const SideMenu: React.FC = () => {
@@ -24,11 +24,19 @@ const SideMenu: React.FC = () => {
     if (item.key === '3') {
       navigate('/sessions');
     }
+    if (item.key === '4') {
+      logout();
+      navigate('/');
+    }
   };
 
   const patientClickHandler = (item: { key: string }) => {
     if (item.key === '1') {
       navigate('/dashboard');
+    }
+    if (item.key === '2') {
+      logout();
+      navigate('/');
     }
   };
 
@@ -49,11 +57,15 @@ const SideMenu: React.FC = () => {
   const indexToName = (index: number) => {
     if (index === 0) return 'Dashboard';
     if (index === 1) return 'Pacientes';
+    if (index === 2) return 'Sessões';
 
-    return 'Sessões';
+    return 'Logout';
   };
 
-  const indexToPatientName = () => 'Minhas sessões';
+  const indexToPatientName = (index: number) => {
+    if (index === 0) return 'Minhas sessões';
+    return 'Logout';
+  };
 
   return (
     <Sider>
@@ -81,10 +93,10 @@ const SideMenu: React.FC = () => {
             mode="inline"
             defaultSelectedKeys={returnPatientDefaultSelectedKeys()}
             onClick={patientClickHandler}
-            items={[CalendarOutlined].map((icon, index) => ({
+            items={[CalendarOutlined, LogoutOutlined].map((icon, index) => ({
               key: String(index + 1),
               icon: React.createElement(icon),
-              label: indexToPatientName(),
+              label: indexToPatientName(index),
             }))}
           />
         )}
@@ -94,11 +106,13 @@ const SideMenu: React.FC = () => {
             mode="inline"
             defaultSelectedKeys={returnDefaultSelectedKeys()}
             onClick={clickHandler}
-            items={[HomeOutlined, UserOutlined, CalendarOutlined].map((icon, index) => ({
-              key: String(index + 1),
-              icon: React.createElement(icon),
-              label: indexToName(index),
-            }))}
+            items={[HomeOutlined, UserOutlined, CalendarOutlined, LogoutOutlined].map(
+              (icon, index) => ({
+                key: String(index + 1),
+                icon: React.createElement(icon),
+                label: indexToName(index),
+              }),
+            )}
           />
         )}
       </>
