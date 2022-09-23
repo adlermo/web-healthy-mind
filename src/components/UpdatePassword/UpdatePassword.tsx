@@ -14,22 +14,18 @@ const UpdatePassword: React.FC = () => {
   const navigate = useNavigate();
   const location: any = useLocation();
   const { Footer } = Layout;
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   localStorage.setItem(TOKEN_KEY, JSON.stringify(location.state.newToken));
 
-  // console.log(location.state);
   const { mutate: mutateUpdatePassword } = useMutation(
-    () =>
+    (value: any) =>
       fetchEditPatient({
-        patientId: ' ',
+        patientId: 'default',
         password: location.state.builtPassword,
-        newPassword,
-        confirmPassword: confirmNewPassword,
+        newPassword: value.newPassword,
+        confirmPassword: value.confirmPassword,
       }),
     {
-      onSuccess: (r) => {
-        console.log(r);
+      onSuccess: () => {
         localStorage.setItem(USER_ROLE, JSON.stringify(3));
         message.success('Senha alterada com sucesso');
         navigate('/Dashboard');
@@ -42,12 +38,9 @@ const UpdatePassword: React.FC = () => {
   );
 
   const onFinish = (values: any) => {
-    setNewPassword(values.password);
-    setConfirmNewPassword(values?.confirmPassword);
-
-    if (newPassword !== '' && confirmNewPassword) {
+    if (values.newPassword !== '' && values.confirmPassword) {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      mutateUpdatePassword();
+      mutateUpdatePassword(values);
     }
   };
 
@@ -84,7 +77,7 @@ const UpdatePassword: React.FC = () => {
 
             <Form.Item
               label="Senha"
-              name="password"
+              name="newPassword"
               rules={[
                 {
                   required: true,

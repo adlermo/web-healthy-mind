@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from 'src/services/queryClient';
 
 import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
 import { PlusCircleOutlined, EditOutlined, EyeOutlined, FolderOpenFilled } from '@ant-design/icons';
@@ -61,27 +63,19 @@ const SessionsList: React.FC = () => {
     setOpen(true);
   };
 
-  const handleOk = () => {
-    setModalText('Arquivando a sessão');
-
-    fetchRemoveSession({
-      sessionId: removeSessionId,
-    })
-      .then(() => {
+  const { mutate: handleArchive } = useMutation(
+    () => fetchRemoveSession({ sessionId: removeSessionId }),
+    {
+      onSuccess: () => {
         message.success('Arquivado com Sucesso');
-      })
-      .catch((error) => {
+        queryClient.invalidateQueries(['sessionList']);
+      },
+      onError: (error: any) => {
         const errorMessage = error.response.data.message;
         message.error(`Erro ao arquivar sessão - ${errorMessage}`);
-      });
-
-    setConfirmLoading(true);
-
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 1500);
-  };
+      },
+    },
+  );
 
   const handleCancel = () => {
     setOpen(false);
@@ -153,7 +147,7 @@ const SessionsList: React.FC = () => {
           <Modal
             title="Arquivar a sessão"
             open={open}
-            onOk={handleOk}
+            onOk={() => handleArchive()}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}>
             <ModalText>{modalText}</ModalText>
