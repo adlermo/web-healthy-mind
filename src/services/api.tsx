@@ -7,7 +7,7 @@ let isRefreshing = false;
 let failedRequestsQueue: any[] = [];
 
 const api = axios.create({
-  baseURL: 'https://staging-api-healthy-mind.herokuapp.com',
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 api.interceptors.request.use(async (config) => {
