@@ -22,14 +22,13 @@ const UpdatePassword: React.FC = () => {
   const { mutate: mutateUpdatePassword } = useMutation(
     () =>
       fetchEditPatient({
-        patientId: ' ',
+        patientId: 'default',
         password: location.state.builtPassword,
         newPassword,
         confirmPassword: confirmNewPassword,
       }),
     {
-      onSuccess: (r) => {
-        console.log(r);
+      onSuccess: () => {
         localStorage.setItem(USER_ROLE, JSON.stringify(3));
         message.success('Senha alterada com sucesso');
         navigate('/Dashboard');
