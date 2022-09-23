@@ -6,15 +6,11 @@ import { Button, Form, Input, message, Modal, Select } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { SelectHandler } from 'rc-select/lib/Select';
 import React, { useState } from 'react';
+import { IResourceModel } from 'src/services/Resource/dto/IResourceModel';
+import { createResource } from 'src/services/Resource/service';
 
-interface INewResourceDTO {
-  category: string;
-  title: string;
-  description: string;
-}
-
-const NewResourceModal: React.FC = () => {
-  const [data, setData] = useState<INewResourceDTO>({
+const NewResourceModal: React.FC<{ callback: () => void }> = ({ callback }) => {
+  const [data, setData] = useState<IResourceModel>({
     category: '',
     title: '',
     description: '',
@@ -28,7 +24,7 @@ const NewResourceModal: React.FC = () => {
 
   const handleOk = () => {
     message.success('Recurso criado com sucesso');
-    // TODO: call hook to refresh resources
+    callback();
     setIsModalOpen(false);
   };
 
@@ -36,15 +32,14 @@ const NewResourceModal: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const createResource = useMutation(
+  const { mutate: mutateCreateResource } = useMutation(
     // ESLint tem regra de não usar mesmo nome de variável que existe em escopo acima
-    async (_data: INewResourceDTO) => {
-      console.log(_data);
-      // TODO: call api
-    },
+    () => createResource(data),
     {
       onSuccess: handleOk,
-      onError: (_err) => {},
+      onError: (err: any) => {
+        message.error(`Erro ao criar recurso - ${err}`);
+      },
     },
   );
 
@@ -84,7 +79,7 @@ const NewResourceModal: React.FC = () => {
             remember: true,
           }}
           autoComplete="off"
-          onFinish={() => createResource.mutate(data)}
+          onFinish={mutateCreateResource}
           onFinishFailed={onFinishFailed}>
           <Form.Item
             label="Título"

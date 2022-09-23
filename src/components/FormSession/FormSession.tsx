@@ -10,6 +10,7 @@ import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } 
 import { useMutation } from '@tanstack/react-query';
 import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
 import { usePatientsList } from 'src/services/Patient/hooks';
+import { useListResources } from 'src/services/Resource/hooks';
 import { Welcome } from './FormSessionStyles';
 import SideMenu from '../SideMenu/SideMenu';
 import NewResourceModal from '../Modals/NewResource';
@@ -29,11 +30,12 @@ const FormSession: React.FC = () => {
   const [service, setService] = useState('');
   const [comments, setComments] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
-  const [resources, setResources] = useState(Array<string>);
+  const [resourceId, setResourceId] = useState('');
   const formatDuration = 'HH:mm';
   const filterParams = { page: 1 };
 
   const { data } = usePatientsList(filterParams);
+  const { data: resourcesList, refetch } = useListResources();
 
   const { mutate: mutateRegisterSession } = useMutation(
     () =>
@@ -41,12 +43,12 @@ const FormSession: React.FC = () => {
         patientId,
         status,
         subject,
-        duration,
+        duration: moment(duration).format('HH:mm'),
         type,
         service,
-        resourceId: '1',
+        resourceId,
         comments,
-        appointmentDate: moment(appointmentDate).toISOString(),
+        appointmentDate: moment(appointmentDate).format('YYYY-MM-DD HH:mm'),
       }),
     {
       onSuccess: () => {
@@ -67,12 +69,12 @@ const FormSession: React.FC = () => {
         patientId,
         status,
         subject,
-        duration,
+        duration: moment(duration).format('HH:mm'),
         type,
         service,
-        resourceId: '1',
+        resourceId,
         comments,
-        appointmentDate: moment(appointmentDate).toISOString(),
+        appointmentDate: moment(appointmentDate).format('YYYY-MM-DD HH:mm'),
       }),
     {
       onSuccess: () => {
@@ -105,6 +107,7 @@ const FormSession: React.FC = () => {
   };
 
   const onDateChange: DatePickerProps['onChange'] = (_date, dateString) => {
+    console.log(dateString);
     setAppointmentDate(dateString);
   };
 
@@ -125,7 +128,7 @@ const FormSession: React.FC = () => {
   };
 
   const handleResourcesChange = (value: string) => {
-    setResources([...resources, value]);
+    setResourceId(value);
   };
 
   return (
@@ -193,7 +196,13 @@ const FormSession: React.FC = () => {
                 message: 'Data da sessão',
               },
             ]}>
-            <DatePicker onChange={onDateChange} style={{ width: 200 }} />
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              disabledDate={(curr) => curr && curr < moment().endOf('day')}
+              onChange={onDateChange}
+              style={{ width: 200 }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -208,6 +217,7 @@ const FormSession: React.FC = () => {
             <Select style={{ width: 200 }} onChange={handleStatusChange}>
               <Option value="agendada">Agendada</Option>
               <Option value="finalizada">Finalizada</Option>
+              <Option value="cancelada">Cancelada</Option>
             </Select>
           </Form.Item>
 
@@ -234,7 +244,7 @@ const FormSession: React.FC = () => {
             ]}>
             <Select style={{ width: 200 }} onChange={handleTypeChange}>
               <Option value="individual">Individual</Option>
-              <Option value="casal">Casal</Option>
+              <Option value="dupla">Casal</Option>
               <Option value="grupo">Grupo</Option>
             </Select>
           </Form.Item>
@@ -275,15 +285,14 @@ const FormSession: React.FC = () => {
                 message: 'Selecione os recursos',
               },
             ]}>
-            <Select
-              mode="tags"
-              defaultValue="nenhum"
-              style={{ width: 200 }}
-              onChange={handleResourcesChange}>
-              <Option value="nenhum">Nenhum</Option>
-              {/* TODO: map resources from db */}
+            <Select style={{ width: 200 }} onChange={handleResourcesChange}>
+              {resourcesList?.map((resource) => (
+                <Option value={resource.id} key={resource.id}>
+                  {resource.title}
+                </Option>
+              ))}
             </Select>
-            <NewResourceModal />
+            <NewResourceModal callback={refetch} />
           </Form.Item>
 
           <Form.Item

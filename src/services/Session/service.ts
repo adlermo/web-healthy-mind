@@ -68,7 +68,6 @@ export async function fetchEditSession({
   comments,
 }: ISessionEditModel): Promise<ISessionParser> {
   const params = {
-    sessionId,
     patientId,
     status,
     subject,

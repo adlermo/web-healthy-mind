@@ -17,7 +17,7 @@ export interface ISessionCreateModel {
 }
 
 export interface ISessionEditModel {
-  sessionId: string;
+  sessionId?: string;
   patientId: string;
   status: string;
   subject: string;

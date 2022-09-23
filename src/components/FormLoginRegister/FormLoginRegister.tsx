@@ -14,21 +14,17 @@ const FormLoginRegister: React.FC = () => {
   const currentPath = window.location.pathname;
   const { Footer } = Layout;
   const { Option } = Select;
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [remember, setRemember] = useState(false);
   const [userType, setUserType] = useState('professional');
 
   const toggleRemember = () => setRemember((e) => !e);
 
   const { mutate: mutateLogin } = useMutation(
-    () =>
+    (values: any) =>
       fetchLoginUser(
         {
-          email,
-          password,
+          email: values.email,
+          password: values.password,
           userType,
         },
         remember,
@@ -38,7 +34,7 @@ const FormLoginRegister: React.FC = () => {
         message.success('Logado com Sucesso');
         navigate('/dashboard');
       },
-      onError: (e: any) => {
+      onError: (e: any, values) => {
         if (e.response.config.url === '/signin?type=patient' && e.response.status === 401) {
           const errorMessage = 'Logar como Profissional e criar novo paciente';
           message.error(`Erro ao logar Paciente - ${errorMessage}`);
@@ -47,7 +43,7 @@ const FormLoginRegister: React.FC = () => {
           const errorMessage = e.response.data.message;
           message.warning(`Erro ao logar, por favor crie sua conta - ${errorMessage}`);
           navigate('/update-password', {
-            state: { builtPassword: password, newToken: e.response.data.token },
+            state: { builtPassword: values.password, newToken: e.response.data.token },
           });
         } else {
           const errorMessage = e.response.data.message;
@@ -59,12 +55,12 @@ const FormLoginRegister: React.FC = () => {
   );
 
   const { mutate: mutateRegister } = useMutation(
-    () =>
+    (values: any) =>
       fetchRegisterUser({
-        name,
-        email,
-        password,
-        confirmPassword,
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
       }),
     {
       onSuccess: () => {
@@ -79,14 +75,9 @@ const FormLoginRegister: React.FC = () => {
   );
 
   const onFinish = (values: any) => {
-    setName(values?.name);
-    setEmail(values.email);
-    setPassword(values.password);
-    setConfirmPassword(values?.confirmPassword);
-
-    if (email !== '' && password !== '') {
+    if (values.email !== '' && values.password !== '') {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      currentPath === '/register' ? mutateRegister() : mutateLogin();
+      currentPath === '/register' ? mutateRegister(values) : mutateLogin(values);
     }
   };
 
