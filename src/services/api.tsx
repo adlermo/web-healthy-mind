@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
 // eslint-disable-next-line import/no-cycle
-import { fetchRefreshToken, getToken, getRefreshToken, logout, TOKEN_KEY } from './Auth/service';
+import { fetchRefreshToken, getRefreshToken, getToken, logout, TOKEN_KEY } from './Auth/service';
 
 let isRefreshing = false;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let failedRequestsQueue: any[] = [];
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: 'https://staging-api-healthy-mind.herokuapp.com',
 });
 
 api.interceptors.request.use(async (config) => {

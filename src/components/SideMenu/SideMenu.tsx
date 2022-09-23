@@ -1,8 +1,8 @@
-import { CalendarOutlined, HomeOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { CalendarOutlined, HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Image, Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { isAuthenticated, getUserRole, logout } from 'src/services/Auth/service';
+import { getUserRole, isAuthenticated, logout } from 'src/services/Auth/service';
 import { LogoTitle } from './SideMenuStyles';
 
 const SideMenu: React.FC = () => {

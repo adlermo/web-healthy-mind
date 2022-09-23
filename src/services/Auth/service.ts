@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-cycle
 import { api } from '../api';
-import { IAuthLoginParser, IRefreshTokenParser } from './dtos/IAuthParser';
 import { IAuthLoginModel, IAuthRegisterModel, IRefreshTokenModel } from './dtos/IAuthModel';
+import { IAuthLoginParser, IRefreshTokenParser } from './dtos/IAuthParser';
 
 export const TOKEN_KEY = '@menteSa-Token';
 export const REFRESH_TOKEN = '@menteSa-RefreshTokem';
@@ -49,6 +49,8 @@ export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN);
   localStorage.removeItem(CURRENT_USER_ID);
+  localStorage.removeItem(USER_ROLE);
+  localStorage.removeItem(PATIENT_FIRST_PASSWORD);
 };
 
 export async function fetchRefreshToken({
