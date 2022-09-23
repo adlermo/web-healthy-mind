@@ -1,14 +1,14 @@
 import { Col, Divider, Row, Table } from 'antd';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import moment from 'moment';
 import { IAddressPatient } from '../../services/Patient/dtos/IAddressModel';
 import { IPatientParser } from '../../services/Patient/dtos/IPatientParser';
 import { ISessionParser } from '../../services/Session/dtos/ISessionParser';
 
-import { useSessionsList } from '../../services/Session/hooks';
 import { usePatientsList } from '../../services/Patient/hooks';
+import { useSessionsList } from '../../services/Session/hooks';
 
 interface IPatient {
   id: string;

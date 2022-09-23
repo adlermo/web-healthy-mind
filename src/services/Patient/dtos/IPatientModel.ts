@@ -17,6 +17,7 @@ export interface IPatientCreateModel {
 }
 
 export interface IPatientEditModel {
+  id?: string;
   name?: string;
   email?: string;
   document?: string;
@@ -26,10 +27,10 @@ export interface IPatientEditModel {
   password?: string;
   newPassword?: string;
   confirmPassword?: string;
+  address?: IAddressPatient;
 }
 
 export interface IPatientShowModel {
-  workerId: string;
   patientId: string;
 }
 

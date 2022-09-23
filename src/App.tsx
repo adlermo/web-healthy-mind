@@ -1,17 +1,18 @@
-import './App.css';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactNode } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from 'src/pages/LogIn/Login';
 import Dashboard from 'src/pages/Main/Main';
 import Patients from 'src/pages/Patients/Patients';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode } from 'react';
-import Register from './pages/Register/Register';
+import './App.css';
+import FormEditPatient from './components/FormEditPatient/FormEditPatient';
 import FormPatient from './components/FormPatient/FormPatient';
-import Sessions from './pages/Sessions/Sessions';
 import FormSession from './components/FormSession/FormSession';
 import UpdatePassword from './components/UpdatePassword/UpdatePassword';
-import { queryClient } from './services/queryClient';
+import Register from './pages/Register/Register';
+import Sessions from './pages/Sessions/Sessions';
 import { isAuthenticated } from './services/Auth/service';
+import { queryClient } from './services/queryClient';
 
 interface IPrivateRouteProps {
   children: ReactNode;
@@ -80,6 +81,14 @@ const App: React.FC = () => {
             element={
               <PrivateRoute redirectTo="/">
                 <FormSession />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/edit-patient/:id"
+            element={
+              <PrivateRoute redirectTo="/">
+                <FormEditPatient />
               </PrivateRoute>
             }
           />

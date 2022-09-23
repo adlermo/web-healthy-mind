@@ -3,21 +3,21 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { useMutation } from '@tanstack/react-query';
 import {
-  DatePickerProps,
   Button,
   DatePicker,
+  DatePickerProps,
+  Divider,
   Form,
   Input,
-  message,
-  Layout,
   InputNumber,
-  Divider,
+  Layout,
+  message,
 } from 'antd';
-import { useMutation } from '@tanstack/react-query';
-import { fetchRegisterPatient } from 'src/services/Patient/service';
 import { Content } from 'antd/lib/layout/layout';
 import { IAddressPatient } from 'src/services/Patient/dtos/IAddressModel';
+import { fetchRegisterPatient } from 'src/services/Patient/service';
 import SideMenu from '../SideMenu/SideMenu';
 import { Welcome } from './FormPatientStyles';
 
@@ -233,7 +233,7 @@ const FormPatient: React.FC = () => {
               name="details"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: 'Complemento de residência',
                 },
               ]}>

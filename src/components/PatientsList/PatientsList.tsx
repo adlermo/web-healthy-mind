@@ -3,22 +3,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
+import { EditOutlined, EyeOutlined, FolderOpenFilled, PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Input, Layout, message, Modal, Popover, Space, Table, Typography } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
-import { PlusCircleOutlined, EditOutlined, EyeOutlined, FolderOpenFilled } from '@ant-design/icons';
 
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { fetchDeletePatient } from 'src/services/Patient/service';
 
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 
-import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
+import { BottomBox, MainBox, ModalText, UpperBox } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
 import ViewPatient from '../ViewPatient/ViewPatient';
-import FormEditPatient from '../FormEditPatient/FormEditPatient';
 
 interface IPatient {
   id: string;
@@ -30,6 +29,7 @@ interface IPatientParserStringAddress extends IPatientParser {
 }
 
 const PatientsList: React.FC = () => {
+  const navigate = useNavigate();
   const filterParams = { page: 1 };
   const { Footer } = Layout;
   const { Title } = Typography;
@@ -158,7 +158,11 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Popover content="Editar o paciente">
-            <Button type="primary" onClick={() => showEdit(record)} icon={<EditOutlined />} />
+            <Button
+              type="primary"
+              onClick={() => navigate(`/edit-patient/${record.id}`)}
+              icon={<EditOutlined />}
+            />
           </Popover>
 
           <Popover content="Arquivar paciente">
@@ -177,23 +181,6 @@ const PatientsList: React.FC = () => {
             open={view}
             onCancel={cancelView}>
             <ViewPatient id={viewPatient.id} />
-          </Modal>
-
-          <Modal
-            title={`Editar Paciente: ${editPatient.name}`}
-            footer={null} // Removing default footer
-            width={700}
-            open={edit}
-            onCancel={cancelEdit}>
-            <FormEditPatient
-              id={editPatient.id}
-              // name={editPatient.name}
-              // email={editPatient.email}
-              // document={editPatient.document}
-              // gender={editPatient.gender}
-              // birthDate={editPatient.birthDate}
-              // phone={editPatient.phone}
-            />
           </Modal>
 
           <Modal

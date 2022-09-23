@@ -1,18 +1,18 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
-  fetchPatientList,
-  fetchPatientById,
-  fetchRegisterPatient,
-  fetchEditPatient,
   fetchDeletePatient,
+  fetchEditPatient,
+  fetchPatientInfo,
+  fetchPatientList,
+  fetchRegisterPatient,
 } from './service';
 
 import {
-  IPatientShowModel,
   IPatientCreateModel,
+  IPatientDeleteModel,
   IPatientEditModel,
   IPatientFilterModel,
-  IPatientDeleteModel,
+  IPatientShowModel,
 } from './dtos/IPatientModel';
 
 import { IPatientParser } from './dtos/IPatientParser';
@@ -26,12 +26,9 @@ export function usePatientsList(
   });
 }
 
-export function usePatientById({
-  workerId,
-  patientId,
-}: IPatientShowModel): UseQueryResult<IPatientParser> {
+export function usePatientInfo({ patientId }: IPatientShowModel): UseQueryResult<IPatientParser> {
   const queryKey = ['patientById'];
-  return useQuery(queryKey, () => fetchPatientById({ workerId, patientId }), {
+  return useQuery(queryKey, () => fetchPatientInfo({ patientId }), {
     keepPreviousData: true,
   });
 }

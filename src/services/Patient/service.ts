@@ -1,4 +1,5 @@
 import { api } from '../api';
+import { PATIENT_FIRST_PASSWORD } from '../Auth/service';
 import {
   IPatientCreateModel,
   IPatientDeleteModel,
@@ -7,7 +8,6 @@ import {
   IPatientShowModel,
 } from './dtos/IPatientModel';
 import { IPatientParser } from './dtos/IPatientParser';
-import { PATIENT_FIRST_PASSWORD } from '../Auth/service';
 
 export async function fetchPatientList(filterParams: IPatientFilterModel): Promise<IPatientParser> {
   const url = `/patients/list`;
@@ -16,11 +16,8 @@ export async function fetchPatientList(filterParams: IPatientFilterModel): Promi
   return data.response;
 }
 
-export async function fetchPatientById({
-  workerId,
-  patientId,
-}: IPatientShowModel): Promise<IPatientParser> {
-  const url = `v1/${workerId}/patients/${patientId}`;
+export async function fetchPatientInfo({ patientId }: IPatientShowModel): Promise<IPatientParser> {
+  const url = `/patients/info/${patientId}`;
   const { data } = await api.get(url);
   return data;
 }
