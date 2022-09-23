@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { Button, Form, Input, message, Layout } from 'antd';
@@ -18,8 +18,7 @@ const UpdatePassword: React.FC = () => {
 
   const { mutate: mutateUpdatePassword } = useMutation(
     (value: any) =>
-      fetchEditPatient({
-        patientId: 'default',
+      fetchEditPatient('default', {
         password: location.state.builtPassword,
         newPassword: value.newPassword,
         confirmPassword: value.confirmPassword,

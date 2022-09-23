@@ -2,18 +2,29 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import type { DatePickerProps } from 'antd';
-import { Button, DatePicker, Form, Input, message, Layout, InputNumber } from 'antd';
+
+import {
+  DatePickerProps,
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Layout,
+  InputNumber,
+  Divider,
+} from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { fetchRegisterPatient } from 'src/services/Patient/service';
 import { Content } from 'antd/lib/layout/layout';
+import { IAddressPatient } from 'src/services/Patient/dtos/IAddressModel';
 import SideMenu from '../SideMenu/SideMenu';
 import { Welcome } from './FormPatientStyles';
 
 const FormPatient: React.FC = () => {
   const navigate = useNavigate();
   const { Footer } = Layout;
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState<IAddressPatient>(Object);
   const [patientName, setPatientName] = useState('');
   const [patientEmail, setPatientEmail] = useState('');
   const [patientDocument, setPatientDocument] = useState('');
@@ -24,7 +35,6 @@ const FormPatient: React.FC = () => {
   const { mutate: mutateRegisterPatient } = useMutation(
     () =>
       fetchRegisterPatient({
-        addressId: 1,
         address: address && address,
         name: patientName && patientName,
         email: patientEmail && patientEmail,
@@ -46,7 +56,18 @@ const FormPatient: React.FC = () => {
   );
 
   const onFinish = (values: any) => {
-    setAddress(values.address);
+    const composedAddress = {
+      postalCode: values.postalCode,
+      street: values.street,
+      number: values.number,
+      details: values.details,
+      city: values.city,
+      district: values.district,
+      state: values.state,
+      country: values.country,
+    };
+
+    setAddress(composedAddress);
     setPatientName(values.name);
     setPatientEmail(values.email);
     setPatientDocument(values.document);
@@ -125,18 +146,6 @@ const FormPatient: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              label="Endereço"
-              name="address"
-              rules={[
-                {
-                  required: false,
-                  message: 'Endereço do paciente',
-                },
-              ]}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item
               label="Documento"
               name="document"
               rules={[
@@ -183,6 +192,99 @@ const FormPatient: React.FC = () => {
               ]}>
               <InputNumber style={{ width: 170 }} />
             </Form.Item>
+
+            <Divider>Informações de Endereço</Divider>
+
+            <Form.Item
+              label="Cep"
+              name="postalCode"
+              rules={[
+                {
+                  required: true,
+                  message: 'Cep do paciente',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Rua"
+              name="street"
+              rules={[
+                {
+                  required: true,
+                  message: 'Rua do paciente',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Número"
+              name="number"
+              rules={[
+                {
+                  required: true,
+                  message: 'Número de residência',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Complemento"
+              name="details"
+              rules={[
+                {
+                  required: true,
+                  message: 'Complemento de residência',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Bairro"
+              name="district"
+              rules={[
+                {
+                  required: true,
+                  message: 'Bairro de residência',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Cidade"
+              name="city"
+              rules={[
+                {
+                  required: true,
+                  message: 'Cidade (Município) de residência',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Estado (UF)"
+              name="state"
+              rules={[
+                {
+                  required: true,
+                  message: 'Estado (UF) de residência',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="País"
+              name="country"
+              rules={[
+                {
+                  required: true,
+                  message: 'País de residência',
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+
+            <Divider />
 
             <Form.Item
               wrapperCol={{

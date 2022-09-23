@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
@@ -17,10 +18,15 @@ import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
 import ViewPatient from '../ViewPatient/ViewPatient';
+import FormEditPatient from '../FormEditPatient/FormEditPatient';
 
 interface IPatient {
   id: string;
   userId: string;
+}
+
+interface IPatientParserStringAddress extends IPatientParser {
+  stringAddress: string;
 }
 
 const PatientsList: React.FC = () => {
@@ -31,36 +37,52 @@ const PatientsList: React.FC = () => {
   const { data: patientsList, isLoading } = usePatientsList(filterParams);
   const [archive, setArchive] = useState(false);
   const [view, setView] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Realmente deseja arquivar este paciente?');
   const [removePatientId, setRemovePatientId] = useState('');
-  const [modalPatient, setModalPatient] = useState(Object);
+  const [viewPatient, setViewPatient] = useState(Object);
+  const [editPatient, setEditPatient] = useState(Object);
 
   const showModal = (value: IPatient) => {
     setRemovePatientId(value.id);
     setArchive(true);
   };
 
-  const handleEdit = (value: IPatient) => {
-    console.log(value);
+  const showEdit = (value: any) => {
+    setEditPatient(value);
+    setEdit(true);
   };
 
   const showPatient = (value: any) => {
-    setModalPatient(value);
+    setViewPatient(value);
     setView(true);
-  };
-
-  const confirmView = () => {
-    console.log('Inside confirmView handler');
   };
 
   const cancelView = () => {
     setView(false);
   };
 
-  const [data, setData] = useState<IPatientParser[]>([]);
+  const cancelEdit = () => {
+    setEdit(false);
+  };
 
-  useEffect(() => patientsList && setData(patientsList), [patientsList]);
+  const [data, setData] = useState<IPatientParserStringAddress[]>([]);
+
+  useEffect(
+    () =>
+      patientsList &&
+      setData(
+        patientsList.map((patient) => {
+          const newP = {
+            ...patient,
+            stringAddress: `${patient.address?.street}, ${patient.address?.number} - ${patient.address?.district} - ${patient.address?.city}, ${patient.address?.state} - ${patient.address?.country}`,
+          };
+          return newP;
+        }),
+      ),
+    [patientsList],
+  );
 
   const confirmArchive = () => {
     setModalText('Arquivando o paciente');
@@ -89,7 +111,7 @@ const PatientsList: React.FC = () => {
 
   const handleSearch = (value: string) => {
     setData(
-      (patientsList as IPatientParser[]).filter(
+      (patientsList as IPatientParserStringAddress[]).filter(
         (item) => item.name.includes(value) || item.email.includes(value),
       ),
     );
@@ -123,8 +145,8 @@ const PatientsList: React.FC = () => {
     },
     {
       title: 'Endereço',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'stringAddress',
+      key: 'stringAddress',
     },
     {
       title: 'Ações',
@@ -136,7 +158,7 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Popover content="Editar o paciente">
-            <Button type="primary" onClick={() => handleEdit(record)} icon={<EditOutlined />} />
+            <Button type="primary" onClick={() => showEdit(record)} icon={<EditOutlined />} />
           </Popover>
 
           <Popover content="Arquivar paciente">
@@ -149,13 +171,29 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Modal
-            title={`Histórico Clínico de Paciente: ${modalPatient.name}`}
+            title={`Histórico Clínico de Paciente: ${viewPatient.name}`}
             footer={null} // Removing default footer
             width={700}
             open={view}
-            onOk={confirmView}
             onCancel={cancelView}>
-            <ViewPatient id={modalPatient.id} />
+            <ViewPatient id={viewPatient.id} />
+          </Modal>
+
+          <Modal
+            title={`Editar Paciente: ${editPatient.name}`}
+            footer={null} // Removing default footer
+            width={700}
+            open={edit}
+            onCancel={cancelEdit}>
+            <FormEditPatient
+              id={editPatient.id}
+              // name={editPatient.name}
+              // email={editPatient.email}
+              // document={editPatient.document}
+              // gender={editPatient.gender}
+              // birthDate={editPatient.birthDate}
+              // phone={editPatient.phone}
+            />
           </Modal>
 
           <Modal
