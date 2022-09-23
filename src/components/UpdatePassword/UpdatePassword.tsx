@@ -21,8 +21,7 @@ const UpdatePassword: React.FC = () => {
   // console.log(location.state);
   const { mutate: mutateUpdatePassword } = useMutation(
     () =>
-      fetchEditPatient({
-        patientId: ' ',
+      fetchEditPatient('default', {
         password: location.state.builtPassword,
         newPassword,
         confirmPassword: confirmNewPassword,

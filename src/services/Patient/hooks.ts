@@ -64,21 +64,15 @@ export function useRegisterPatient({
   );
 }
 
-export function useEditPatient({
-  patientId,
-  name,
-  email,
-  document,
-  gender,
-  birthDate,
-  phone,
-}: IPatientEditModel): UseQueryResult<IPatientParser> {
+export function useEditPatient(
+  patientId: string,
+  { name, email, document, gender, birthDate, phone }: IPatientEditModel,
+): UseQueryResult<IPatientParser> {
   const queryKey = ['editPatient'];
   return useQuery(
     queryKey,
     () =>
-      fetchEditPatient({
-        patientId,
+      fetchEditPatient(patientId, {
         name,
         email,
         document,

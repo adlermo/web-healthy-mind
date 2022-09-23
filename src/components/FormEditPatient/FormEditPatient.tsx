@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 import { DatePickerProps, Button, DatePicker, Form, Input, message, InputNumber } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
@@ -39,15 +40,14 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
   const [patientPhone, setPatientPhone] = useState('');
 
   const { mutate: mutateRegisterPatient } = useMutation(
-    () =>
-      fetchEditPatient({
-        patientId: id && id,
-        name: patientName && patientName,
-        email: patientEmail && patientEmail,
-        document: patientDocument && patientDocument,
-        gender: patientGender && patientGender,
-        birthDate: patientBirthDate && patientBirthDate,
-        phone: patientPhone && patientPhone,
+    (values: any) =>
+      fetchEditPatient(id, {
+        name: values.name,
+        email: values.email,
+        document: values.document,
+        gender: values.gender,
+        birthDate: patientBirthDate !== '' ? patientBirthDate : undefined,
+        phone: values.phone,
       }),
     {
       onSuccess: () => {
@@ -62,34 +62,15 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
   );
 
   const onFinish = (values: any) => {
-    // const composedAddress = {
-    //   postalCode: values.postalCode,
-    //   street: values.street,
-    //   number: values.number,
-    //   details: values.details,
-    //   city: values.city,
-    //   district: values.district,
-    //   state: values.state,
-    //   country: values.coutry,
-    // };
-
-    // setAddress(composedAddress);
-    // setAddress(values.address);
-    setPatientName(values.name);
-    setPatientEmail(values.email);
-    setPatientDocument(values.document);
-    setPatientGender(values.gender);
-    setPatientPhone(values.phone);
-
     if (
-      patientName &&
-      patientEmail &&
-      patientDocument &&
-      patientGender &&
-      patientBirthDate &&
-      patientPhone
+      values.name ||
+      values.email ||
+      values.document ||
+      values.gender ||
+      values.birthDate ||
+      values.phone
     ) {
-      mutateRegisterPatient();
+      mutateRegisterPatient(values);
     }
   };
 
@@ -98,7 +79,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
   };
 
   const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
-    setPatientBirthDate(dateString);
+    setPatientBirthDate(moment(dateString).format('DD MMM YYYY'));
   };
 
   return (
@@ -130,7 +111,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
           name="name"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Nome do paciente',
             },
           ]}>
@@ -142,7 +123,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
           name="email"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Email do paciente',
             },
           ]}>
@@ -154,7 +135,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
           name="document"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Documento do paciente',
             },
           ]}>
@@ -166,7 +147,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
           name="gender"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Gênero do paciente',
             },
           ]}>
@@ -178,7 +159,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
           name="birthDate"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Data de nascimento do paciente',
             },
           ]}>
@@ -190,7 +171,7 @@ const FormEditPatient: React.FC</* IPatientParser */ IPatient> = ({ id }: IPatie
           name="phone"
           rules={[
             {
-              required: true,
+              required: false,
               message: 'Telefone do paciente',
             },
           ]}>

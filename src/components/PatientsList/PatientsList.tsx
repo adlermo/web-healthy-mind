@@ -18,12 +18,15 @@ import { MainBox, UpperBox, BottomBox, ModalText } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
 import ViewPatient from '../ViewPatient/ViewPatient';
-import FormPatient from '../FormPatient/FormPatient';
 import FormEditPatient from '../FormEditPatient/FormEditPatient';
 
 interface IPatient {
   id: string;
   userId: string;
+}
+
+interface IPatientParserStringAddress extends IPatientParser {
+  stringAddress: string;
 }
 
 const PatientsList: React.FC = () => {
@@ -47,7 +50,6 @@ const PatientsList: React.FC = () => {
   };
 
   const showEdit = (value: any) => {
-    console.log(value);
     setEditPatient(value);
     setEdit(true);
   };
@@ -65,9 +67,22 @@ const PatientsList: React.FC = () => {
     setEdit(false);
   };
 
-  const [data, setData] = useState<IPatientParser[]>([]);
+  const [data, setData] = useState<IPatientParserStringAddress[]>([]);
 
-  useEffect(() => patientsList && setData(patientsList), [patientsList]);
+  useEffect(
+    () =>
+      patientsList &&
+      setData(
+        patientsList.map((patient) => {
+          const newP = {
+            ...patient,
+            stringAddress: `${patient.address?.street}, ${patient.address?.number} - ${patient.address?.district} - ${patient.address?.city}, ${patient.address?.state} - ${patient.address?.country}`,
+          };
+          return newP;
+        }),
+      ),
+    [patientsList],
+  );
 
   const confirmArchive = () => {
     setModalText('Arquivando o paciente');
@@ -96,7 +111,7 @@ const PatientsList: React.FC = () => {
 
   const handleSearch = (value: string) => {
     setData(
-      (patientsList as IPatientParser[]).filter(
+      (patientsList as IPatientParserStringAddress[]).filter(
         (item) => item.name.includes(value) || item.email.includes(value),
       ),
     );
@@ -130,8 +145,8 @@ const PatientsList: React.FC = () => {
     },
     {
       title: 'Endereço',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'stringAddress',
+      key: 'stringAddress',
     },
     {
       title: 'Ações',

@@ -17,7 +17,6 @@ export interface IPatientCreateModel {
 }
 
 export interface IPatientEditModel {
-  patientId: string;
   name?: string;
   email?: string;
   document?: string;
