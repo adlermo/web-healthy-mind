@@ -1,19 +1,19 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import moment from 'moment';
 
-import { useMutation } from '@tanstack/react-query';
 import type { DatePickerProps } from 'antd';
-import { Button, DatePicker, Form, Input, Layout, message, Select, TimePicker } from 'antd';
+import { Button, Form, Input, message, Layout, DatePicker, Select, TimePicker } from 'antd';
+import { useMutation } from '@tanstack/react-query';
+import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { useListResources } from 'src/services/Resource/hooks';
-import { fetchCreateSession, fetchEditSession } from 'src/services/Session/service';
-import NewResourceModal from '../Modals/NewResource';
-import SideMenu from '../SideMenu/SideMenu';
 import { Welcome } from './FormSessionStyles';
+import SideMenu from '../SideMenu/SideMenu';
+import NewResourceModal from '../Modals/NewResource';
 
 const FormSession: React.FC = () => {
   const navigate = useNavigate();
@@ -107,6 +107,7 @@ const FormSession: React.FC = () => {
   };
 
   const onDateChange: DatePickerProps['onChange'] = (_date, dateString) => {
+    console.log(dateString);
     setAppointmentDate(dateString);
   };
 
@@ -129,8 +130,6 @@ const FormSession: React.FC = () => {
   const handleResourcesChange = (value: string) => {
     setResourceId(value);
   };
-
-  console.log('location', location);
 
   return (
     <Layout>
@@ -198,6 +197,8 @@ const FormSession: React.FC = () => {
               },
             ]}>
             <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
               disabledDate={(curr) => curr && curr < moment().endOf('day')}
               onChange={onDateChange}
               style={{ width: 200 }}
