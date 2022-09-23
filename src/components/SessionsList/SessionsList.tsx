@@ -15,6 +15,7 @@ import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
 import { MainBox, UpperBox, BottomBox, ModalText } from './SessionsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
+import ViewSessionModal from '../Modals/ViewSession';
 
 interface ISessionParserWithName extends ISessionParser {
   patientName: string;
@@ -128,7 +129,7 @@ const SessionsList: React.FC = () => {
       render: (_: any, record: any) => (
         <Space>
           <Popover content="Ver dados da sessão">
-            <Button type="default" icon={<EyeOutlined />} onClick={() => onDetailHandler(record)} />
+            <ViewSessionModal data={record} />
           </Popover>
 
           <Popover content="Editar sessão">

@@ -1,3 +1,5 @@
+import { IResourceModel } from 'src/services/Resource/dto/IResourceModel';
+
 export interface ISessionListModel {
   id: string;
   page: number;
@@ -39,4 +41,23 @@ export interface ISessionFilterModel {
   subject?: string;
   patientId?: string;
   page?: number;
+}
+
+export interface ISessionModel {
+  patientName: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  patientId: string;
+  status: string;
+  subject: string;
+  duration: string;
+  type: string;
+  comments: string;
+  enabled: boolean;
+  appointmentDate: string;
+  resourceId: number;
+  service: string;
+  resource: IResourceModel;
 }
