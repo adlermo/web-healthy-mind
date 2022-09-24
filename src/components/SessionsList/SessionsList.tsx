@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient } from 'src/services/queryClient';
 
 import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
-import { PlusCircleOutlined, EditOutlined, EyeOutlined, FolderOpenFilled } from '@ant-design/icons';
+import { PlusCircleOutlined, EditOutlined, FolderOpenFilled } from '@ant-design/icons';
 
 import { useSessionsList } from 'src/services/Session/hooks';
 import { fetchRemoveSession } from 'src/services/Session/service';
@@ -30,7 +30,6 @@ const SessionsList: React.FC = () => {
   const { data: sessionsList, isLoading } = useSessionsList(filterParams);
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Realmente deseja arquivar a sessão?');
   const [removeSessionId, setRemoveSessionId] = useState('');
 
   const { data: pacientsList } = usePatientsList(filterParams);
@@ -60,20 +59,26 @@ const SessionsList: React.FC = () => {
   };
 
   const showModal = (record: any) => {
-    setRemoveSessionId(record.id);
     setOpen(true);
+    setRemoveSessionId(record.id);
   };
 
   const { mutate: handleArchive } = useMutation(
-    () => fetchRemoveSession({ sessionId: removeSessionId }),
+    () => {
+      setConfirmLoading(true); // Adding load to arqchive session
+      return fetchRemoveSession({ sessionId: removeSessionId });
+    },
     {
       onSuccess: () => {
         message.success('Arquivado com Sucesso');
         queryClient.invalidateQueries(['sessionList']);
+        setConfirmLoading(false); // Adding load to arqchive session
+        setOpen(false);
       },
       onError: (error: any) => {
         const errorMessage = error.response.data.message;
         message.error(`Erro ao arquivar sessão - ${errorMessage}`);
+        setOpen(false);
       },
     },
   );
@@ -84,10 +89,7 @@ const SessionsList: React.FC = () => {
 
   const onEditHandler = (record: any) => {
     navigate('/edit-session', { state: record });
-  };
-
-  const onDetailHandler = (record: any) => {
-    message.info(record);
+    // TODO: replicate patient edition mode
   };
 
   const onSearch = (value: string) => handleSearch(value);
@@ -151,7 +153,7 @@ const SessionsList: React.FC = () => {
             onOk={() => handleArchive()}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}>
-            <ModalText>{modalText}</ModalText>
+            <ModalText>Realmente deseja arquivar a sessão?</ModalText>
           </Modal>
         </Space>
       ),

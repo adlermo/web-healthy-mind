@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined, EditOutlined } from '@ant-design/icons';
 import {
   Button,
   DatePicker,
@@ -11,47 +11,30 @@ import {
   message,
   Modal,
 } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
+
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 
 import { useMutation } from '@tanstack/react-query';
 
 import { fetchEditPatient } from 'src/services/Patient/service';
 
 import moment from 'moment';
-import { api } from 'src/services/api';
-import { IAddressPatient } from 'src/services/Patient/dtos/IAddressModel';
-import { IPatientEditModel } from 'src/services/Patient/dtos/IPatientModel';
-import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
-import { Welcome } from './FormEditPatientStyles';
 
-const FormEditPatient: React.FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [edit, setEdit] = useState(true);
-  const [address, setAddress] = useState(false);
-  const [updatePatient, setUpdatePatient] = useState<IPatientEditModel>({} as any);
+import { IAddressPatient } from 'src/services/Patient/dtos/IAddressModel';
+import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
+import { queryClient } from 'src/services/queryClient';
+
+const FormEditPatient: React.FC<{ patient: IPatientParser }> = ({ patient }) => {
+  const [edit, setEdit] = useState(false);
+  const [toggleAddress, setToggleAddress] = useState(false);
   const [saveAddress, setSaveAddress] = useState<IAddressPatient>(Object);
   const [patientBirthDate, setPatientBirthDate] = useState('');
-  const [data_, setData] = useState<IPatientParser>({} as any);
-
-  async function handlePatientInfo(patientId: string) {
-    const url = `/patients/info/${patientId}`;
-    try {
-      const { data } = await api.get(url);
-      setData(data);
-      setPatientBirthDate(data.birthDate);
-    } catch (error: Error | any) {
-      throw new Error(error);
-    }
-  }
+  const [data_, setData] = useState(Object);
 
   useEffect(() => {
-    const patientId = id || '';
-    handlePatientInfo(patientId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setData(patient);
+    setPatientBirthDate(moment(patient.birthDate).toLocaleString());
+  }, [patient]);
 
   const { mutate: mutateRegisterPatient } = useMutation(
     (values: any) =>
@@ -67,7 +50,8 @@ const FormEditPatient: React.FC = () => {
     {
       onSuccess: () => {
         message.success('Paciente alterado com Sucesso');
-        navigate('/patients');
+        queryClient.invalidateQueries(['patientList']);
+        setEdit(false);
       },
       onError: (e: any) => {
         const errorMessage = e.response.data.message;
@@ -77,29 +61,20 @@ const FormEditPatient: React.FC = () => {
   );
 
   const onFinish = (values: any) => {
-    console.log(values);
-    const composedAddress = {
-      postalCode: values.postalCode,
-      street: values.street,
-      number: values.number,
-      details: values.details,
-      city: values.city,
-      district: values.district,
-      state: values.state,
-      country: values.country,
-    };
-    setSaveAddress(composedAddress);
-    console.log('a', saveAddress);
-    if (
-      values.name ||
-      values.email ||
-      values.document ||
-      values.gender ||
-      values.birthDate ||
-      values.phone
-    ) {
-      mutateRegisterPatient(values);
+    if (values.postalCode) {
+      setSaveAddress({
+        postalCode: values.postalCode,
+        street: values.street,
+        number: values.number,
+        details: values.details,
+        district: values.district,
+        city: values.city,
+        state: values.state,
+        country: values.country,
+      });
     }
+
+    mutateRegisterPatient(values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -108,18 +83,19 @@ const FormEditPatient: React.FC = () => {
 
   const cancelEdit = () => {
     setEdit(false);
-    navigate('/patients');
   };
 
-  const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
+  const onChangeDate: DatePickerProps['onChange'] = (_date, dateString) => {
+    console.log(dateString);
     setPatientBirthDate(dateString);
   };
 
   return (
-    <Content>
+    <>
+      <Button type="primary" onClick={() => setEdit(true)} icon={<EditOutlined />} />
       <Modal
         title={`Editar Paciente: ${data_?.name}`}
-        footer={null} // Removing default footer width={700}
+        footer={null} // Removing default footer
         open={edit}
         onCancel={cancelEdit}>
         <Form
@@ -191,16 +167,8 @@ const FormEditPatient: React.FC = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off">
-          {!address ? (
+          {!toggleAddress ? (
             <>
-              <Form.Item
-                wrapperCol={{
-                  offset: 6,
-                  span: 12,
-                }}>
-                <Welcome>Edição de Paciente</Welcome>
-              </Form.Item>
-
               <Form.Item
                 label="Nome"
                 name="name"
@@ -210,7 +178,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Nome do paciente',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.name = e.target.value;
+                  }}
+                />
               </Form.Item>
 
               <Form.Item
@@ -222,7 +194,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Email do paciente',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.email = e.target.value;
+                  }}
+                />
               </Form.Item>
 
               <Form.Item
@@ -234,7 +210,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Documento do paciente',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.document = e.target.value;
+                  }}
+                />
               </Form.Item>
 
               <Form.Item
@@ -246,7 +226,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Gênero do paciente',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.gender = e.target.value;
+                  }}
+                />
               </Form.Item>
 
               <Form.Item
@@ -258,7 +242,7 @@ const FormEditPatient: React.FC = () => {
                     message: 'Data de nascimento do paciente',
                   },
                 ]}>
-                <DatePicker defaultValue={moment()} format="YYYY-MM-DD" onChange={onChange} />
+                <DatePicker defaultValue={moment()} format="YYYY-MM-DD" onChange={onChangeDate} />
               </Form.Item>
 
               <Form.Item
@@ -270,19 +254,16 @@ const FormEditPatient: React.FC = () => {
                     message: 'Telefone do paciente',
                   },
                 ]}>
-                <InputNumber style={{ width: 170 }} />
+                <InputNumber
+                  onChange={(value) => {
+                    data_.phone = value;
+                  }}
+                  style={{ width: 170 }}
+                />
               </Form.Item>
+
               <Form.Item valuePropName="checked" wrapperCol={{ offset: 18, span: 10 }}>
-                <ArrowRightOutlined onClick={() => setAddress(!address)} />
-              </Form.Item>
-              <Form.Item
-                wrapperCol={{
-                  offset: 6,
-                  span: 12,
-                }}>
-                <Button type="primary" htmlType="submit">
-                  Salvar
-                </Button>
+                <ArrowRightOutlined onClick={() => setToggleAddress(!toggleAddress)} />
               </Form.Item>
             </>
           ) : (
@@ -296,7 +277,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Cep do paciente',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.postalCode = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="Rua"
@@ -307,7 +292,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Rua do paciente',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.street = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="Número"
@@ -318,7 +307,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Número de residência',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.number = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="Complemento"
@@ -329,7 +322,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Complemento de residência',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.details = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="Bairro"
@@ -340,7 +337,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Bairro de residência',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.district = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="Cidade"
@@ -351,7 +352,11 @@ const FormEditPatient: React.FC = () => {
                     message: 'Cidade (Município) de residência',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.city = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="Estado (UF)"
@@ -362,27 +367,45 @@ const FormEditPatient: React.FC = () => {
                     message: 'Estado (UF) de residência',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.state = e.target.value;
+                  }}
+                />
               </Form.Item>
               <Form.Item
                 label="País"
                 name="country"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: 'País de residência',
                   },
                 ]}>
-                <Input />
+                <Input
+                  onChange={(e) => {
+                    data_.address.country = e.target.value;
+                  }}
+                />
               </Form.Item>
+
               <Form.Item valuePropName="checked" wrapperCol={{ offset: 6, span: 10 }}>
-                <ArrowLeftOutlined onClick={() => setAddress(!address)} />
+                <ArrowLeftOutlined onClick={() => setToggleAddress(!toggleAddress)} />
               </Form.Item>
             </>
           )}
+          <Form.Item
+            wrapperCol={{
+              offset: 6,
+              span: 12,
+            }}>
+            <Button type="primary" key="submit" htmlType="submit">
+              Salvar
+            </Button>
+          </Form.Item>
         </Form>
       </Modal>
-    </Content>
+    </>
   );
 };
 

@@ -3,14 +3,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { EditOutlined, EyeOutlined, FolderOpenFilled, PlusCircleOutlined } from '@ant-design/icons';
+import { EyeOutlined, FolderOpenFilled, PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Input, Layout, message, Modal, Popover, Space, Table, Typography } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 
 import { usePatientsList } from 'src/services/Patient/hooks';
 import { fetchDeletePatient } from 'src/services/Patient/service';
+import { queryClient } from 'src/services/queryClient';
 
 import { IPatientParser } from 'src/services/Patient/dtos/IPatientParser';
 
@@ -18,6 +19,7 @@ import { BottomBox, MainBox, ModalText, UpperBox } from './PatientsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
 import ViewPatient from '../ViewPatient/ViewPatient';
+import FormEditPatient from '../FormEditPatient/FormEditPatient';
 
 interface IPatient {
   id: string;
@@ -29,29 +31,23 @@ interface IPatientParserStringAddress extends IPatientParser {
 }
 
 const PatientsList: React.FC = () => {
-  const navigate = useNavigate();
   const filterParams = { page: 1 };
   const { Footer } = Layout;
   const { Title } = Typography;
   const { Search } = Input;
   const { data: patientsList, isLoading } = usePatientsList(filterParams);
+
   const [archive, setArchive] = useState(false);
   const [view, setView] = useState(false);
-  const [edit, setEdit] = useState(false);
+
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Realmente deseja arquivar este paciente?');
   const [removePatientId, setRemovePatientId] = useState('');
   const [viewPatient, setViewPatient] = useState(Object);
-  const [editPatient, setEditPatient] = useState(Object);
 
   const showModal = (value: IPatient) => {
     setRemovePatientId(value.id);
     setArchive(true);
-  };
-
-  const showEdit = (value: any) => {
-    setEditPatient(value);
-    setEdit(true);
   };
 
   const showPatient = (value: any) => {
@@ -61,10 +57,6 @@ const PatientsList: React.FC = () => {
 
   const cancelView = () => {
     setView(false);
-  };
-
-  const cancelEdit = () => {
-    setEdit(false);
   };
 
   const [data, setData] = useState<IPatientParserStringAddress[]>([]);
@@ -93,7 +85,7 @@ const PatientsList: React.FC = () => {
     })
       .then(() => {
         message.success('Arquivado com Sucesso');
-        setData(data.filter((p) => p.id !== removePatientId));
+        queryClient.invalidateQueries(['patientList']);
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
@@ -158,11 +150,7 @@ const PatientsList: React.FC = () => {
           </Popover>
 
           <Popover content="Editar o paciente">
-            <Button
-              type="primary"
-              onClick={() => navigate(`/edit-patient/${record.id}`)}
-              icon={<EditOutlined />}
-            />
+            <FormEditPatient patient={record} />
           </Popover>
 
           <Popover content="Arquivar paciente">

@@ -5,7 +5,7 @@ import Login from 'src/pages/LogIn/Login';
 import Dashboard from 'src/pages/Main/Main';
 import Patients from 'src/pages/Patients/Patients';
 import './App.css';
-import FormEditPatient from './components/FormEditPatient/FormEditPatient';
+
 import FormPatient from './components/FormPatient/FormPatient';
 import FormSession from './components/FormSession/FormSession';
 import UpdatePassword from './components/UpdatePassword/UpdatePassword';
@@ -81,14 +81,6 @@ const App: React.FC = () => {
             element={
               <PrivateRoute redirectTo="/">
                 <FormSession />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/edit-patient/:id"
-            element={
-              <PrivateRoute redirectTo="/">
-                <FormEditPatient />
               </PrivateRoute>
             }
           />
