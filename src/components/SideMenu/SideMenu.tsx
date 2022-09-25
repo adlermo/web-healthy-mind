@@ -1,4 +1,10 @@
-import { CalendarOutlined, HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  CalendarOutlined,
+  ClockCircleOutlined,
+  HomeOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Image, Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -35,6 +41,9 @@ const SideMenu: React.FC = () => {
       navigate('/dashboard');
     }
     if (item.key === '2') {
+      navigate('/patient-calendar');
+    }
+    if (item.key === '3') {
       logout();
       navigate('/');
     }
@@ -49,7 +58,8 @@ const SideMenu: React.FC = () => {
   };
 
   const returnPatientDefaultSelectedKeys = (): string[] | undefined => {
-    if (userRole === '3') return ['1'];
+    if (userRole === '3' && location.pathname === '/dashboard') return ['1'];
+    if (userRole === '3' && location.pathname === '/patient-calendar') return ['2'];
 
     return [''];
   };
@@ -64,6 +74,7 @@ const SideMenu: React.FC = () => {
 
   const indexToPatientName = (index: number) => {
     if (index === 0) return 'Minhas sessões';
+    if (index === 1) return 'Calendário';
     return 'Logout';
   };
 
@@ -93,7 +104,7 @@ const SideMenu: React.FC = () => {
             mode="inline"
             defaultSelectedKeys={returnPatientDefaultSelectedKeys()}
             onClick={patientClickHandler}
-            items={[CalendarOutlined, LogoutOutlined].map((icon, index) => ({
+            items={[ClockCircleOutlined, CalendarOutlined, LogoutOutlined].map((icon, index) => ({
               key: String(index + 1),
               icon: React.createElement(icon),
               label: indexToPatientName(index),
