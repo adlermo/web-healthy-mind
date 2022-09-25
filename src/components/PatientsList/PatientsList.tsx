@@ -213,6 +213,7 @@ const PatientsList: React.FC = () => {
                 dataSource={data}
                 loading={isLoading}
                 columns={columns}
+                pagination={{ pageSize: 10 }}
                 style={{
                   width: `100%`,
                 }}

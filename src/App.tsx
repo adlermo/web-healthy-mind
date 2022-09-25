@@ -5,6 +5,7 @@ import Login from 'src/pages/LogIn/Login';
 import Dashboard from 'src/pages/Main/Main';
 import Patients from 'src/pages/Patients/Patients';
 import './App.css';
+import PatientCalendar from './components/PatientCalendar/PatientCalendar';
 
 import FormPatient from './components/FormPatient/FormPatient';
 import FormSession from './components/FormSession/FormSession';
@@ -45,6 +46,15 @@ const App: React.FC = () => {
             element={
               <PrivateRoute redirectTo="/">
                 <Patients />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/patient-calendar"
+            element={
+              <PrivateRoute redirectTo="/">
+                <PatientCalendar />
               </PrivateRoute>
             }
           />

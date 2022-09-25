@@ -181,6 +181,7 @@ const SessionsList: React.FC = () => {
               loading={isLoading}
               dataSource={data}
               columns={columns}
+              pagination={{ pageSize: 10 }}
               style={{
                 width: `100%`,
               }}
