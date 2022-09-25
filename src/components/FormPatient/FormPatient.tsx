@@ -16,7 +16,6 @@ import {
   message,
 } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
-import { IAddressPatient } from 'src/services/Patient/dtos/IAddressModel';
 import { fetchRegisterPatient } from 'src/services/Patient/service';
 import SideMenu from '../SideMenu/SideMenu';
 import { Welcome } from './FormPatientStyles';
@@ -24,24 +23,27 @@ import { Welcome } from './FormPatientStyles';
 const FormPatient: React.FC = () => {
   const navigate = useNavigate();
   const { Footer } = Layout;
-  const [address, setAddress] = useState<IAddressPatient>(Object);
-  const [patientName, setPatientName] = useState('');
-  const [patientEmail, setPatientEmail] = useState('');
-  const [patientDocument, setPatientDocument] = useState('');
-  const [patientGender, setPatientGender] = useState('');
   const [patientBirthDate, setPatientBirthDate] = useState('');
-  const [patientPhone, setPatientPhone] = useState(0);
 
   const { mutate: mutateRegisterPatient } = useMutation(
-    () =>
+    (values: any) =>
       fetchRegisterPatient({
-        address: address && address,
-        name: patientName && patientName,
-        email: patientEmail && patientEmail,
-        document: patientDocument && patientDocument,
-        gender: patientGender && patientGender,
+        address: {
+          postalCode: values.postalCode,
+          street: values.street,
+          number: values.number,
+          details: values.details,
+          city: values.city,
+          district: values.district,
+          state: values.state,
+          country: values.country,
+        },
+        name: values.name,
+        email: values.email,
+        document: values.document,
+        gender: values.gender,
         birthDate: patientBirthDate && patientBirthDate,
-        phone: patientPhone && patientPhone,
+        phone: values.phone,
       }),
     {
       onSuccess: () => {
@@ -55,39 +57,8 @@ const FormPatient: React.FC = () => {
     },
   );
 
-  const onFinish = (values: any) => {
-    const composedAddress = {
-      postalCode: values.postalCode,
-      street: values.street,
-      number: values.number,
-      details: values.details,
-      city: values.city,
-      district: values.district,
-      state: values.state,
-      country: values.country,
-    };
-
-    setAddress(composedAddress);
-    setPatientName(values.name);
-    setPatientEmail(values.email);
-    setPatientDocument(values.document);
-    setPatientGender(values.gender);
-    setPatientPhone(values.phone);
-
-    if (
-      patientName &&
-      patientEmail &&
-      patientDocument &&
-      patientGender &&
-      patientBirthDate &&
-      patientPhone
-    ) {
-      mutateRegisterPatient();
-    }
-  };
-
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    message.error(`Error ao registrar paciente - ${errorInfo}`);
   };
 
   const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
@@ -110,7 +81,7 @@ const FormPatient: React.FC = () => {
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
+            onFinish={mutateRegisterPatient}
             onFinishFailed={onFinishFailed}
             autoComplete="off">
             <Form.Item

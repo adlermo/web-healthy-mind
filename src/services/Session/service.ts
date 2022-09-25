@@ -66,6 +66,7 @@ export async function fetchEditSession({
   service,
   resourceId,
   comments,
+  appointmentDate,
 }: ISessionEditModel): Promise<ISessionParser> {
   const params = {
     patientId,
@@ -76,6 +77,7 @@ export async function fetchEditSession({
     service,
     resourceId,
     comments,
+    appointmentDate,
   };
 
   const url = `/sessions/update/${sessionId}`;

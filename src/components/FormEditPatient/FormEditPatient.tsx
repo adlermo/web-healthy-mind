@@ -78,7 +78,7 @@ const FormEditPatient: React.FC<{ patient: IPatientParser }> = ({ patient }) => 
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    message.error(`Há algum erro no formulário - ${errorInfo}`);
   };
 
   const cancelEdit = () => {
@@ -86,7 +86,6 @@ const FormEditPatient: React.FC<{ patient: IPatientParser }> = ({ patient }) => 
   };
 
   const onChangeDate: DatePickerProps['onChange'] = (_date, dateString) => {
-    console.log(dateString);
     setPatientBirthDate(dateString);
   };
 
@@ -159,7 +158,7 @@ const FormEditPatient: React.FC<{ patient: IPatientParser }> = ({ patient }) => 
           ]}
           name="basic"
           labelCol={{
-            span: 6,
+            span: 8,
           }}
           wrapperCol={{
             span: 12,

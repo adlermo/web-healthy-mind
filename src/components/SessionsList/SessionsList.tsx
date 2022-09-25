@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from 'src/services/queryClient';
 
 import { Layout, Typography, Input, Button, Table, Space, Modal, message, Popover } from 'antd';
-import { PlusCircleOutlined, EditOutlined, FolderOpenFilled } from '@ant-design/icons';
+import { PlusCircleOutlined, FolderOpenFilled } from '@ant-design/icons';
 
 import { useSessionsList } from 'src/services/Session/hooks';
 import { fetchRemoveSession } from 'src/services/Session/service';
 import { usePatientsList } from 'src/services/Patient/hooks';
 
 import { ISessionParser } from 'src/services/Session/dtos/ISessionParser';
+import FormEditSession from '../FormEditSession/FormEditSession';
 import { MainBox, UpperBox, BottomBox, ModalText } from './SessionsListStyles';
 
 import SideMenu from '../SideMenu/SideMenu';
@@ -22,7 +23,6 @@ interface ISessionParserWithName extends ISessionParser {
 }
 
 const SessionsList: React.FC = () => {
-  const navigate = useNavigate();
   const filterParams = { page: 1 };
   const { Footer } = Layout;
   const { Title } = Typography;
@@ -87,11 +87,6 @@ const SessionsList: React.FC = () => {
     setOpen(false);
   };
 
-  const onEditHandler = (record: any) => {
-    navigate('/edit-session', { state: record });
-    // TODO: replicate patient edition mode
-  };
-
   const onSearch = (value: string) => handleSearch(value);
 
   const columns = [
@@ -135,7 +130,7 @@ const SessionsList: React.FC = () => {
           </Popover>
 
           <Popover content="Editar sessão">
-            <Button type="primary" icon={<EditOutlined />} onClick={() => onEditHandler(record)} />
+            <FormEditSession session={record} />
           </Popover>
 
           <Popover content="Arquivar sessão">

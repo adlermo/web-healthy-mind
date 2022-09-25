@@ -161,23 +161,25 @@ const FormLoginRegister: React.FC = () => {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item
-              label="Tipo de Usuário"
-              name="userType"
-              rules={[
-                {
-                  required: false,
-                  message: 'Insira o tipo de usuário',
-                },
-              ]}>
-              <Select
-                defaultValue="professional"
-                style={{ width: 120 }}
-                onChange={handleUserTypeChange}>
-                <Option value="professional">Profissional</Option>
-                <Option value="patient">Paciente</Option>
-              </Select>
-            </Form.Item>
+            {currentPath !== '/register' && (
+              <Form.Item
+                label="Tipo de Usuário"
+                name="userType"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Insira o tipo de usuário',
+                  },
+                ]}>
+                <Select
+                  defaultValue="professional"
+                  style={{ width: 120 }}
+                  onChange={handleUserTypeChange}>
+                  <Option value="professional">Profissional</Option>
+                  <Option value="patient">Paciente</Option>
+                </Select>
+              </Form.Item>
+            )}
 
             {currentPath === '/register' && (
               <Form.Item
